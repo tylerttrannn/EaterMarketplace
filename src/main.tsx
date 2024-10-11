@@ -6,6 +6,7 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import NotFoundPage from "./views/NotFoundPage.tsx";
 import Login from "./views/Login.tsx";
 import Dashboard from "./views/Dashboard.tsx";
+import CreateListing from './views/CreateListing.tsx';
 
 
 
@@ -29,8 +30,12 @@ const Router = createBrowserRouter([
     path: '/dashboard',
     element: <Dashboard/>,
     errorElement: <NotFoundPage/>
+  },
 
-
+  {
+    path: '/create',
+    element: <CreateListing/>,
+    errorElement: <NotFoundPage/>
   }
   
 ]);

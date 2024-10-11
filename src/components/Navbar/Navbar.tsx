@@ -4,10 +4,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 
 
-
-
-
-
 function Navbar() {
     return (
         <div className="flex flex-col">
@@ -27,7 +23,7 @@ function Navbar() {
                     <Button variant="outline">Sell Now</Button>
                     <Button variant="outline">Inbox</Button>
                     <Avatar>
-                        <AvatarImage src="https://github.com/shadcn.png" />
+                        <AvatarImage src="https://bpb-us-e2.wpmucdn.com/sites.oit.uci.edu/dist/c/2/files/2022/07/R22_OIT_ProfessorAnteaterfortheOITHomepage_Icon_1000x1000.png" />
                         <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
                 </div>
