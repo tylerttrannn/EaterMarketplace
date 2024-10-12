@@ -7,6 +7,7 @@ import NotFoundPage from "./views/NotFoundPage.tsx";
 import Login from "./views/Login.tsx";
 import Dashboard from "./views/Dashboard.tsx";
 import CreateListing from './views/CreateListing.tsx';
+import ItemListing from './views/ItemListing.tsx';
 
 
 
@@ -36,7 +37,14 @@ const Router = createBrowserRouter([
     path: '/create',
     element: <CreateListing/>,
     errorElement: <NotFoundPage/>
+  },
+
+  {
+    path: '/listing',
+    element: <ItemListing/>,
+    errorElement: <NotFoundPage/>
   }
+
   
 ]);
 
