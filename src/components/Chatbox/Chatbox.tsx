@@ -14,21 +14,18 @@ function Chatbox(){
 
     return(
         // Wrap with ChatMessageList
-        <div className = "flex flex-row">
+        <div className = "flex flex-row ">
             
             {/* navbar section */}
             <div>
                 <Navbar/>
             </div>
 
-
             {/* chatbox section */}
-            <div className = "flex flex-col">
-
+            <div className = "flex flex-col w-screen h-screen">
                 {/* chatbox header section*/}
                 <div>
                     <Header/>
-
                 </div>
 
                 <ChatMessageList>

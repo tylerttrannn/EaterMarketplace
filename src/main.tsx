@@ -9,6 +9,7 @@ import Dashboard from "./views/Dashboard.tsx";
 import CreateListing from './views/CreateListing.tsx';
 import ItemListing from './views/ItemListing.tsx';
 import Chatbox from './components/Chatbox/Chatbox.tsx';
+import CategoryPage from './views/CategoryPage.tsx';
 
 
 
@@ -50,6 +51,12 @@ const Router = createBrowserRouter([
     path: '/inbox',
     element: <Chatbox/>,
     errorElement: <NotFoundPage/>
+  },
+
+  {
+    path: '/category/:category',  
+    element: <CategoryPage />,
+    errorElement: <NotFoundPage />
   }
 
   

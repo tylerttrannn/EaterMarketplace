@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 function Navbar(){
     return (
-        <div className = "flex flex-row ml-2 ">
+        <div className = "flex flex-row ml-2 h-screen">
             
             {/* left side navbar*/}
             <div className = "flex flex-col space-y-4">
