@@ -1,7 +1,4 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "../ui/button";
-
-
 
 function SellerCard(){
     return(
@@ -14,6 +11,7 @@ function SellerCard(){
             <div>
                 <h1 className = "pl-4"> Petr the Anteater</h1>
                 <p className = "pl-4 text-xs"> Last online Today</p>
+                
             </div>
 
         </div>

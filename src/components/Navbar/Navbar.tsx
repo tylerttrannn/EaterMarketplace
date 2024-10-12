@@ -27,7 +27,7 @@ function Navbar() {
                 <div className="flex-grow flex justify-end items-center space-x-4">
                     <Button variant="outline" onClick = {() => navigate('/create')}>Sell Now</Button>
 
-                    <Button variant="outline">Inbox</Button>
+                    <Button variant="outline" onClick = {() => navigate('/inbox')} >Inbox</Button>
                     <Avatar>
                         <AvatarImage src="https://bpb-us-e2.wpmucdn.com/sites.oit.uci.edu/dist/c/2/files/2022/07/R22_OIT_ProfessorAnteaterfortheOITHomepage_Icon_1000x1000.png" />
                         <AvatarFallback>CN</AvatarFallback>
