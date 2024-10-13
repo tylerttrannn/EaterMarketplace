@@ -3,7 +3,15 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 import { useNavigate } from "react-router-dom";
-
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+  } from "@/components/ui/dropdown-menu"
+  
 
 function Navbar() {
 
@@ -26,12 +34,28 @@ function Navbar() {
                 {/* Right-aligned buttons and avatar */}
                 <div className="flex-grow flex justify-end items-center space-x-4">
                     <Button variant="outline" onClick = {() => navigate('/create')}>Sell Now</Button>
-
                     <Button variant="outline" onClick = {() => navigate('/inbox')} >Inbox</Button>
-                    <Avatar>
-                        <AvatarImage src="https://bpb-us-e2.wpmucdn.com/sites.oit.uci.edu/dist/c/2/files/2022/07/R22_OIT_ProfessorAnteaterfortheOITHomepage_Icon_1000x1000.png" />
-                        <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
+
+                    <DropdownMenu>
+                        <DropdownMenuTrigger>
+                                <Avatar>
+                                    <AvatarImage src="https://bpb-us-e2.wpmucdn.com/sites.oit.uci.edu/dist/c/2/files/2022/07/R22_OIT_ProfessorAnteaterfortheOITHomepage_Icon_1000x1000.png" />
+                                    <AvatarFallback>CN</AvatarFallback>
+                                </Avatar>
+                            
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick = {()=> navigate('/profile')}>Profile</DropdownMenuItem>
+                            <DropdownMenuItem onClick = {()=> navigate('/settings')}>Settings</DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>Logout</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+
+
+            
                 </div>
             </div>
 

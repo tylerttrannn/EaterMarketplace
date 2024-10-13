@@ -10,6 +10,8 @@ import CreateListing from './views/CreateListing.tsx';
 import ItemListing from './views/ItemListing.tsx';
 import Chatbox from './components/Chatbox/Chatbox.tsx';
 import CategoryPage from './views/CategoryPage.tsx';
+import Profile from './views/Profile.tsx';
+import Settings from './views/Settings.tsx';
 
 
 
@@ -57,7 +59,20 @@ const Router = createBrowserRouter([
     path: '/category/:category',  
     element: <CategoryPage />,
     errorElement: <NotFoundPage />
+  },
+
+  {
+    path: '/profile',  
+    element: <Profile />,
+    errorElement: <NotFoundPage />
+  },
+
+  {
+    path: '/settings',  
+    element: <Settings />,
+    errorElement: <NotFoundPage />
   }
+
 
   
 ]);

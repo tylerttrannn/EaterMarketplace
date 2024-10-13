@@ -8,8 +8,11 @@ import {
   } from "@/components/ui/card";
   
   function ItemCard() {
+    function openListing(){
+      console.log('sdf');
+    }
     return (
-      <Card className="relative w-[280px] h-[280px] overflow-hidden">
+      <Card className="relative w-[280px] h-[280px] overflow-hidden" onClick={() => openListing()}>
         <img 
           src="https://media-photos.depop.com/b1/47700131/2253366291_0407cba6d36e45898677be3402cc4af4/P0.jpg" 
           className="w-full h-full object-cover" // Image covers the card
