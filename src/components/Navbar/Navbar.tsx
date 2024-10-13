@@ -27,14 +27,16 @@ function Navbar() {
                 </div>
 
                 {/* Centered search bar */}
-                <div className="flex-grow">
+                <div className="flex-grow ">
                     <Input type="email" placeholder="Search..." className="w-full max-w-md mx-auto" />
                 </div>
 
-                {/* Right-aligned buttons and avatar */}
-                <div className="flex-grow flex justify-end items-center space-x-4">
+                {/* Right-aligned buttons and avatar 
+                mx-auto centers a container
+                
+                */}
+                <div className="flex-grow flex justify-end items-center space-x-2 sm:space-x-4">
                     <Button variant="outline" onClick = {() => navigate('/create')}>Sell Now</Button>
-                    <Button variant="outline" onClick = {() => navigate('/inbox')} >Inbox</Button>
 
                     <DropdownMenu>
                         <DropdownMenuTrigger>
@@ -49,6 +51,9 @@ function Navbar() {
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onClick = {()=> navigate('/profile')}>Profile</DropdownMenuItem>
                             <DropdownMenuItem onClick = {()=> navigate('/settings')}>Settings</DropdownMenuItem>
+                            <DropdownMenuItem onClick = {()=> navigate('/inbox')}>Inbox</DropdownMenuItem>
+
+
                             <DropdownMenuSeparator />
                             <DropdownMenuItem>Logout</DropdownMenuItem>
                         </DropdownMenuContent>
