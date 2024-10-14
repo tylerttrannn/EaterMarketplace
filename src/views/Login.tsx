@@ -1,14 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { GoogleLogin } from "../../Backend/backend"; 
+import { GoogleLogin, updateUsername } from "../../Backend/backend"; 
 import { useState } from "react";
 import { User } from 'firebase/auth'; 
 import { Input } from "@/components/ui/input";
-
-
+import { useNavigate } from "react-router-dom";
 
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -16,13 +14,13 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer"
 
-
 function Login() {
   const [user, setUser] = useState<User | null>(null);  // State to store user info
   const [isUsernameEmpty, setIsUsernameEmpty] = useState(false);  
   const [username, setUsername] = useState(''); 
   const [drawer, setDrawer] = useState(false); 
 
+  const navigate = useNavigate(); 
 
   async function handleLogin() {
     try {
@@ -34,9 +32,13 @@ function Login() {
         setIsUsernameEmpty(result.isUsernameEmpty);  
 
         if (result.isUsernameEmpty){
+          console.log("it is empty");
           setDrawer(true)
-
+          return; 
         }
+        // sucessfull login 
+        navigate('/dashboard');
+
 
       } else {
         console.error("Login failed: No user data returned.");
@@ -47,8 +49,16 @@ function Login() {
   }
 
   async function handleUsernameSubmit(){
-    console.log("username is", username );
+    if (user){
+      const answer = await updateUsername(user, username); 
+      if (answer){
+        console.log("sucessful!");
+        navigate('/dashboard');
+      }
+    }
+
     setDrawer(false);
+    return; 
   }
 
   return (
@@ -67,7 +77,7 @@ function Login() {
 
         <div className="w-full flex justify-center items-center flex-grow">
           <div className="w-3/4 flex flex-col">
-            <Button type="submit" onClick={handleLogin}> 
+            <Button onClick={handleLogin}> 
               Login with your UCI account!
             </Button>
 
@@ -75,7 +85,7 @@ function Login() {
             {isUsernameEmpty && (
               <div>
                 <Drawer open={drawer}>
-                  <DrawerContent>
+                  <DrawerContent  >
                     <DrawerHeader>
                       <DrawerTitle>Set your username!</DrawerTitle>
                       <DrawerDescription>Type in a username below</DrawerDescription>
@@ -87,9 +97,7 @@ function Login() {
                     </DrawerHeader>
                     <DrawerFooter>
                       <Button onClick = {() => handleUsernameSubmit()}>Submit</Button>
-                      <DrawerClose>
-                        <Button variant="outline" onClick = { () => setDrawer(false)}>Cancel</Button>
-                      </DrawerClose>
+                      <Button variant="outline" onClick = { () => setDrawer(false)}>Cancel</Button>
                     </DrawerFooter>
                   </DrawerContent>
                 </Drawer>

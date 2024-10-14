@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -7,7 +7,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
 function Category() {
   const navigate = useNavigate();
@@ -16,13 +16,15 @@ function Category() {
     <div className="flex flex-col">
       <div className="flex justify-center items-center space-x-4 px-4 pt-2">
 
-        {/*/  these buttons will always be visible regardless of screen size */}
+        {/* These buttons will always be visible regardless of screen size */}
         <Button variant="outline" onClick={() => navigate('/category/clothes')}>Clothes</Button>
         <Button variant="outline" onClick={() => navigate('/category/electronics')}>Electronics</Button>
         <Button variant="outline" onClick={() => navigate('/category/furniture')}>Furniture</Button>
 
         <DropdownMenu>
-          <DropdownMenuTrigger className="md:hidden">
+          {/* using asChild to avoid button the component rendering a button nesting 
+          the buttons */}
+          <DropdownMenuTrigger asChild>
             <Button variant="outline">More</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
@@ -33,7 +35,7 @@ function Category() {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* will hide these options when the scrren size gets smaller */}
+        {/* Will hide these options when the screen size gets smaller */}
         <div className="hidden md:flex space-x-4">
           <Button variant="outline" onClick={() => navigate('/category/services')}>Services</Button>
           <Button variant="outline" onClick={() => navigate('/category/other')}>Other</Button>
@@ -43,7 +45,7 @@ function Category() {
       </div>
       <Separator className="mt-2" />
     </div>
-  )
+  );
 }
 
 export default Category;
