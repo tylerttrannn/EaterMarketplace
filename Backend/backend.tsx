@@ -121,4 +121,29 @@ export const updateUsername = async (user : User, username: string): Promise<boo
         return false; 
 
     }
+};
+
+
+/* 
+export const addItem = async(): Promise<boolean> => {
+
+    try{
+      // get doc ref
+      const postsRef = collection(db, "posts");
+
+      const data = {
+        "body": listingData.body,
+        "category_id": listingData.body, 
+        "id": 3, 
+        "images": 
+      }; 
+
+
+    }
+
+    catch(error){
+      console.error("An error has occured trying to add an item", error); 
+    }
+
 }
+*/

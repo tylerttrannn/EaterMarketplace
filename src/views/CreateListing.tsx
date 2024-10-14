@@ -13,13 +13,49 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useState } from "react";
+
+
+/*
+
+note to myself becuase the listners were confusing me for a
+little bit
+
+User Action:
+The user clicks on the label in the PhotoCard, which triggers the file selection dialog.
+Event Triggered:
+The user selects a file (or removes it), triggering the onChange event.
+Event Handler Called:
+The handleImageChange function is called with the event and the index.
+State Updated:
+The images array is updated to reflect the new state (file added or removed).
+UI Reflects State:
+The component re-renders, and the PhotoCard displays the updated image or placeholder.
+*/
 
 function CreateListing() {
+
+  const [images, setImages] = useState([null,null,null,null]);
+  const [price, setPrice] = useState(null);
 
   function handleChange() {
     console.log("yes");
   }
 
+  function handleImageChange(event: React.ChangeEvent<HTMLInputElement>, index : number) {
+    const file = event.target.files[0];
+
+    // Create a copy of the images array
+    const newImages = [...images];
+
+    // Update the image at the specific index
+    newImages[index] = file;
+
+    // Update the state with the new array
+    setImages(newImages);
+  }
+
+  
   return (
     <div>
       <Navbar />
@@ -32,14 +68,18 @@ function CreateListing() {
           <h3>Add up to 4 photos!</h3>
         </div>
 
-
-
         {/* 4 photo carousel */}
         <div className="flex justify-center gap-4 w-full max-w-2xl">
-          <PhotoCard />
-          <PhotoCard />
-          <PhotoCard />
-          <PhotoCard />
+          {/* simply providing the image to the component for  it to render which we intially set when 
+            we did onImageChange for image ={image} */}
+          {images.map((image, index) => (
+            <PhotoCard
+              key={index}
+              image={image}
+              onImageChange={(event: React.ChangeEvent<HTMLInputElement>) => handleImageChange(event, index)}
+            />
+
+          ))}
         </div>
 
         {/* description section */}
@@ -67,14 +107,17 @@ function CreateListing() {
           <div className="grid w-[180px] max-w-sm items-center gap-1.5">
             <Label htmlFor="price">Price</Label>
             <div className="flex items-center">
-              <Input
-                id="price"
-                type="text"
-                value={54}
-                onChange={handleChange}
-                placeholder="0.00"
-                className="pr-8"
-              />
+            <Input
+              id="price"
+              type="number"
+              value={price}
+              onChange={(event) => setPrice(Number(event.target.value))}
+              placeholder="$0.00"
+              min="0.00" 
+              step="0.01" 
+              className="pr-8"
+            />
+
             </div>
           </div>
 

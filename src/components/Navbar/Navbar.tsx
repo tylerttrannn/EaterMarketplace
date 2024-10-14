@@ -13,7 +13,7 @@ import {
   } from "@/components/ui/dropdown-menu"
 
 
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged ,signOut} from "firebase/auth";
 import { useState } from "react";
 import { useEffect } from "react";
 import Unauthorized from "@/components/Unauthorized/Unauthorized";
@@ -44,6 +44,11 @@ function Navbar() {
       if (!authorized) {
         return <Unauthorized />;
       }
+
+    async function logout(){
+        signOut(auth);
+        navigate('/');
+    }
 
 
     return (
@@ -83,7 +88,7 @@ function Navbar() {
 
 
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>Logout</DropdownMenuItem>
+                            <DropdownMenuItem onClick = {() => logout() }>Logout</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
 

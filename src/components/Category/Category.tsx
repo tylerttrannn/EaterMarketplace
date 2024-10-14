@@ -25,7 +25,7 @@ function Category() {
             {/* using asChild to avoid button the component rendering a button nesting 
             the buttons */}
             <DropdownMenuTrigger asChild>
-                <Button variant="outline">More</Button>
+                <Button variant="outline" className = " md:hidden">More</Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuItem onClick={() => navigate('/category/services')}>Services</DropdownMenuItem>
