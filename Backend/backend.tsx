@@ -122,6 +122,3 @@ export const updateUsername = async (user : User, username: string): Promise<boo
 
     }
 }
-
-
-

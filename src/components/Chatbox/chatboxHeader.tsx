@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@radix-ui/react-separator";
 
-function Header() {
+function ChatboxHeader() {
   return (
     <div className="flex flex-col space-y-4">
       <div className="flex flex-row items-center space-x-4 ml-4 mt-4">
@@ -23,4 +23,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default ChatboxHeader;

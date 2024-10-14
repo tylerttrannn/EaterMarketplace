@@ -3,9 +3,8 @@ import { ChatMessageList } from "../ui/chat/chat-message-list";
 import { ChatBubbleMessage } from "../ui/chat/chat-bubble";
 import { ChatBubbleAvatar } from "../ui/chat/chat-bubble";
 import { ChatInput } from "@/components/ui/chat/chat-input";
-import Navbar from "./Navbar";
-import Header from "./Header";
-
+import ChatboxNavbar from "./chatboxNavbar"; 
+import ChatboxHeader from "./chatboxHeader";
 
 
 
@@ -18,14 +17,14 @@ function Chatbox(){
             
             {/* navbar section */}
             <div>
-                <Navbar/>
+                <ChatboxNavbar/>
             </div>
 
             {/* chatbox section */}
             <div className = "flex flex-col w-screen h-screen">
                 {/* chatbox header section*/}
                 <div>
-                    <Header/>
+                    <ChatboxHeader/>
                 </div>
 
                 <ChatMessageList>

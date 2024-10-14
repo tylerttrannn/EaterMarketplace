@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 
 
-function Navbar(){
+function ChatboxNavbar(){
     return (
         <div className = "flex flex-row ml-2 h-screen ">
             {/* left side navbar*/}
@@ -42,4 +42,4 @@ function Navbar(){
 }
 
 
-export default Navbar;
+export default ChatboxNavbar;

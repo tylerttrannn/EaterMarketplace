@@ -11,11 +11,39 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
-  
+
+
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useState } from "react";
+import { useEffect } from "react";
+import Unauthorized from "@/components/Unauthorized/Unauthorized";
+
 
 function Navbar() {
 
     const navigate = useNavigate();
+
+    const [authorized, setAuthorized] = useState(false);
+    const auth = getAuth();
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+          if (user) {
+            // User is signed in, update state to show authorized content
+            setAuthorized(true);
+          } else {
+            // User is not signed in, show unauthorized content
+            setAuthorized(false);
+          }
+        });
+    
+        // Clean up the listener on unmount (this listener will stop looking for changes to auth)
+        return () => unsubscribe();
+      }, [auth]);
+    
+      if (!authorized) {
+        return <Unauthorized />;
+      }
 
 
     return (
