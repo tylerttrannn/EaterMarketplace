@@ -1,7 +1,11 @@
 import { GoogleAuthProvider, signInWithPopup, User} from 'firebase/auth';
-import { auth, db } from './firebase';  
-import { doc, setDoc, getDoc, updateDoc} from 'firebase/firestore';  
+import { auth, db, storage} from './firebase';  
+import { doc, setDoc, getDoc, updateDoc, addDoc} from 'firebase/firestore';  
 import { collection, query, where, getDocs } from 'firebase/firestore';
+import { getAuth } from "firebase/auth";
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+
+
 
 
 
@@ -124,26 +128,57 @@ export const updateUsername = async (user : User, username: string): Promise<boo
 };
 
 
-/* 
-export const addItem = async(): Promise<boolean> => {
+
+export const addListing = async (listingImages, listingDescription, listingCategory, listingPrice): Promise<boolean> => {
 
     try{
-      // get doc ref
-      const postsRef = collection(db, "posts");
 
-      const data = {
-        "body": listingData.body,
-        "category_id": listingData.body, 
-        "id": 3, 
-        "images": 
-      }; 
+      const auth = getAuth();
+      const user = auth.currentUser;
 
+      if (user){
+        const imageUrls = [];
 
+        for (let i = 0; i <= listingImages.length; i++){
+          const image = listingImages[i]; 
+        
+
+          // grab url 
+          if(image){
+            // creating a  reference on where to store 
+            const storageRef = ref(storage, `posts/${user.uid}/${Date.now()}_${image.name}`);
+            // uploads the images to firebase
+            await uploadBytes(storageRef, image);
+            // grabs the download urls for the image
+            const downloadURL = await getDownloadURL(storageRef);
+            // pushes the image to the list 
+            imageUrls.push(downloadURL);
+          }
+
+        }
+
+        await addDoc(collection(db, "posts"), {
+          userId: user.uid,
+          images: imageUrls,
+          description: listingDescription,
+          category: listingCategory,
+          price: listingPrice,
+          createdAt: new Date(),
+        });
+  
+        console.log("item sucessfully added!");
+        return true; 
+      }
+
+      console.error("User is not authenticated.");
+      return false; 
+  
     }
 
     catch(error){
       console.error("An error has occured trying to add an item", error); 
+      return false; 
     }
 
 }
-*/
+

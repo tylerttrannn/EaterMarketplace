@@ -4,6 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"
+import { addListing } from "../../Backend/backend"
 
 
 import {
@@ -35,11 +36,19 @@ The component re-renders, and the PhotoCard displays the updated image or placeh
 
 function CreateListing() {
 
-  const [images, setImages] = useState([null,null,null,null]);
-  const [price, setPrice] = useState(null);
+  const [images, setImages] = useState([null,null,null,null]) ;
+  const [description, setDescription] = useState("");
+  const [cateogry, setCategory] = useState(null);
+  const [price, setPrice] = useState(0);
 
-  function handleChange() {
-    console.log("yes");
+
+  async function submitListing() {
+    const result = await addListing(images,description,cateogry, price);  
+
+    if(result){
+      console.log("item added!");
+    }
+    
   }
 
   function handleImageChange(event: React.ChangeEvent<HTMLInputElement>, index : number) {
@@ -54,6 +63,10 @@ function CreateListing() {
     // Update the state with the new array
     setImages(newImages);
   }
+
+  const handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setDescription(event.target.value); // Update the state with the textarea value
+  };
 
   
   return (
@@ -72,21 +85,23 @@ function CreateListing() {
         <div className="flex justify-center gap-4 w-full max-w-2xl">
           {/* simply providing the image to the component for  it to render which we intially set when 
             we did onImageChange for image ={image} */}
-          {images.map((image, index) => (
+          {images.map((image, index) => ( 
             <PhotoCard
               key={index}
               image={image}
               onImageChange={(event: React.ChangeEvent<HTMLInputElement>) => handleImageChange(event, index)}
             />
 
-          ))}
+           ))} 
         </div>
 
         {/* description section */}
         <div className="flex flex-col justify-left items-left gap-4 w-full max-w-2xl">
           <h1>Description</h1>
           <Textarea
-            placeholder="Type your message here."
+            placeholder="Type your description here."
+            value={description} // Bind the textarea to the state
+            onChange={handleDescriptionChange} // Handle the change event
             className="w-full"
           />
 
@@ -117,12 +132,11 @@ function CreateListing() {
               step="0.01" 
               className="pr-8"
             />
-
             </div>
           </div>
 
         <div className="flex justify-end w-full max-w-2xl">
-            <Button variant="outline">Submit</Button>
+            <Button variant="outline" onClick = {() => submitListing()}>Submit</Button>
         </div>
 
         </div>
