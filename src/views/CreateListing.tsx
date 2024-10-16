@@ -39,11 +39,14 @@ function CreateListing() {
   const [images, setImages] = useState([null,null,null,null]) ;
   const [description, setDescription] = useState("");
   const [cateogry, setCategory] = useState(null);
+
+  const [title, setTitle] = useState("");
+
   const [price, setPrice] = useState(0);
 
 
   async function submitListing() {
-    const result = await addListing(images,description,cateogry, price);  
+    const result = await addListing(images,description,cateogry, price, title );  
 
     if(result){
       console.log("item added!");
@@ -67,6 +70,12 @@ function CreateListing() {
   const handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(event.target.value); // Update the state with the textarea value
   };
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+  };
+  
+
 
   
   return (
@@ -97,6 +106,17 @@ function CreateListing() {
 
         {/* description section */}
         <div className="flex flex-col justify-left items-left gap-4 w-full max-w-2xl">
+
+          <h1> Title</h1>
+          <Input
+            placeholder="Type your title here."
+            value={title} // Bind the textarea to the state
+            onChange={handleTitleChange} // Handle the change event
+            className="w-full"
+          >
+          </Input>
+
+
           <h1>Description</h1>
           <Textarea
             placeholder="Type your description here."

@@ -1,10 +1,11 @@
 import { GoogleAuthProvider, signInWithPopup, User} from 'firebase/auth';
 import { auth, db, storage} from './firebase';  
 import { doc, setDoc, getDoc, updateDoc, addDoc} from 'firebase/firestore';  
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
 import { getAuth } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
+import {  onAuthStateChanged } from "firebase/auth";
 
 
 
@@ -128,8 +129,7 @@ export const updateUsername = async (user : User, username: string): Promise<boo
 };
 
 
-
-export const addListing = async (listingImages, listingDescription, listingCategory, listingPrice): Promise<boolean> => {
+export const addListing = async (listingImages, listingDescription, listingCategory, listingPrice, listingTitle): Promise<boolean> => {
 
     try{
 
@@ -139,10 +139,8 @@ export const addListing = async (listingImages, listingDescription, listingCateg
       if (user){
         const imageUrls = [];
 
-        for (let i = 0; i <= listingImages.length; i++){
+        for (let i = 0; i < listingImages.length; i++){
           const image = listingImages[i]; 
-        
-
           // grab url 
           if(image){
             // creating a  reference on where to store 
@@ -158,14 +156,15 @@ export const addListing = async (listingImages, listingDescription, listingCateg
         }
 
         await addDoc(collection(db, "posts"), {
-          userId: user.uid,
+          uid: user.uid, 
           images: imageUrls,
           description: listingDescription,
           category: listingCategory,
           price: listingPrice,
           createdAt: new Date(),
+          title: listingTitle,
         });
-  
+        
         console.log("item sucessfully added!");
         return true; 
       }
@@ -182,3 +181,82 @@ export const addListing = async (listingImages, listingDescription, listingCateg
 
 }
 
+/*
+
+this function will query the 25 most newlely listed 
+items to put on the dashbaord page when users
+first login 
+ */
+export const fetchDashboardListings = async () : Promise<any[]>  => {
+  try{
+    const postsRef = collection(db, "posts");
+    // order by the createdt timestamp in descending order up to 25 items 
+    const q = query(postsRef, orderBy("createdAt", "desc"), limit(25));
+
+    const querySnapshot = await getDocs(q);
+
+
+    const listings = querySnapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        uid: data.uid,
+        title: data.title,
+        image: data.images && data.images.length > 0 ? data.images[0] : null,
+        price: data.price,
+        description: data.description,
+      };
+    });
+
+    return listings; 
+  } catch(error){
+    console.error("failed to retrieve the dashboard listings", error); 
+    return [];
+    
+  }
+
+};
+
+
+export const fetchUserListings = async (): Promise<Listing[]> => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  if (!user) {
+    console.log("User is not authenticated");
+    return [];
+  }
+
+  try {
+    console.log("Fetching listings for user UID:", user.uid);
+    const postRef = collection(db, "posts");
+    const q = query(postRef, where("uid", "==", user.uid));
+
+    // Get the documents for that user
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      console.log("No listings found for this user.");
+      return [];
+    }
+
+    const listings = querySnapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        uid: data.uid,
+        title: data.title,
+        image: data.images && data.images.length > 0 ? data.images[0] : null,
+        price: data.price,
+        description: data.description,
+      };
+    });
+    
+
+    console.log("Fetched listings:", listings);
+    return listings;
+  } catch (error) {
+    console.error("An error occurred fetching the listings:", error);
+    return [];
+  }
+};
