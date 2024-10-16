@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import SellerCard from "@/components/SellerCard/SellerCard";
-import { fetchSingleListing } from "../../Backend/backend"
+import { fetchSingleListing, grabSellerInfo } from "../../Backend/backend"
 import { useParams } from 'react-router-dom';
 
 
@@ -19,19 +19,39 @@ import { useEffect, useState } from "react";
 
 function ItemListing() {
   const [itemListing, setitemListing] = useState(null); 
+  const [seller, setSeller] = useState(null); 
+  const [active, setActive] = useState("");
+
   const { id } = useParams(); 
 
   useEffect(() => {
     retrieveListing(); 
   }, [id]); 
 
+  useEffect(() => {
+    if (itemListing) {
+      sellerInfo();
+    }
+  }, [itemListing]);
+   
+
   async function retrieveListing() {
     const listing = await fetchSingleListing(id);
     if (listing){
       setitemListing(listing);
-      console.log(listing);
     }
   }
+
+
+  async function sellerInfo() {
+    const sellerInfo = await grabSellerInfo(itemListing.uid);
+    if (sellerInfo){
+      setSeller(sellerInfo);
+      const onlineStatus = sellerInfo.lastActive.toDate().toLocaleString();
+    setActive(onlineStatus);
+    }
+  }
+  
 
   if (!itemListing) {
     return <div>Loading...</div>; 
@@ -86,7 +106,14 @@ function ItemListing() {
 
           {/* Seller info */}
           <div className="pt-4">
-            <SellerCard />
+
+
+          <SellerCard 
+            user={seller ? seller.username : "Loading..."}
+            onlineStatus= {active}
+
+          />
+
           </div>
         </div>
       </div>

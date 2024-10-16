@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
-function SellerCard(){
+function SellerCard( {user, onlineStatus}){
     return(
         <div className = "flex "  >
             <Avatar>
@@ -9,8 +9,8 @@ function SellerCard(){
             </Avatar>
             
             <div>
-                <h1 className = "pl-4"> Petr the Anteater</h1>
-                <p className = "pl-4 text-xs"> Last online Today</p>
+                <h1 className = "pl-4"> {user}</h1>
+                <p className = "pl-4 text-xs"> {onlineStatus}</p>
                 
             </div>
 

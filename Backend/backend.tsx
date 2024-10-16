@@ -277,7 +277,6 @@ export const fetchSingleListing = async (listingID: string): Promise<Listing | n
 
     const data = docSnap.data();
 
-    // Build the listing object
     const listing = {
       id: docSnap.id, // Use docSnap.id for the document ID becuase the document ID is not apart of the documents data
       uid: data.uid,
@@ -287,10 +286,39 @@ export const fetchSingleListing = async (listingID: string): Promise<Listing | n
       description: data.description,
     };
 
-    return listing; // Return the single listing object
+    return listing;
 
   } catch (error) {
     console.log("Could not fetch the listing", error);
     return null; // Return null in case of an error
   }
 };
+
+
+export const grabSellerInfo = async (sellerID: string) : Promise<Listing | null> => {
+
+  try{
+
+    const userRef = doc(db, "users", sellerID);
+    const sellerSnap = await getDoc(userRef);
+
+    if (!sellerSnap.exists()) {
+      console.log("No seller found.");
+      return null;
+    }
+    const data = sellerSnap.data();
+
+    const user = {
+      username : data.userName,
+      lastActive : data.lastLogin,
+    }
+    return user; 
+
+  }
+
+  catch(error){
+    console.error("there was an error that occured grabbing the seller info!", error);
+    return null; 
+  }
+
+}
