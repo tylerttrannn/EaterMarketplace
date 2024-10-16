@@ -195,11 +195,11 @@ export const fetchDashboardListings = async () : Promise<any[]>  => {
 
     const querySnapshot = await getDocs(q);
 
-
     const listings = querySnapshot.docs.map((doc) => {
       const data = doc.data();
+      console.log('Document ID:', doc.id); // Add this line
       return {
-        id: doc.id,
+        id: doc.id || "no-id",
         uid: data.uid,
         title: data.title,
         image: data.images && data.images.length > 0 ? data.images[0] : null,
@@ -207,6 +207,7 @@ export const fetchDashboardListings = async () : Promise<any[]>  => {
         description: data.description,
       };
     });
+    
 
     return listings; 
   } catch(error){

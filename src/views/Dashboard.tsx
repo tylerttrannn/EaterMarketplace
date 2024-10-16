@@ -39,12 +39,16 @@ function Dashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-center mx-auto p-4">
       {listings.map((listing) => (
         <ItemCard
-          key={listing.id}
+          key={listing.id} // This stays for React's internal use
+          id={listing.id} // Add this line to pass the id as a prop
           itemTitle={listing.title}
           itemImage={listing.image}
           itemPrice={listing.price}
         />
       ))}
+
+
+
       </div>
     </div>
   );
