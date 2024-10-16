@@ -38,7 +38,7 @@ function CreateListing() {
 
   const [images, setImages] = useState([null,null,null,null]) ;
   const [description, setDescription] = useState("");
-  const [cateogry, setCategory] = useState(null);
+  const [cateogry, setCategory] = useState("");
 
   const [title, setTitle] = useState("");
 
@@ -126,7 +126,7 @@ function CreateListing() {
           />
 
           <h1>Category</h1>
-          <Select>
+          <Select value={cateogry} onValueChange={(value) => setCategory(value)}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Theme" />
             </SelectTrigger>
@@ -138,6 +138,7 @@ function CreateListing() {
               <SelectItem value="free">Free</SelectItem>
             </SelectContent>
           </Select>
+
 
           <div className="grid w-[180px] max-w-sm items-center gap-1.5">
             <Label htmlFor="price">Price</Label>
