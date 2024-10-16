@@ -6,6 +6,7 @@ import { getAuth } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 import {  onAuthStateChanged } from "firebase/auth";
+import { Trophy } from 'lucide-react';
 
 
 
@@ -259,5 +260,37 @@ export const fetchUserListings = async (): Promise<Listing[]> => {
   } catch (error) {
     console.error("An error occurred fetching the listings:", error);
     return [];
+  }
+};
+
+
+export const fetchSingleListing = async (listingID: string): Promise<Listing | null> => {
+  try {
+    const postRef = doc(db, "posts", listingID); 
+    const docSnap = await getDoc(postRef);
+
+    // Check if the document exists
+    if (!docSnap.exists()) {
+      console.log("No listing found for this listingID.");
+      return null;
+    }
+
+    const data = docSnap.data();
+
+    // Build the listing object
+    const listing = {
+      id: docSnap.id, // Use docSnap.id for the document ID becuase the document ID is not apart of the documents data
+      uid: data.uid,
+      title: data.title,
+      image: data.images, // All images for the carousel
+      price: data.price,
+      description: data.description,
+    };
+
+    return listing; // Return the single listing object
+
+  } catch (error) {
+    console.log("Could not fetch the listing", error);
+    return null; // Return null in case of an error
   }
 };

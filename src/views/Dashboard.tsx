@@ -46,9 +46,6 @@ function Dashboard() {
           itemPrice={listing.price}
         />
       ))}
-
-
-
       </div>
     </div>
   );

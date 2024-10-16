@@ -44,7 +44,7 @@ const Router = createBrowserRouter([
   },
 
   {
-    path: '/listing',
+    path: '/listing/:id',
     element: <ItemListing/>,
     errorElement: <NotFoundPage/>
   },
