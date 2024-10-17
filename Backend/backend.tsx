@@ -4,10 +4,13 @@ import { doc, setDoc, getDoc, updateDoc, addDoc} from 'firebase/firestore';
 import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
 import { getAuth } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { Listing, SellerCardProps}  from "@/types/types";
 
+
+/*
 import {  onAuthStateChanged } from "firebase/auth";
 import { Trophy } from 'lucide-react';
-
+*/
 
 
 
@@ -130,8 +133,8 @@ export const updateUsername = async (user : User, username: string): Promise<boo
 };
 
 
-export const addListing = async (listingImages, listingDescription, listingCategory, listingPrice, listingTitle): Promise<boolean> => {
-
+export const addListing = async (listingImages: (File | null)[], listingDescription : string , listingCategory : string, listingPrice: number, listingTitle: string): Promise<boolean> => {
+  
     try{
 
       const auth = getAuth();
@@ -153,7 +156,6 @@ export const addListing = async (listingImages, listingDescription, listingCateg
             // pushes the image to the list 
             imageUrls.push(downloadURL);
           }
-
         }
 
         await addDoc(collection(db, "posts"), {
@@ -188,7 +190,7 @@ this function will query the 25 most newlely listed
 items to put on the dashbaord page when users
 first login 
  */
-export const fetchDashboardListings = async () : Promise<any[]>  => {
+export const fetchDashboardListings = async () : Promise<Listing[]>  => {
   try{
     const postsRef = collection(db, "posts");
     // order by the createdt timestamp in descending order up to 25 items 
@@ -198,7 +200,6 @@ export const fetchDashboardListings = async () : Promise<any[]>  => {
 
     const listings = querySnapshot.docs.map((doc) => {
       const data = doc.data();
-      console.log('Document ID:', doc.id); // Add this line
       return {
         id: doc.id || "no-id",
         uid: data.uid,
@@ -295,10 +296,9 @@ export const fetchSingleListing = async (listingID: string): Promise<Listing | n
 };
 
 
-export const grabSellerInfo = async (sellerID: string) : Promise<Listing | null> => {
+export const grabSellerInfo = async (sellerID: string) : Promise<SellerCardProps | null> => {
 
   try{
-
     const userRef = doc(db, "users", sellerID);
     const sellerSnap = await getDoc(userRef);
 
@@ -309,9 +309,10 @@ export const grabSellerInfo = async (sellerID: string) : Promise<Listing | null>
     const data = sellerSnap.data();
 
     const user = {
-      username : data.userName,
-      lastActive : data.lastLogin,
+      user : data.userName,
+      onlineStatus : data.lastLogin,
     }
+    
     return user; 
 
   }
@@ -321,4 +322,39 @@ export const grabSellerInfo = async (sellerID: string) : Promise<Listing | null>
     return null; 
   }
 
+}
+
+
+export const fetchCategoryListings = async( categoryID: string) : Promise<Listing[]> => {
+  
+    try{
+      const postRef = collection(db, "posts"); 
+      const q = query(postRef, where("category", "==", categoryID), limit(25));
+
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        console.log("No listings found for this category.");
+        return [];
+      }
+
+      const listings = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          uid: data.uid,
+          title: data.title,
+          image: data.images && data.images.length > 0 ? data.images[0] : null,
+          price: data.price,
+          description: data.description,
+        };
+      });
+    
+      return listings; 
+    }
+
+    catch(error){
+      console.error("There was an error fetching the categories for", categoryID, error); 
+      return [];
+    }
 }

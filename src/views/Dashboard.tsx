@@ -3,16 +3,7 @@ import Category from "@/components/Category/Category";
 import { useEffect, useState } from "react";
 import ItemCard from "@/components/ItemCard/ItemCard";
 import { fetchDashboardListings } from "../../Backend/backend"
-
-
-interface Listing {
-  id: string;
-  uid: string;
-  title: string;
-  image: string; 
-  price: number;
-  description: string;
-}
+import { Listing}  from "@/types/types";
 
 function Dashboard() {
   const [listings, setListing] = useState<Listing[]>([]);
