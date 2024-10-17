@@ -14,3 +14,13 @@ export interface Listing {
     category?: string; // Category of the item 
     createdAt?: Date; // Timestamp of created date
 }
+
+export interface User {
+    id: string;
+    uid: string;   
+    userName : string; 
+    email : string; 
+    profilePic: string; 
+    lastLogin: Date; 
+    saved: Listing[]; 
+}
