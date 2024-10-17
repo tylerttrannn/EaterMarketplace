@@ -4,8 +4,28 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
 import { Toggle } from "@/components/ui/toggle";
 import ItemCard from "@/components/ItemCard/ItemCard";
+import { fetchUserListings } from "../../Backend/backend"
+import { useEffect, useState } from "react";
 
 function Profile() {
+
+  const [showSelling, setShowSelling] = useState(true); // Default to selling items
+  const [allListings, setallListings] = useState<Listing[]>([]);
+
+
+  useEffect(() =>{
+    fetchListing(); 
+  }, [])
+
+  async function fetchListing(){
+    const listings = await fetchUserListings();
+
+    if (listings){
+      setallListings(listings);
+    }
+  }
+
+
   return (
     <div>
       <Navbar />
@@ -28,20 +48,33 @@ function Profile() {
 
         {/* menu bar */}
         <div className="mt-4 flex space-x-4">
-          <Toggle>Selling</Toggle>
-          <Toggle>Saved</Toggle>
+          <Toggle 
+            pressed={showSelling} 
+            onPressedChange={() => setShowSelling(true)}
+          >
+            Selling
+          </Toggle>
+          <Toggle 
+            pressed={!showSelling} 
+            onPressedChange={() => setShowSelling(false)}
+          >
+            Saved
+          </Toggle>
         </div>
+
 
         {/* listing content */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-center mt-8"> 
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
+          {showSelling && (allListings.map((listing) =>(
+            <ItemCard
+            key={listing.id} // This stays for React's internal use
+            id={listing.id} // Add this line to pass the id as a prop
+            itemTitle={listing.title}
+            itemImage={listing.image}
+            itemPrice={listing.price}
+            />
+          )))}
+
 
         </div>
       </div>
