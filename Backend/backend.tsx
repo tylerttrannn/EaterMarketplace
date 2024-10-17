@@ -296,6 +296,48 @@ export const fetchSingleListing = async (listingID: string): Promise<Listing | n
 };
 
 
+export const grabUserSaved = async () :Promise<Listing[]> => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  if(!user){
+    return []
+  }
+
+  try{
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists()) {
+      console.log("No user found.");
+      return [];
+    }
+
+    const data = userSnap.data();
+    const savedListings = data.saved || [];
+
+    if (savedListings.length === 0) {
+      console.log("No saved listings.");
+      return [];
+    }
+
+    const fetchSavedListings = savedListings.map((listingID: string) =>
+      fetchSingleListing(listingID)
+    );
+
+    const listings = await Promise.all(fetchSavedListings);
+    return listings.filter((listing) => listing !== null) as Listing[];
+
+  }
+
+  catch(error){
+    console.error("there was an error that occured fetching the saved listings", error);
+    return []; 
+  }
+
+}
+
+
 export const grabSellerInfo = async (sellerID: string) : Promise<SellerCardProps | null> => {
 
   try{

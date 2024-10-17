@@ -4,8 +4,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
 import { Toggle } from "@/components/ui/toggle";
 import ItemCard from "@/components/ItemCard/ItemCard";
-import { fetchUserListings } from "../../Backend/backend"
+import { fetchUserListings, grabSellerInfo } from "../../Backend/backend"
 import { useEffect, useState } from "react";
+
 
 function Profile() {
 
@@ -24,6 +25,18 @@ function Profile() {
       setallListings(listings);
     }
   }
+
+
+  async function fetchListing(){
+    const listings = await fetchUserListings();
+
+    if (listings){
+      setallListings(listings);
+    }
+  }
+
+
+
 
 
   return (
@@ -74,6 +87,9 @@ function Profile() {
             itemPrice={listing.price}
             />
           )))}
+
+
+
 
 
         </div>
