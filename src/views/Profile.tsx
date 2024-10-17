@@ -4,7 +4,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
 import { Toggle } from "@/components/ui/toggle";
 import ItemCard from "@/components/ItemCard/ItemCard";
-import { fetchUserListings, grabSellerInfo } from "../../Backend/backend"
+import { Listing } from "@/types/types";
+import { fetchUserListings, grabSellerInfo , grabUserSaved} from "../../Backend/backend"
 import { useEffect, useState } from "react";
 
 
@@ -13,10 +14,13 @@ function Profile() {
   const [showSelling, setShowSelling] = useState(true); // Default to selling items
   const [allListings, setallListings] = useState<Listing[]>([]);
 
-
-  useEffect(() =>{
-    fetchListing(); 
-  }, [])
+  useEffect(() => {
+    if (showSelling) {
+      fetchListing();
+    } else {
+      fetchSaved();
+    }
+  }, [showSelling]); // Re-run effect when showSelling changes
 
   async function fetchListing(){
     const listings = await fetchUserListings();
@@ -27,11 +31,12 @@ function Profile() {
   }
 
 
-  async function fetchListing(){
-    const listings = await fetchUserListings();
+  async function fetchSaved(){
+    const listings = await grabUserSaved();
 
     if (listings){
       setallListings(listings);
+      console.log("fetched aved", listings);
     }
   }
 
@@ -84,6 +89,17 @@ function Profile() {
             id={listing.id} // Add this line to pass the id as a prop
             itemTitle={listing.title}
             itemImage={listing.image}
+            itemPrice={listing.price}
+            />
+          )))}
+
+
+          {!showSelling && (allListings.map((listing) =>(
+            <ItemCard
+            key={listing.id} // This stays for React's internal use
+            id={listing.id} // Add this line to pass the id as a prop
+            itemTitle={listing.title}
+            itemImage={listing.image ? listing.image[0] :"https://bpb-us-e2.wpmucdn.com/sites.oit.uci.edu/dist/c/2/files/2022/07/R22_OIT_ProfessorAnteaterfortheOITHomepage_Icon_1000x1000.png" }
             itemPrice={listing.price}
             />
           )))}
