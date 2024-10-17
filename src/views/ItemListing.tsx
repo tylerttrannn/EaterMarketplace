@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import SellerCard from "@/components/SellerCard/SellerCard";
-import { fetchSingleListing, grabSellerInfo } from "../../Backend/backend"
+import { fetchSingleListing, grabSellerInfo, addToSaved } from "../../Backend/backend"
 import { useParams } from 'react-router-dom';
 import { Carousel,CarouselContent,CarouselItem,CarouselNext,CarouselPrevious,} from "@/components/ui/carousel";
 import { useEffect, useState } from "react";
@@ -90,7 +90,7 @@ function ItemListing() {
           {/* Buttons */}
           <div className="flex flex-col space-y-2 w-full pb-2">
             <Button className="w-full">Message</Button>
-            <Button className="w-full">Add to Saved</Button>
+            <Button className="w-full" onClick = {() => addToSaved(id)}>Add to Saved</Button>
           </div>
 
           <Separator />

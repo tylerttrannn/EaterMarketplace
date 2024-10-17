@@ -1,6 +1,6 @@
 import { GoogleAuthProvider, signInWithPopup, User} from 'firebase/auth';
 import { auth, db, storage} from './firebase';  
-import { doc, setDoc, getDoc, updateDoc, addDoc} from 'firebase/firestore';  
+import { doc, setDoc, getDoc, updateDoc, addDoc, arrayUnion} from 'firebase/firestore';  
 import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
 import { getAuth } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
@@ -292,6 +292,32 @@ export const fetchSingleListing = async (listingID: string): Promise<Listing | n
   } catch (error) {
     console.log("Could not fetch the listing", error);
     return null; // Return null in case of an error
+  }
+};
+
+
+
+export const addToSaved = async (postID: string): Promise<boolean> => {
+  const auth = getAuth();
+  const user = auth.currentUser; 
+
+  if (!user) {
+    return false; 
+  }
+
+  try {
+    const userDocRef = doc(db, "users", user.uid);
+
+    await updateDoc(userDocRef, {
+      saved: arrayUnion(postID) // adding postID to the array 
+    });
+
+    console.log("Post successfully added to saved.");
+    return true;
+
+  } catch (error) {
+    console.error("Could not add the post to saved", error);
+    return false; 
   }
 };
 
