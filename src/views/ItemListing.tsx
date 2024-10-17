@@ -6,22 +6,15 @@ import { Textarea } from "@/components/ui/textarea";
 import SellerCard from "@/components/SellerCard/SellerCard";
 import { fetchSingleListing, grabSellerInfo } from "../../Backend/backend"
 import { useParams } from 'react-router-dom';
-
-
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import { Carousel,CarouselContent,CarouselItem,CarouselNext,CarouselPrevious,} from "@/components/ui/carousel";
 import { useEffect, useState } from "react";
+
+import { SellerCardProps } from "@/types/types";
 
 function ItemListing() {
   const [itemListing, setitemListing] = useState(null); 
   const [seller, setSeller] = useState(null); 
   const [active, setActive] = useState("");
-
   const { id } = useParams(); 
 
   useEffect(() => {
@@ -34,7 +27,6 @@ function ItemListing() {
     }
   }, [itemListing]);
    
-
   async function retrieveListing() {
     const listing = await fetchSingleListing(id);
     if (listing){
@@ -42,13 +34,13 @@ function ItemListing() {
     }
   }
 
-
   async function sellerInfo() {
     const sellerInfo = await grabSellerInfo(itemListing.uid);
     if (sellerInfo){
       setSeller(sellerInfo);
-      const onlineStatus = sellerInfo.lastActive.toDate().toLocaleString();
+      const onlineStatus = sellerInfo.onlineStatus.toDate().toLocaleString();
     setActive(onlineStatus);
+
     }
   }
   
@@ -106,16 +98,14 @@ function ItemListing() {
 
           {/* Seller info */}
           <div className="pt-4">
-
-
-          <SellerCard 
-            user={seller ? seller.username : "Loading..."}
-            onlineStatus= {active}
-
-          />
-
+            <SellerCard 
+              user={seller ? seller.user : "Loading..."}
+              onlineStatus= {active}
+              photo = {seller ? seller.photo: "load"}
+            />
           </div>
         </div>
+
       </div>
     </div>
   );

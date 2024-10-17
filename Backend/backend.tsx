@@ -311,6 +311,7 @@ export const grabSellerInfo = async (sellerID: string) : Promise<SellerCardProps
     const user = {
       user : data.userName,
       onlineStatus : data.lastLogin,
+      photo : data.profilePic
     }
     
     return user; 

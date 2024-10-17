@@ -17,7 +17,8 @@ function CategoryPage() {
     }, [category]);
   
     async function retrieveListings() {
-      const allListings = await fetchCategoryListings(category);
+      // there will always be a category to give so this is not an issue
+      const allListings = await fetchCategoryListings(category!);
       if (allListings) {
         setListing(allListings);
         console.log("listings are", listings);

@@ -35,19 +35,14 @@ The component re-renders, and the PhotoCard displays the updated image or placeh
 */
 
 function CreateListing() {
-
-  const [images, setImages] = useState([null,null,null,null]) ;
+  const [images, setImages] = useState<(File | null)[]>([null, null, null, null]); // this can accept both file and null types 
   const [description, setDescription] = useState("");
   const [cateogry, setCategory] = useState("");
-
   const [title, setTitle] = useState("");
-
   const [price, setPrice] = useState(0);
-
 
   async function submitListing() {
     const result = await addListing(images,description,cateogry, price, title );  
-
     if(result){
       console.log("item added!");
     }
@@ -55,28 +50,27 @@ function CreateListing() {
   }
 
   function handleImageChange(event: React.ChangeEvent<HTMLInputElement>, index : number) {
-    const file = event.target.files[0];
+    if (event.target.files){
+      const file = event.target.files[0];
 
-    // Create a copy of the images array
-    const newImages = [...images];
+      // Create a copy of the images array
+      const newImages = [...images];
+      // Update the image at the specific index
+      newImages[index] = file;
 
-    // Update the image at the specific index
-    newImages[index] = file;
+      // Update the state with the new array
+      setImages(newImages);
+    }
 
-    // Update the state with the new array
-    setImages(newImages);
   }
 
   const handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setDescription(event.target.value); // Update the state with the textarea value
+    setDescription(event.target.value);
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
-  
-
-
   
   return (
     <div>

@@ -1,6 +1,7 @@
 export interface SellerCardProps {
     user: string;
     onlineStatus: string;
+    photo: string; 
 };
 
 
