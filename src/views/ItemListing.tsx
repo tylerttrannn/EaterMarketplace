@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import SellerCard from "@/components/SellerCard/SellerCard";
 import {addToSaved} from "../../Backend/user"
+import {createConversation} from  "../../Backend/chatbox"
 import {grabSellerInfo} from "../../Backend/user"
 import {fetchSingleListing} from "../../Backend/listings"
 
@@ -12,13 +13,12 @@ import { useParams } from 'react-router-dom';
 import { Carousel,CarouselContent,CarouselItem,CarouselNext,CarouselPrevious,} from "@/components/ui/carousel";
 import { useEffect, useState } from "react";
 
-import { SellerCardProps } from '../src/types/types'
 
 function ItemListing() {
   const [itemListing, setitemListing] = useState(null); 
   const [seller, setSeller] = useState(null); 
   const [active, setActive] = useState("");
-  const { id } = useParams(); 
+  const { id} = useParams(); 
 
   useEffect(() => {
     retrieveListing(); 
@@ -39,11 +39,10 @@ function ItemListing() {
 
   async function sellerInfo() {
     const sellerInfo = await grabSellerInfo(itemListing.uid);
-    if (sellerInfo){
+    if (sellerInfo) {
       setSeller(sellerInfo);
       const onlineStatus = sellerInfo.onlineStatus.toDate().toLocaleString();
-    setActive(onlineStatus);
-
+      setActive(onlineStatus);
     }
   }
   
@@ -92,7 +91,7 @@ function ItemListing() {
 
           {/* Buttons */}
           <div className="flex flex-col space-y-2 w-full pb-2">
-            <Button className="w-full">Message</Button>
+            <Button className="w-full" onClick = {() => createConversation(itemListing.uid)}>Message</Button>
             <Button className="w-full" onClick = {() => addToSaved(id)}>Add to Saved</Button>
           </div>
 

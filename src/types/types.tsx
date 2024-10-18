@@ -16,12 +16,29 @@ export interface Listing {
     createdAt?: Date; // Timestamp of created date
 }
 
+
+export interface Conversation {
+  id: string; 
+  participants: string[]; 
+  createdAt: Date; 
+}
+
+// Message.ts
+export interface Message {
+  id: string;
+  messengerID: string;
+  createdAt: Date; 
+  msg: string; 
+}
+
+// User.ts
 export interface User {
-    id: string;
-    uid: string;   
-    userName : string; 
-    email : string; 
-    profilePic: string; 
-    lastLogin: Date; 
-    saved: Listing[]; 
+  id: string; // Document ID (could be same as uid)
+  uid: string; 
+  userName: string;
+  email: string;
+  profilePic: string;
+  lastLogin: Date;
+  saved: Listing[];
+  conversations?: string[]; 
 }

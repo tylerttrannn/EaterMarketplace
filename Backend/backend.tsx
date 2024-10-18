@@ -2,12 +2,7 @@ import { auth, db, storage} from './firebase';
 import { doc, setDoc, getDoc, updateDoc, addDoc, arrayUnion} from 'firebase/firestore';  
 import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
 import { getAuth } from "firebase/auth";
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { Listing, SellerCardProps}  from "@/types/types";
-
-
-
-
+import { Listing, SellerCardProps}  from "../src//types/types";
 
 
 export const addToSaved = async (postID: string): Promise<boolean> => {

@@ -25,7 +25,7 @@ export const GoogleLogin = async () => {
           userName: null,  
           profilePic: user.photoURL,
           lastLogin: new Date(),
-          saved: []
+          conversations: []
         };
 
         await setDoc(userDocRef, userData);  
