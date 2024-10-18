@@ -19,11 +19,11 @@ import { useEffect } from "react";
 import Unauthorized from "@/components/Unauthorized/Unauthorized";
 
 
+
 function Navbar() {
-
     const navigate = useNavigate();
-
     const [authorized, setAuthorized] = useState(false);
+    const [searchQuery, setSearchQuery] = useState(""); 
     const auth = getAuth();
 
     useEffect(() => {
@@ -50,6 +50,10 @@ function Navbar() {
         navigate('/');
     }
 
+    function handleSearch(e) {
+      e.preventDefault(); // Prevent default form behavior 
+      navigate(`/search/${searchQuery}`); 
+    }
 
     return (
         <div className="flex flex-col">
@@ -60,13 +64,20 @@ function Navbar() {
                 </div>
 
                 {/* Centered search bar */}
-                <div className="flex-grow ">
-                    <Input type="email" placeholder="Search..." className="w-full max-w-md mx-auto" />
+                <div className="flex-grow">
+                  <form onSubmit={handleSearch}>
+                    <Input
+                      type="search"
+                      placeholder="Search..."
+                      value={searchQuery} 
+                      onChange={(e) => setSearchQuery(e.target.value)} 
+                      className="w-full max-w-md mx-auto"
+                    />
+                  </form>
                 </div>
 
                 {/* Right-aligned buttons and avatar 
                 mx-auto centers a container
-                
                 */}
                 <div className="flex-grow flex justify-end items-center space-x-2 sm:space-x-4">
                     <Button variant="outline" onClick = {() => navigate('/create')}>Sell Now</Button>

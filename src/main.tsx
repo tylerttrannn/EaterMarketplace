@@ -12,6 +12,7 @@ import Chatbox from './components/Chatbox/Chatbox.tsx';
 import CategoryPage from './views/CategoryPage.tsx';
 import Profile from './views/Profile.tsx';
 import Settings from './views/Settings.tsx';
+import SearchListing from './views/SearchListing.tsx';
 
 
 
@@ -71,10 +72,14 @@ const Router = createBrowserRouter([
     path: '/settings',  
     element: <Settings />,
     errorElement: <NotFoundPage />
+  },
+
+  {
+    path: '/search/:query',  
+    element: <SearchListing />,
+    errorElement: <NotFoundPage />
   }
 
-
-  
 ]);
 
 

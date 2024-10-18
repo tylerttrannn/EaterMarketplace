@@ -99,4 +99,39 @@ export const addToSaved = async (postID: string): Promise<boolean> => {
     }
   
   }
+
+  export const grabUserInfo  = async () : Promise<SellerCardProps | null> => {
+
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+
+    if (!currentUser){
+      return null;
+    }
+  
+    try{
+      const userRef = doc(db, "users", currentUser.uid);
+      const sellerSnap = await getDoc(userRef);
+  
+      if (!sellerSnap.exists()) {
+        console.log("No seller found.");
+        return null;
+      }
+      const data = sellerSnap.data();
+  
+      const user = {
+        user : data.userName,
+        onlineStatus : data.lastLogin,
+        photo : data.profilePic
+      }
+      return user; 
+  
+    }
+  
+    catch(error){
+      console.error("there was an error that occured grabbing the seller info!", error);
+      return null; 
+    }
+  
+  }
   
