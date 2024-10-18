@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { GoogleLogin, updateUsername } from "../../Backend/backend"; 
+import { GoogleLogin, updateUsername } from "../../Backend/auth"; 
 import { useState } from "react";
 import { User } from 'firebase/auth'; 
 import { Input } from "@/components/ui/input";
