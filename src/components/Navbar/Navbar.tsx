@@ -52,7 +52,7 @@ function Navbar() {
 
     function handleSearch(e) {
       e.preventDefault(); // Prevent default form behavior 
-      navigate(`/search/${searchQuery}`); 
+      window.location.href = `/search/${searchQuery}`;
     }
 
     return (

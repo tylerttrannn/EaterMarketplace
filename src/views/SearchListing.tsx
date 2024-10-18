@@ -4,16 +4,22 @@ import { useEffect, useState } from "react";
 import ItemCard from "@/components/ItemCard/ItemCard";
 import { fetchDashboardListings } from "../../Backend/listings"
 import { Listing}  from "@/types/types";
+import { fetchQueryListing } from "../../Backend/listings";
+import { useParams } from 'react-router-dom';
+
 
 function SearchListing() {
   const [listings, setListing] = useState<Listing[]>([]);
+
+  let { query } = useParams();
 
   useEffect(() => {
     retrieveListings();
   }, []);
 
   async function retrieveListings() {
-    const allListings = await fetchDashboardListings();
+    const allListings = await fetchQueryListing(query);
+    console.log("query")
     if (allListings) {
       setListing(allListings);
     }
@@ -23,7 +29,7 @@ function SearchListing() {
     <div className="flex flex-col">
       <Navbar />
       <Category />
-      <h1 className="text-center">Your feed</h1>
+      <h1 className="text-center">{query}</h1>
 
       {/* item cards */}
       {/* mx auto centers fixed-width content (in this case our 280x280px cards)*/}
