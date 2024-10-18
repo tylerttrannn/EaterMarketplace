@@ -5,7 +5,12 @@ import { Label } from "@/components/ui/label";
 import { Toggle } from "@/components/ui/toggle";
 import ItemCard from "@/components/ItemCard/ItemCard";
 import { Listing } from "@/types/types";
-import { fetchUserListings, grabSellerInfo , grabUserSaved} from "../../Backend/backend"
+import { fetchUserListings} from "../../Backend/listings"
+
+import { grabUserSaved} from "../../Backend/user"
+
+
+
 import { useEffect, useState } from "react";
 
 

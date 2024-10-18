@@ -4,12 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import SellerCard from "@/components/SellerCard/SellerCard";
-import { fetchSingleListing, grabSellerInfo, addToSaved } from "../../Backend/backend"
+import {addToSaved} from "../../Backend/user"
+import {grabSellerInfo} from "../../Backend/user"
+import {fetchSingleListing} from "../../Backend/listings"
+
 import { useParams } from 'react-router-dom';
 import { Carousel,CarouselContent,CarouselItem,CarouselNext,CarouselPrevious,} from "@/components/ui/carousel";
 import { useEffect, useState } from "react";
 
-import { SellerCardProps } from "@/types/types";
+import { SellerCardProps } from '../src/types/types'
 
 function ItemListing() {
   const [itemListing, setitemListing] = useState(null); 

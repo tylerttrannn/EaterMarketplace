@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar/Navbar";
 import Category from "@/components/Category/Category";
 import { useEffect, useState } from "react";
 import ItemCard from "@/components/ItemCard/ItemCard";
-import { fetchDashboardListings } from "../../Backend/backend"
+import { fetchDashboardListings } from "../../Backend/listings"
 import { Listing}  from "@/types/types";
 
 function Dashboard() {

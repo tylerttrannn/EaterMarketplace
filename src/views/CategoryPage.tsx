@@ -3,7 +3,7 @@ import Category from "@/components/Category/Category";
 import ItemCard from "@/components/ItemCard/ItemCard";
 import { useParams } from 'react-router-dom';
 import { Listing}  from "@/types/types";
-import { fetchCategoryListings } from "../../Backend/backend"
+import { fetchCategoryListings } from "../../Backend/categories"
 import { useEffect, useState } from "react";
 
 
