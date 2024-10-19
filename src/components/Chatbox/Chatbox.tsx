@@ -13,7 +13,7 @@ import { Button } from '../ui/button';
 
 function Chatbox() {
   const [conversation, setConversation] = useState<Message[]>([]);
-  const [conversationID, setConversationID] = useState('7yzW9o3oT7g3yd3VTtvI');
+  const [conversationID, setConversationID] = useState('AaeZ9h4gtRmtkhyTZpLO');
   const [text, setText] = useState('');
 
   const auth = getAuth();

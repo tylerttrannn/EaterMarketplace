@@ -1,7 +1,7 @@
 import { Message, SellerCardProps } from '@/types/types';
 import { db } from './firebase';
 import { getAuth } from 'firebase/auth';
-import { addDoc, arrayUnion, collection, doc, getDoc,  onSnapshot, orderBy, query, updateDoc } from 'firebase/firestore';
+import { addDoc, arrayUnion, collection, doc, getDoc,  getDocs,  onSnapshot, orderBy, query, updateDoc, where } from 'firebase/firestore';
 import { grabSellerInfo } from './user';
 
 export const createConversation = async (sellerId: string): Promise<boolean> => {
@@ -14,26 +14,17 @@ export const createConversation = async (sellerId: string): Promise<boolean> => 
   }
 
   try {
-    // Reference to the conversations collection
     const conversationsRef = collection(db, "conversations");
 
     // Add the conversation document with participants
-    const conversationDoc = await addDoc(conversationsRef, {
+    await addDoc(conversationsRef, {
       participants: [user.uid, sellerId],
       createdAt: new Date(),
-    });
-
-    // adding id to user 
-    const conversationId = conversationDoc.id;
-    const userRef = doc(db, 'users', user.uid);
-    await updateDoc(userRef, {
-      conversations: arrayUnion(conversationId),
     });
 
     console.log("Conversation created successfully");
     return true;
 
-    
   } catch (error) {
     console.error("Error creating conversation:", error);
     return false;
@@ -90,7 +81,7 @@ export const sendMessage = async (message: string, conversationID: string ): Pro
   };
 
 
-  export const getConversation = async (): Promise<string[] | null> => {
+  export const getConversations = async (): Promise<string[] | null> => {
     const auth = getAuth();
     const user = auth.currentUser;
   
@@ -100,27 +91,26 @@ export const sendMessage = async (message: string, conversationID: string ): Pro
     }
   
     try {
-      const userRef = doc(db, 'users', user.uid);
-      const userSnap = await getDoc(userRef);
+      // checking whole message collection and checking if the participants array contains the user id 
+      const conversationsRef = collection(db, 'conversations');
+      const q = query(conversationsRef, where('participants', 'array-contains', user.uid));
   
-      if (!userSnap.exists()) {
-        console.log('No user document found');
-        return null;
-      }
+      const querySnapshot = await getDocs(q);
+      const conversationIds = querySnapshot.docs.map(doc => doc.id);
   
-      const data = userSnap.data();
-  
-      if (!data?.conversations || data.conversations.length === 0) {
+      if (conversationIds.length === 0) {
         console.log('No conversations found');
         return [];
       }
   
-      return data.conversations;
+      return conversationIds;
     } catch (error) {
-      console.error('Could not grab conversations', error);
-      return null; 
+      console.error('Could not retrieve conversations', error);
+      return null;
     }
   };
+
+
 
   export const getOtherUserInfo = async ( conversationID: string): Promise<SellerCardProps | null> => {
     try {

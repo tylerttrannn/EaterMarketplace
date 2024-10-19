@@ -1,6 +1,6 @@
 import { Separator } from "../ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getConversation, getOtherUserInfo } from "../../../Backend/chatbox";
+import { getConversations, getOtherUserInfo } from "../../../Backend/chatbox";
 import { useEffect, useState } from "react";
 import { SellerCardProps } from "@/types/types";
 
@@ -15,7 +15,7 @@ function ChatboxNavbar() {
 
   useEffect(() => {
     async function fetchConversations() {
-      const res = await getConversation();
+      const res = await getConversations();
       if (res) {
 
         // res is an array of conversation IDs
