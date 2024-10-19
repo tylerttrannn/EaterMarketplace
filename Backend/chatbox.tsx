@@ -1,8 +1,13 @@
 import { Message, SellerCardProps } from '@/types/types';
 import { db } from './firebase';
 import { getAuth } from 'firebase/auth';
-import { addDoc, arrayUnion, collection, doc, getDoc,  getDocs,  onSnapshot, orderBy, query, updateDoc, where } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc,  getDocs,  onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { grabSellerInfo } from './user';
+
+
+function generateConversationId(userId1 :string , userId2:string) {
+  return [userId1, userId2].sort().join('_');
+}
 
 export const createConversation = async (sellerId: string): Promise<boolean> => {
   const auth = getAuth();
@@ -15,10 +20,22 @@ export const createConversation = async (sellerId: string): Promise<boolean> => 
 
   try {
     const conversationsRef = collection(db, "conversations");
+    // generating id with given user and seller 
+    const participantIds = generateConversationId(user.uid, sellerId);
 
-    // Add the conversation document with participants
+    // query to check if a conversation between the two exists
+    const q = query(conversationsRef, where('participantIds', '==', participantIds));
+    const querySnapshot = await getDocs(q);
+
+    // dont create a conversation 
+    if (!querySnapshot.empty) {
+      console.log('Conversation already exists');
+      return false; 
+    }
+
     await addDoc(conversationsRef, {
       participants: [user.uid, sellerId],
+      participantIds: participantIds,
       createdAt: new Date(),
     });
 
