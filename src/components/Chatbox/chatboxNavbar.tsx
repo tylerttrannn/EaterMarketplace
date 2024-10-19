@@ -54,13 +54,13 @@ function ChatboxNavbar({ updateconvo }: ChatboxNavbarProps) {
   return (
     <div className="flex flex-row ml-2 h-screen">
       {/* Left side navbar */}
-      <div className="flex flex-col space-y-4 w-[25px] sm:w-4/5">
+      <div className="flex flex-col space-y-4 ">
         {/* Header */}
         <div className="ml-2 mt-4 mb-4">
           <h1 className="text-3xl hidden sm:block">Chats</h1>
         </div>
         {/* User section */}
-        <div className="flex flex-col justify-center space-y-4 ml-4">
+        <div className="flex flex-col justify-center space-y-4 ml-1">
           {conversations.length > 0 ? (
             conversations.map((conversation) => (
               <div
@@ -91,7 +91,7 @@ function ChatboxNavbar({ updateconvo }: ChatboxNavbarProps) {
         </div>
       </div>
       {/* Right side */}
-      <div className="ml-12">
+      <div className="ml-3">
         <Separator orientation="vertical" className="h-full w-[1px] bg-gray-300" />
       </div>
     </div>

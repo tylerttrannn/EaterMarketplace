@@ -8,6 +8,7 @@ import { getAuth } from 'firebase/auth';
 import { Button } from '../ui/button';
 import ChatboxHeader from './chatboxHeader';
 import ChatboxNavbar from './chatboxNavbar';
+import Navbar from '../Navbar/Navbar';
 
 function Chatbox() {
   const [conversation, setConversation] = useState<Message[]>([]);
@@ -38,38 +39,55 @@ function Chatbox() {
     setConversationID(id);
   }
 
+  const handleSendMessage = () => {
+    if (text.trim() === '') return; // to disallow empty inputs 
+    sendMessage(text, conversationID);
+    setText(''); // clearing the input
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // stops default behavior 
+      handleSendMessage();
+    }
+  };
+
   return (
-    <div className="flex flex-row">
-      {/* Navbar section */}
-      <ChatboxNavbar updateconvo={updateconvo} />
-      {/* Chatbox section */}
-      <div className="flex flex-col w-screen h-screen">
-        {/* Chatbox header section */}
-        <ChatboxHeader />
-        {/* Messages */}
-        <ChatMessageList>
-          {conversation.map((message) => (
-            <ChatBubble
-              key={message.id}
-              variant={message.messengerID === currentUserID ? 'sent' : 'received'}
-            >
-              <ChatBubbleAvatar fallback="US" />
-              <ChatBubbleMessage
-                variant={message.messengerID === currentUserID ? 'sent' : 'received'}
-              >
-                {message.msg}
-              </ChatBubbleMessage>
-            </ChatBubble>
-          ))}
-        </ChatMessageList>
-        {/* Input */}
-        <div className="flex items-center space-x-4 pr-4 ml-4 mb-4">
-          <ChatInput
-            placeholder="Type your message here..."
-            value={text}
-            onChange={(event) => setText(event.target.value)}
-          />
-          <Button onClick={() => sendMessage(text, conversationID)}>Send</Button>
+    <div className="flex flex-col h-screen">
+      <Navbar />
+      <div className="flex flex-row flex-1 overflow-hidden">
+        {/* Navbar section */}
+        <ChatboxNavbar updateconvo={updateconvo} />
+        {/* Chatbox section */}
+        <div className="flex flex-col flex-1">
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto">
+            <ChatMessageList>
+              {conversation.map((message) => (
+                <ChatBubble
+                  key={message.id}
+                  variant={message.messengerID === currentUserID ? 'sent' : 'received'}
+                >
+                  <ChatBubbleAvatar fallback="US" />
+                  <ChatBubbleMessage
+                    variant={message.messengerID === currentUserID ? 'sent' : 'received'}
+                  >
+                    {message.msg}
+                  </ChatBubbleMessage>
+                </ChatBubble>
+              ))}
+            </ChatMessageList>
+          </div>
+          {/* Input */}
+          <div className="flex items-center space-x-4 p-4">
+            <ChatInput
+              placeholder="Type your message here..."
+              value={text}
+              onChange={(event) => setText(event.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+            <Button onClick={handleSendMessage}>Send</Button>
+          </div>
         </div>
       </div>
     </div>

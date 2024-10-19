@@ -129,50 +129,54 @@ export const sendMessage = async (message: string, conversationID: string ): Pro
 
 
 
-  export const getOtherUserInfo = async ( conversationID: string): Promise<SellerCardProps | null> => {
+  export const getOtherUserInfo = async (
+    conversationID: string
+  ): Promise<SellerCardProps | null> => {
     try {
+      console.log('getOtherUserInfo called with conversationID:', conversationID);
+
       const auth = getAuth();
       const user = auth.currentUser;
   
       if (!user) {
-        console.error('User is not authenticated!');
+        console.error("User is not authenticated!");
         return null;
       }
   
       const currentUserID = user.uid;
   
       // Fetch the conversation document
-      const convoRef = doc(db, 'conversations', conversationID);
+      const convoRef = doc(db, "conversations", conversationID);
       const convoSnap = await getDoc(convoRef);
   
       if (!convoSnap.exists()) {
-        console.log('Conversation not found');
+        console.log("Conversation not found");
         return null;
       }
   
       const data = convoSnap.data();
   
       if (!data?.participants || !Array.isArray(data.participants)) {
-        console.log('Participants not found');
+        console.log("Participants not found");
         return null;
       }
   
-      // filtering current users id 
+      // Filtering current user's ID
       const otherUserID = data.participants.find(
         (userID: string) => userID !== currentUserID
       );
   
       if (!otherUserID) {
-        console.log('Other participant not found');
+        console.log("Other participant not found");
         return null;
       }
   
-      // grabbing info
+      // Grabbing other user's info
       const otherUserInfo = await grabSellerInfo(otherUserID);
   
       return otherUserInfo;
     } catch (error) {
-      console.error('Error fetching other user info:', error);
+      console.error("Error fetching other user info:", error);
       return null;
     }
   };

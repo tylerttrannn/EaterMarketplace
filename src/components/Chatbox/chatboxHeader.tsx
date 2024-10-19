@@ -1,25 +1,44 @@
+import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@radix-ui/react-separator";
-import { getConversation , getOtherUserInfo} from  '../../../Backend/chatbox';
+import { getOtherUserInfo } from "../../../Backend/chatbox";
+import { SellerCardProps } from "@/types/types";
 
-function ChatboxHeader() {
+function ChatboxHeader({ conversationID }) {
+  const [seller, setSeller] = useState<SellerCardProps | null>(null);
 
+  useEffect(() => {
+    async function getUser() {
+      const response = await getOtherUserInfo(conversationID);
+      console.log("response is ", response)
 
+      if (response) {
+        setSeller(response);
+      } else {
+        setSeller(null);
+      }
+    }
+
+    getUser();
+  }, [conversationID]);
+
+  if (!seller) {
+    return <h1> test</h1>; 
+  }
 
   return (
     <div className="flex flex-col space-y-4">
       <div className="flex flex-row items-center space-x-4 ml-4 mt-4">
         <div>
-
           <Avatar>
-            <AvatarImage src="https://bpb-us-e2.wpmucdn.com/sites.oit.uci.edu/dist/c/2/files/2022/07/R22_OIT_ProfessorAnteaterfortheOITHomepage_Icon_1000x1000.png" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage src={seller.photo} />
+            <AvatarFallback>cn</AvatarFallback>
           </Avatar>
         </div>
 
         <div className="flex flex-col">
-          <h1>Petr Anteater</h1>
-          <p className="text-xs">Last Active Yesterday</p>
+          <h1>{seller.user}</h1>
+          <p className="text-xs">{seller.onlineStatus}</p>
         </div>
       </div>
 
