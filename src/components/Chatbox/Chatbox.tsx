@@ -1,73 +1,84 @@
-import { ChatBubble } from "../ui/chat/chat-bubble";
-import { ChatMessageList } from "../ui/chat/chat-message-list";
-import { ChatBubbleMessage } from "../ui/chat/chat-bubble";
-import { ChatBubbleAvatar } from "../ui/chat/chat-bubble";
-import { ChatInput } from "@/components/ui/chat/chat-input";
-import ChatboxNavbar from "./chatboxNavbar"; 
-import ChatboxHeader from "./chatboxHeader";
+import { ChatBubble, ChatBubbleMessage, ChatBubbleAvatar } from '../ui/chat/chat-bubble';
+import { ChatMessageList } from '../ui/chat/chat-message-list';
+import { ChatInput } from '@/components/ui/chat/chat-input';
+import ChatboxNavbar from './chatboxNavbar';
+import ChatboxHeader from './chatboxHeader';
 
-import { getConversation, sendMessage } from "../../../Backend/chatbox"
-import { useEffect, useState } from "react";
-import { Conversation } from "@/types/types";
+import { getMessages, sendMessage } from '../../../Backend/chatbox';
+import { useEffect, useState } from 'react';
+import { Message } from '@/types/types';
 
+import { getAuth } from 'firebase/auth';
+import { Button } from '../ui/button';
 
+function Chatbox() {
+  const [conversation, setConversation] = useState<Message[]>([]);
+  const [conversationID, setConversationID] = useState('7yzW9o3oT7g3yd3VTtvI');
+  const [text, setText] = useState('');
 
-function Chatbox(){
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const currentUserID = user ? user.uid : '';
 
-    const [conversation, setConversation] = useState<Conversation | undefined>(); // Set to undefined initially
-    const [conversationID, setConversationID] = useState("6g8OjSDFqURo613xp7QGbJEzWrG2"); // Dynamically track conversation ID
+  useEffect(() => {
+    if (!conversationID) return;
   
-     
-    useEffect(() => {
-      async function grabConversation() {
-        const response = await getConversation(conversationID); // Use the dynamic conversationID
+    const unsubscribe = getMessages(conversationID, (messages: Message[]) => {
+      setConversation(messages);
+    });
   
-        if (response) {
-          setConversation(response); // Update the conversation state with the response
-        }
-      }
+    return () => {
+      unsubscribe();
+    };
+  }, [conversationID]);
   
-      grabConversation(); // Call the async function within useEffect
-    }, [conversationID]); // Runs the effect when conversationID changes
-    
 
-    console.log("chatbox");
-    return(
-        // Wrap with ChatMessageList
-        <div className = "flex flex-row ">
-            
-            {/* navbar section */}
-            <div>
-                <ChatboxNavbar/>
-            </div>
+  if (!user) {
+    return <div>Please log in to view your messages.</div>;
+  }
 
-            {/* chatbox section */}
-            <div className = "flex flex-col w-screen h-screen">
-                {/* chatbox header section*/}
-                <div>
-                    <ChatboxHeader/>
-                </div>
+  
 
-                <ChatMessageList>
+  return (
+    <div className="flex flex-row">
+      {/* Navbar section */}
+      <div>
+        <ChatboxNavbar />
+      </div>
 
-                {conversation && (
-                    <ChatBubble variant='sent'>
-                        <ChatBubbleAvatar fallback='US' />
-                        <ChatBubbleMessage variant='sent'>
-                        Hello, how has your day been? I hope you are doing well.
-                        </ChatBubbleMessage>
-                    </ChatBubble>
-                )}
-
-                </ChatMessageList>
-                <ChatInput placeholder="Type your message here..."/>
-            </div>
-
+      {/* Chatbox section */}
+      <div className="flex flex-col w-screen h-screen">
+        {/* Chatbox header section */}
+        <div>
+          <ChatboxHeader />
         </div>
 
-    )
+        <ChatMessageList>
+          {conversation.map((message) => (
+            <ChatBubble
+              key={message.id}
+              variant={message.messengerID === currentUserID ? 'sent' : 'received'}
+            >
+              <ChatBubbleAvatar fallback="US" />
+              <ChatBubbleMessage variant={message.messengerID === currentUserID ? 'sent' : 'received'}>
+                {message.msg}
+              </ChatBubbleMessage>
+            </ChatBubble>
+          ))}
+        </ChatMessageList>
 
+        <div className = "flex items-center space-x-4 pr-4 ml-4 mb-4 ">
+            <ChatInput
+                placeholder="Type your message here..."
+                value={text}
+                onChange={(event) => setText(event.target.value)}
+                />
+            <Button onClick = {() => sendMessage(text,conversationID )}>Send</Button>
+        </div>
+
+      </div>
+    </div>
+  );
 }
-
 
 export default Chatbox;

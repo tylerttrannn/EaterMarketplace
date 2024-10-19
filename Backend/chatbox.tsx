@@ -1,6 +1,7 @@
+import { Message } from '@/types/types';
 import { db } from './firebase';
 import { getAuth } from 'firebase/auth';
-import { addDoc, arrayUnion, collection, doc, updateDoc } from 'firebase/firestore';
+import { addDoc, arrayUnion, collection, doc, getDoc,  onSnapshot, orderBy, query, updateDoc } from 'firebase/firestore';
 
 export const createConversation = async (sellerId: string): Promise<boolean> => {
   const auth = getAuth();
@@ -39,7 +40,7 @@ export const createConversation = async (sellerId: string): Promise<boolean> => 
 };
 
 
-  export const sendMessage = async (message: string, conversationID: string ): Promise<boolean> => {
+export const sendMessage = async (message: string, conversationID: string ): Promise<boolean> => {
 
     const auth = getAuth();
     const user = auth.currentUser;
@@ -66,4 +67,25 @@ export const createConversation = async (sellerId: string): Promise<boolean> => 
     }
   };
   
+  
+  export const getMessages = (conversationID: string, callback: (messages: Message[]) => void): (() => void) => {
+    const messagesRef = collection(db, 'conversations', conversationID, 'messages');
+    const q = query(messagesRef, orderBy('createdAt'));
+  
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const messages: Message[] = snapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          messengerID: data.messengerID,
+          createdAt: data.createdAt.toDate(),
+          msg: data.msg,
+        };
+      });
+      callback(messages);
+    });
+  
+    return unsubscribe;
+  };
+
   
