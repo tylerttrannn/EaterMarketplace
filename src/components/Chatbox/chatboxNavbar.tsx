@@ -1,25 +1,27 @@
-import { Separator } from "../ui/separator";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getConversations, getOtherUserInfo } from "../../../Backend/chatbox";
-import { useEffect, useState } from "react";
-import { SellerCardProps } from "@/types/types";
+import { Separator } from '../ui/separator';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { getConversations, getOtherUserInfo } from '../../../Backend/chatbox';
+import { useEffect, useState } from 'react';
+import { SellerCardProps } from '@/types/types';
 
-function ChatboxNavbar() {
+interface ConversationItem {
+  conversationID: string;
+  otherUserInfo: SellerCardProps;
+}
 
-    interface ConversationItem {
-        conversationID: string;
-        otherUserInfo: SellerCardProps;
-        }
-        
-    const [conversations, setConversations] = useState<ConversationItem[]>([]);
+interface ChatboxNavbarProps {
+  updateconvo: (id: string) => void;
+}
+
+function ChatboxNavbar({ updateconvo }: ChatboxNavbarProps) {
+  const [conversations, setConversations] = useState<ConversationItem[]>([]);
+  const [selectedConversationID, setSelectedConversationID] = useState<string | null>(null); 
+
 
   useEffect(() => {
     async function fetchConversations() {
       const res = await getConversations();
       if (res) {
-
-        // res is an array of conversation IDs
-        // Fetch the other user's info for each conversation
         const conversationsWithUserInfo = await Promise.all(
           res.map(async (conversationID) => {
             const otherUserInfo = await getOtherUserInfo(conversationID);
@@ -33,16 +35,21 @@ function ChatboxNavbar() {
             }
           })
         );
-        
-        // Filter out any null entries
+
         const filteredConversations = conversationsWithUserInfo.filter(
           (conversation) => conversation !== null
-        );
+        ) as ConversationItem[];
+
         setConversations(filteredConversations);
       }
     }
     fetchConversations();
   }, []);
+
+  const handleClick = (conversationID: string) => {
+    setSelectedConversationID(conversationID); 
+    updateconvo(conversationID); 
+  };
 
   return (
     <div className="flex flex-row ml-2 h-screen">
@@ -52,14 +59,18 @@ function ChatboxNavbar() {
         <div className="ml-2 mt-4 mb-4">
           <h1 className="text-3xl hidden sm:block">Chats</h1>
         </div>
-
         {/* User section */}
         <div className="flex flex-col justify-center space-y-4 ml-4">
           {conversations.length > 0 ? (
             conversations.map((conversation) => (
               <div
                 key={conversation.conversationID}
-                className="p-2 hover:shadow-2xl hover:bg-[#f4f4f5] rounded-lg transition-shadow duration-300"
+                className={`p-2 rounded-lg transition-shadow duration-300 ${
+                  selectedConversationID === conversation.conversationID
+                    ? 'shadow-1xl bg-[#f4f4f5]' // Apply shadow and background if selected
+                    : 'hover:shadow-1xl hover:bg-[#f4f4f5]' // else no shadow with a hover
+                }`}
+                onClick={() => handleClick(conversation.conversationID)}  // update the selected conversation 
               >
                 <div className="flex flex-row items-center space-x-4">
                   <Avatar>
@@ -79,7 +90,6 @@ function ChatboxNavbar() {
           )}
         </div>
       </div>
-
       {/* Right side */}
       <div className="ml-12">
         <Separator orientation="vertical" className="h-full w-[1px] bg-gray-300" />
