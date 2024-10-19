@@ -14,7 +14,7 @@ function Category() {
 
   return (
     <div className="flex flex-col">
-        <div className="flex justify-center items-center space-x-4 px-4 pt-2">
+        <div className="flex justify-center items-center space-x-2 px-4 pt-2 ">
 
             {/* These buttons will always be visible regardless of screen size */}
             <Button variant="outline" onClick={() => navigate('/category/clothes')}>Clothes</Button>
@@ -36,7 +36,7 @@ function Category() {
             </DropdownMenu>
 
             {/* Will hide these options when the screen size gets smaller */}
-            <div className="hidden md:flex space-x-4">
+            <div className="hidden md:flex space-x-2">
             <Button variant="outline" onClick={() => navigate('/category/services')}>Services</Button>
             <Button variant="outline" onClick={() => navigate('/category/other')}>Other</Button>
             <Button variant="outline" onClick={() => navigate('/category/free')}>Free</Button>

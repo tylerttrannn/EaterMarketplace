@@ -86,7 +86,7 @@ function ChatboxNavbar({ updateconvo }: ChatboxNavbarProps) {
               </div>
             ))
           ) : (
-            <div>Loading conversations...</div>
+            <div> There are no conversations yet!</div>
           )}
         </div>
       </div>

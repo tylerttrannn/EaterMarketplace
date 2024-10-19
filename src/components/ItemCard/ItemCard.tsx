@@ -17,14 +17,15 @@ function ItemCard({id,itemTitle, itemPrice, itemImage}) {
     navigate(`/listing/${id}`);
   }
   
-
   return (
-    <Card className="relative w-[280px] h-[280px] overflow-hidden" onClick={() => openListing()}>
-      {itemImage && 
-        <img src = {itemImage} className="w-full h-full object-cover"></img>
-      }
-      <CardHeader className="absolute bottom-0 left-0 right-0 text-white bg-black bg-opacity-60 p-4">
+    <div className="">
+      <Card className="relative w-[260px] h-[260px]" onClick={() => openListing()}>
+        {itemImage && 
+          <img src = {itemImage} className="w-full h-full object-cover"></img>
+        }
+      </Card>
 
+      <CardHeader className = "flex flex-row justify-between items-center">
         {itemTitle && (
           <CardTitle className="text-lg">{itemTitle}</CardTitle>
         )
@@ -32,9 +33,8 @@ function ItemCard({id,itemTitle, itemPrice, itemImage}) {
         {itemPrice && (
           <CardTitle className="text-md">${itemPrice}</CardTitle>
         )}
-
       </CardHeader>
-    </Card>
+    </div>
 
 
   );
