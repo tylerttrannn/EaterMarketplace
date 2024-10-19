@@ -1,10 +1,15 @@
 /** @type {import('tailwindcss').Config} */
+
 export default {
 	darkMode: ["class"],
 	content: [
-	  "./index.html",
-	  "./src/**/*.{js,ts,jsx,tsx}", // This line ensures Tailwind scans your source files
-	],
+		"./index.html",
+		"./src/**/*.{js,ts,jsx,tsx}",
+		"./node_modules/@shadcn/ui/**/*.js", 
+	  ],
+
+
+	  
 	theme: {
 	  extend: {
 		borderRadius: {

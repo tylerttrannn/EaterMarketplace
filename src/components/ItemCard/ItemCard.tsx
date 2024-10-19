@@ -19,7 +19,7 @@ function ItemCard({id,itemTitle, itemPrice, itemImage}) {
   
   return (
     <div className="">
-      <Card className="relative w-[260px] h-[260px]" onClick={() => openListing()}>
+      <Card className="relative w-[260px] h-[260px] overflow-hidden rounded-none" onClick={() => openListing()}>
         {itemImage && 
           <img src = {itemImage} className="w-full h-full object-cover"></img>
         }
