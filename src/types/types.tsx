@@ -23,7 +23,6 @@ export interface Conversation {
   createdAt: Date; 
 }
 
-// Message.ts
 export interface Message {
   id: string;
   messengerID: string;
