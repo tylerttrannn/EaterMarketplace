@@ -41,7 +41,7 @@ function CategoryPage() {
               key={listing.id}
               id={listing.id}
               itemTitle={listing.title}
-              itemImage={listing.image}
+              itemImage={listing.image[0]}          
               itemPrice={listing.price}
             />
           ))}

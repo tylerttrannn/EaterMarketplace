@@ -1,7 +1,5 @@
 import Navbar from "@/components/Navbar/Navbar";
 import Category from "@/components/Category/Category";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Label } from "@/components/ui/label";
 import { Toggle } from "@/components/ui/toggle";
 import ItemCard from "@/components/ItemCard/ItemCard";
 import { fetchUserListings} from "../../Backend/listings"
@@ -70,7 +68,7 @@ function Profile() {
         <div className="flex flex-row space-x-4 items-center mt-8"> 
           <SellerCard
           user={user ? user.user : "Loading..."}
-          onlineStatus= {user ? user.onlineStatus.toDate().toLocaleString() : "Loading..."}
+          onlineStatus= {user ? user.onlineStatus : "Loading..."}
           photo = {user ? user.photo: "load"}          
           />
         </div>
@@ -99,7 +97,7 @@ function Profile() {
             key={listing.id} // This stays for React's internal use
             id={listing.id} // Add this line to pass the id as a prop
             itemTitle={listing.title}
-            itemImage={listing.image}
+            itemImage={listing.image[0]}
             itemPrice={listing.price}
             />
           )))}
@@ -114,10 +112,6 @@ function Profile() {
             itemPrice={listing.price}
             />
           )))}
-
-
-
-
 
         </div>
       </div>

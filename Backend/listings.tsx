@@ -72,7 +72,7 @@ export const fetchDashboardListings = async () : Promise<Listing[]>  => {
           id: doc.id || "no-id",
           uid: data.uid,
           title: data.title,
-          image: data.images && data.images.length > 0 ? data.images[0] : null,
+          image: data.images,
           price: data.price,
           description: data.description,
         };
@@ -87,8 +87,6 @@ export const fetchDashboardListings = async () : Promise<Listing[]>  => {
     }
   
   };
-
-
 
   export const fetchUserListings = async (): Promise<Listing[]> => {
     const auth = getAuth();

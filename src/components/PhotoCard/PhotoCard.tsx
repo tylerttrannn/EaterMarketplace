@@ -1,22 +1,28 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useId } from "react";
 import {
   Card,
   CardContent,
-  CardFooter,
 } from "@/components/ui/card";
 
-function PhotoCard({ image, onImageChange }) {
+interface PhotoCardProps{
+  image: File | null;
+  onImageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+function PhotoCard({ image, onImageChange } : PhotoCardProps) {
   const uniqueId = useId(); // Generates a unique ID
   const inputId = `fileInput-${uniqueId}`;
-  const [imageURL, setImageURL] = useState(null);
+  const [imageURL, setImageURL] = useState<string | null>(null);
 
   useEffect(() => {
     let url: string | undefined;
 
     if (image) {
       url = URL.createObjectURL(image);
-      setImageURL(url);
+      if (url){
+        setImageURL(url);
+      }
     } else {
       setImageURL(null);
     }

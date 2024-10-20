@@ -4,78 +4,79 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import SellerCard from "@/components/SellerCard/SellerCard";
-import {addToSaved} from "../../Backend/user"
-import {createConversation} from  "../../Backend/chatbox"
-import {grabSellerInfo} from "../../Backend/user"
-import {fetchSingleListing} from "../../Backend/listings"
-
-import { useParams } from 'react-router-dom';
-import { Carousel,CarouselContent,CarouselItem,CarouselNext,CarouselPrevious,} from "@/components/ui/carousel";
+import { addToSaved } from "../../Backend/user";
+import { createConversation } from "../../Backend/chatbox";
+import { grabSellerInfo } from "../../Backend/user";
+import { fetchSingleListing } from "../../Backend/listings";
+import { useParams } from "react-router-dom";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useEffect, useState } from "react";
-
+import { Listing, SellerCardProps } from "@/types/types";
 
 function ItemListing() {
-  const [itemListing, setitemListing] = useState(null); 
-  const [seller, setSeller] = useState(null); 
-  const [active, setActive] = useState("");
-  const { id} = useParams(); 
+  const [itemListing, setItemListing] = useState<Listing | null>(null);
+  const [seller, setSeller] = useState<SellerCardProps | null>(null);
+  const [active, setActive] = useState<string>("");
+  const { id } = useParams<{ id: string }>(); // id is possibly undefined, so useParams must be typed
 
   useEffect(() => {
-    retrieveListing(); 
-  }, [id]); 
+    if (id) {
+      retrieveListing(id); 
+    }
+  }, [id]);
 
   useEffect(() => {
     if (itemListing) {
-      sellerInfo();
+      sellerInfo(itemListing.uid); 
     }
   }, [itemListing]);
-   
-  async function retrieveListing() {
-    const listing = await fetchSingleListing(id);
-    if (listing){
-      setitemListing(listing);
+
+  // Fetch the listing based on the provided ID
+  async function retrieveListing(listingId: string) {
+    const listing = await fetchSingleListing(listingId);
+    if (listing) {
+      setItemListing(listing);
     }
   }
 
-  async function sellerInfo() {
-    const sellerInfo = await grabSellerInfo(itemListing.uid);
+  // Fetch the seller info based on the itemListing's UID
+  async function sellerInfo(uid: string) {
+    const sellerInfo = await grabSellerInfo(uid);
     if (sellerInfo) {
       setSeller(sellerInfo);
-      const onlineStatus = sellerInfo.onlineStatus.toDate().toLocaleString();
+      const onlineStatus = sellerInfo.onlineStatus?.toLocaleString() || "Unavailable"; // Handle possible null onlineStatus
       setActive(onlineStatus);
     }
   }
-  
 
   if (!itemListing) {
-    return <div>Loading...</div>; 
+    return <div>Loading...</div>;
   }
 
   return (
-    <div >
+    <div>
       <Navbar />
       <Category />
 
-      {/*  flex flex-col sm:flex-row 
-      (starts off as flex-row and moves to flex-col on smaller screen)
-      */}
+      {/* Flex container */}
       <div className="flex flex-col sm:flex-row justify-start sm:space-x-20 space-y-10 sm:space-y-0 max-w-[1000px] mx-auto pt-10">
-
-        {/* Carousel
-        mx-auto centers a container
-        */}
+        {/* Carousel */}
         <div className="flex w-[380px] h-[380px] sm:w-[480px] h-[480px] bg-slate-400 items-center mx-auto">
           <Carousel className="w-full h-full">
             <CarouselContent>
-              {itemListing.image && itemListing.image.map((url, index) => (
-                <CarouselItem key={index}>
-                  <img
-                    src={url}
-                    alt={`Item image ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </CarouselItem>
-              ))}
+              {itemListing.image && itemListing.image.length > 0 ? (
+                itemListing.image.map((url, index) => (
+                  <CarouselItem key={index}>
+                    <img
+                      src={url}
+                      alt={`Item image ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </CarouselItem>
+                ))
+              ) : (
+                <div>No images available</div> // if no images exist 
+              )}
             </CarouselContent>
             <CarouselPrevious />
             <CarouselNext />
@@ -91,23 +92,22 @@ function ItemListing() {
 
           {/* Buttons */}
           <div className="flex flex-col space-y-2 w-full pb-2">
-            <Button className="w-full" onClick = {() => createConversation(itemListing.uid)}>Message</Button>
-            <Button className="w-full" onClick = {() => addToSaved(id)}>Add to Saved</Button>
+            <Button className="w-full" onClick={() => createConversation(itemListing.uid)}>Message</Button>
+            <Button className="w-full" onClick={() => id && addToSaved(id)}>Add to Saved</Button> {/* Ensure id exists */}
           </div>
 
           <Separator />
-          <Textarea placeholder="Seller message" value = {itemListing.description} disabled />
+          <Textarea placeholder="Seller message" value={itemListing.description} disabled />
 
           {/* Seller info */}
           <div className="pt-4">
-            <SellerCard 
+            <SellerCard
               user={seller ? seller.user : "Loading..."}
-              onlineStatus= {active}
-              photo = {seller ? seller.photo: "load"}
+              onlineStatus={active}
+              photo={seller ? seller.photo : "load"}
             />
           </div>
         </div>
-
       </div>
     </div>
   );

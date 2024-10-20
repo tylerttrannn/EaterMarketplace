@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import { Message } from '@/types/types';
 import { getAuth } from 'firebase/auth';
 import { Button } from '../ui/button';
-import ChatboxHeader from './chatboxHeader';
 import ChatboxNavbar from './chatboxNavbar';
 import Navbar from '../Navbar/Navbar';
 
@@ -45,7 +44,7 @@ function Chatbox() {
     setText(''); // clearing the input
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter') {
       event.preventDefault(); // stops default behavior 
       handleSendMessage();

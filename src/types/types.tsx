@@ -4,6 +4,13 @@ export interface SellerCardProps {
     photo: string; 
 };
 
+export interface ItemCardProps  {
+  id: string;
+  itemTitle: string;
+  itemPrice: number;
+  itemImage: string;
+}
+
 
 export interface Listing {
     id: string; // Document ID

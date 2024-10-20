@@ -21,7 +21,7 @@ export const fetchCategoryListings = async( categoryID: string) : Promise<Listin
           id: doc.id,
           uid: data.uid,
           title: data.title,
-          image: data.images && data.images.length > 0 ? data.images[0] : null,
+          image: data.images,
           price: data.price,
           description: data.description,
         };

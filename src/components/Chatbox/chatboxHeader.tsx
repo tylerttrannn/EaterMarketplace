@@ -4,7 +4,14 @@ import { Separator } from "@radix-ui/react-separator";
 import { getOtherUserInfo } from "../../../Backend/chatbox";
 import { SellerCardProps } from "@/types/types";
 
-function ChatboxHeader({ conversationID }) {
+
+
+interface ChatboxHeaderProps {
+  conversationID: string;
+}
+
+
+function ChatboxHeader({ conversationID } : ChatboxHeaderProps ) {
   const [seller, setSeller] = useState<SellerCardProps | null>(null);
 
   useEffect(() => {

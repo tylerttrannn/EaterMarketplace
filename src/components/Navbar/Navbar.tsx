@@ -50,7 +50,7 @@ function Navbar() {
         navigate('/');
     }
 
-    function handleSearch(e) {
+    function handleSearch(e: React.FormEvent<HTMLFormElement>) {
       e.preventDefault(); // Prevent default form behavior 
       window.location.href = `/search/${searchQuery}`;
     }
