@@ -1,50 +1,47 @@
-# React + TypeScript + Vite
+<h1>ZotMarketplace</h1>
+<p>ZotMarketplace is a full-stack marketplace app built with <strong>React</strong>, <strong>TypeScript</strong>, <strong>TailwindCSS</strong>, and <strong>Firebase</strong>. Designed for the Anteater community, users can easily list items, browse, search for specific products, and message sellers directly within the platform.  <strong> This app is still a work in progress, see the TODO at the bottom to check progress </strong></p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<h2>Features:</h2>
+<ul>
+  <li><strong>List Items:</strong> Users can create listings for items they want to sell.</li>
+  <li><strong>View & Search:</strong> Easily browse and search through available listings.</li>
+  <li><strong>Messaging:</strong> Directly message other users about their items for quick communication.</li>
+</ul>
 
-Currently, two official plugins are available:
+<h2>Libraries Used:</h2>
+<ul>
+  <li><strong>ShadCN:</strong> Component Library</li>
+  <li><strong>shadcn-chat: </strong> Component for reusuable chat components </li>
+</ul>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<h2>Getting Started</h2>
+<h3>Running Locally</h3>
+<p>To run this project on your local machine:</p>
+<ol>
+  <li>Clone the repository:</li>
+  <pre><code>git clone https://github.com/tylerttrannn/EaterMarketplace.git</code></pre>
+  
+  <li>Navigate to the project directory:</li>
+  <pre><code>cd eatermarketplace</code></pre>
 
-## Expanding the ESLint configuration
+  <li>Install the dependencies:</li>
+  <pre><code>npm install</code></pre>
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+  <li>Build the project:</li>
+  <pre><code>npm run build</code></pre>
 
-- Configure the top-level `parserOptions` property like this:
+  <li>Run the application:</li>
+  <pre><code>npm start</code></pre>
+</ol>
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+<h2>TODO:</h2>
+<ul>
+  <li> Allow users to delete postings & add automatic deletion after 30 days </li>
+  <li> Finetune UI design / overall feel </li>
+  <li>Enforce posting requiremnts (eg: user needs to select a cateogry) </li>
+  <li>Fix searching not working on deployed version  </li>
+  <li>Fix timestamp conversion raising issues on TypeScript </li>
+  <li>Fix posting images not loading via profile page </li>
+</ul>
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
