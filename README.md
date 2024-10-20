@@ -19,10 +19,10 @@
 <p>To run this project on your local machine:</p>
 <ol>
   <li>Clone the repository:</li>
-  <pre><code>git clone https://github.com/your-username/zotmarketplace.git</code></pre>
+  <pre><code>git clone https://github.com/tylerttrannn/EaterMarketplace.git</code></pre>
   
   <li>Navigate to the project directory:</li>
-  <pre><code>cd zotmarketplace</code></pre>
+  <pre><code>cd eatermarketplace</code></pre>
 
   <li>Install the dependencies:</li>
   <pre><code>npm install</code></pre>
@@ -38,7 +38,7 @@
 <ul>
   <li> Allow users to delete postings & add automatic deletion after 30 days </li>
   <li> Finetune UI design / overall feel </li>
-  <li>Enforce posting requiremnts (eg: user neeeds to select a cateogry) </li>
+  <li>Enforce posting requiremnts (eg: user needs to select a cateogry) </li>
   <li>Fix searching not working on deployed version  </li>
   <li>Fix timestamp conversion raising issues on TypeScript </li>
   <li>Fix posting images not loading via profile page </li>
