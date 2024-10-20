@@ -34,7 +34,7 @@ export const addToSaved = async (postID: string): Promise<boolean> => {
     const auth = getAuth();
     const user = auth.currentUser;
   
-    if(!user){
+    if (!user){
       return []
     }
   
@@ -85,7 +85,7 @@ export const addToSaved = async (postID: string): Promise<boolean> => {
   
       const user = {
         user : data.userName,
-        onlineStatus : data.lastLogin,
+        onlineStatus : data.lastLogin.toDate().toLocaleDateString(),
         photo : data.profilePic
       }
       
@@ -121,7 +121,7 @@ export const addToSaved = async (postID: string): Promise<boolean> => {
   
       const user = {
         user : data.userName,
-        onlineStatus : data.lastLogin,
+        onlineStatus : data.lastLogin.toDate().toLocaleDateString(),
         photo : data.profilePic
       }
       return user; 

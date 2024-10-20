@@ -52,7 +52,7 @@ function Profile() {
 
     if (listings){
       setallListings(listings);
-      console.log("fetched aved", listings);
+      console.log("all listings", listings);
     }
   }
 
@@ -68,7 +68,9 @@ function Profile() {
         <div className="flex flex-row space-x-4 items-center mt-8"> 
           <SellerCard
           user={user ? user.user : "Loading..."}
+          //onlineStatus= {user ? user.onlineStatus : "Loading..."}
           onlineStatus= {user ? user.onlineStatus : "Loading..."}
+
           photo = {user ? user.photo: "load"}          
           />
         </div>
@@ -97,7 +99,8 @@ function Profile() {
             key={listing.id} // This stays for React's internal use
             id={listing.id} // Add this line to pass the id as a prop
             itemTitle={listing.title}
-            itemImage={listing.image[0]}
+            //itemImage={listing.image}
+            itemImage = "https://bpb-us-e2.wpmucdn.com/sites.oit.uci.edu/dist/c/2/files/2022/07/R22_OIT_ProfessorAnteaterfortheOITHomepage_Icon_1000x1000.png"
             itemPrice={listing.price}
             />
           )))}
@@ -108,10 +111,13 @@ function Profile() {
             key={listing.id} // This stays for React's internal use
             id={listing.id} // Add this line to pass the id as a prop
             itemTitle={listing.title}
-            itemImage={listing.image ? listing.image[0] :"https://bpb-us-e2.wpmucdn.com/sites.oit.uci.edu/dist/c/2/files/2022/07/R22_OIT_ProfessorAnteaterfortheOITHomepage_Icon_1000x1000.png" }
+            // itemImage={listing.image ? listing.image[0] :"https://bpb-us-e2.wpmucdn.com/sites.oit.uci.edu/dist/c/2/files/2022/07/R22_OIT_ProfessorAnteaterfortheOITHomepage_Icon_1000x1000.png" }
+            itemImage = "https://bpb-us-e2.wpmucdn.com/sites.oit.uci.edu/dist/c/2/files/2022/07/R22_OIT_ProfessorAnteaterfortheOITHomepage_Icon_1000x1000.png"
+
             itemPrice={listing.price}
             />
           )))}
+
 
         </div>
       </div>
