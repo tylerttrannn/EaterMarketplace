@@ -13,6 +13,7 @@ import CategoryPage from './views/CategoryPage.tsx';
 import Profile from './views/Profile.tsx';
 import Settings from './views/Settings.tsx';
 import SearchListing from './views/SearchListing.tsx';
+import SearchComponent from './views/search.tsx';
 
 
 
@@ -78,8 +79,13 @@ const Router = createBrowserRouter([
     path: '/search/:query',  
     element: <SearchListing />,
     errorElement: <NotFoundPage />
-  }
+  },
 
+  {
+    path: '/test',  
+    element: <SearchComponent />,
+    errorElement: <NotFoundPage />
+  }
 ]);
 
 

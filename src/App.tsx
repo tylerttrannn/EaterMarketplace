@@ -6,7 +6,7 @@ function App() {
   const navigate = useNavigate();
   return (
     <div className = "min-h-screen bg-gray-50">
-
+      
       {/* header*/}
       <div className="flex justify-between items-center p-6 bg-white shadow-md">
         <div>

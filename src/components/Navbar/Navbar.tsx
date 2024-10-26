@@ -1,4 +1,3 @@
-import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
@@ -17,13 +16,12 @@ import { getAuth, onAuthStateChanged ,signOut} from "firebase/auth";
 import { useState } from "react";
 import { useEffect } from "react";
 import Unauthorized from "@/components/Unauthorized/Unauthorized";
-
+import SearchComponent from "@/views/search";
 
 
 function Navbar() {
     const navigate = useNavigate();
     const [authorized, setAuthorized] = useState(false);
-    const [searchQuery, setSearchQuery] = useState(""); 
     const auth = getAuth();
 
     useEffect(() => {
@@ -50,11 +48,6 @@ function Navbar() {
         navigate('/');
     }
 
-    function handleSearch(e: React.FormEvent<HTMLFormElement>) {
-      e.preventDefault(); // Prevent default form behavior 
-      window.location.href = `/search/${searchQuery}`;
-    }
-
     return (
         <div className="flex flex-col">
             <div className="flex flex-row justify-between items-center px-4 pt-2">
@@ -63,17 +56,8 @@ function Navbar() {
                     <h3 onClick = {()=> navigate('/dashboard')}>ZotMarketplace</h3>
                 </div>
 
-                {/* Centered search bar */}
-                <div className="flex-grow">
-                  <form onSubmit={handleSearch}>
-                    <Input
-                      type="search"
-                      placeholder="Search..."
-                      value={searchQuery} 
-                      onChange={(e) => setSearchQuery(e.target.value)} 
-                      className="w-full max-w-md mx-auto"
-                    />
-                  </form>
+                <div className="flex justify-center ">
+                  <SearchComponent></SearchComponent>
                 </div>
 
                 {/* Right-aligned buttons and avatar 
