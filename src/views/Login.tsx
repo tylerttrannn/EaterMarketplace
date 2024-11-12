@@ -13,6 +13,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer"
+import { toast } from "sonner";
 
 function Login() {
   const [user, setUser] = useState<User | null>(null);  // State to store user info
@@ -37,14 +38,21 @@ function Login() {
           return; 
         }
         // sucessfull login 
+        setTimeout(() => {
+          toast('Login Sucessful!');
+        });
+
         navigate('/dashboard');
 
 
       } else {
         console.error("Login failed: No user data returned.");
+        toast.error("Login failed: No user data returned."); 
+
       }
     } catch (error) {
       console.error("An error occurred during login:", error);
+      toast.error("An error occurred during login.");
     }
   }
 
@@ -52,7 +60,9 @@ function Login() {
     if (user){
       const answer = await updateUsername(user, username); 
       if (answer){
-        console.log("sucessful!");
+        setTimeout(() => {
+          toast('Login Sucessful!');
+        });
         navigate('/dashboard');
       }
     }

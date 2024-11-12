@@ -13,6 +13,7 @@ import CategoryPage from './views/CategoryPage.tsx';
 import Profile from './views/Profile.tsx';
 import Settings from './views/Settings.tsx';
 import SearchListing from './views/SearchListing.tsx';
+import { Toaster } from 'sonner';
 
 const Router = createBrowserRouter([
 
@@ -77,12 +78,12 @@ const Router = createBrowserRouter([
     element: <SearchListing />,
     errorElement: <NotFoundPage />
   },
-
 ]);
 
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    <Toaster />
     <RouterProvider router = {Router}/>
   </StrictMode>,
 )

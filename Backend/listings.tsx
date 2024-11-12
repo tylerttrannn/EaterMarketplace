@@ -5,7 +5,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { Listing } from '@/types/types';
 
 
-export const addListing = async (listingImages: (File | null)[], listingDescription : string , listingCategory : string, listingPrice: number, listingTitle: string): Promise<boolean> => {
+export const addListing = async (listingImages: (File | null)[], listingDescription : string , listingCategory : string, listingPrice: number, listingTitle: string): Promise<string | null> => {
   
     try{
 
@@ -30,7 +30,7 @@ export const addListing = async (listingImages: (File | null)[], listingDescript
           }
         }
 
-        await addDoc(collection(db, "posts"), {
+        const docRef = await addDoc(collection(db, "posts"), {
           uid: user.uid, 
           images: imageUrls,
           description: listingDescription,
@@ -41,17 +41,17 @@ export const addListing = async (listingImages: (File | null)[], listingDescript
         });
         
         console.log("item sucessfully added!");
-        return true; 
+        return docRef.id
       }
 
       console.error("User is not authenticated.");
-      return false; 
+      return null; 
   
     }
 
     catch(error){
       console.error("An error has occured trying to add an item", error); 
-      return false; 
+      return null; 
     }
 
 };

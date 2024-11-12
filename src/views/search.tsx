@@ -4,7 +4,6 @@ import { InstantSearch, SearchBox, useInstantSearch } from 'react-instantsearch'
 import typesenseSetup from '../../Backend/typsense';
 import { useHits } from 'react-instantsearch';
 import { useNavigate } from 'react-router-dom';
-import { Command, CommandInput, CommandList, CommandItem } from '@shadcn/ui';
 
 
 export interface HitItem {

@@ -15,6 +15,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 
 /*
@@ -41,12 +43,14 @@ function CreateListing() {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState(0);
 
+  const navigate = useNavigate();
+
   async function submitListing() {
     const result = await addListing(images,description,cateogry, price, title );  
-    if(result){
-      console.log("item added!");
+    if(result != null){
+      toast.success("Item Listing Created!");
+      navigate(`/listing/${result}`); 
     }
-    
   }
 
   function handleImageChange(event: React.ChangeEvent<HTMLInputElement>, index : number) {
