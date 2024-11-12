@@ -1,6 +1,6 @@
 import { db, storage } from './firebase';
 import { getAuth } from 'firebase/auth';
-import { doc, getDoc, addDoc, collection, query, where, getDocs, orderBy, limit, startAt, endAt } from 'firebase/firestore';
+import { doc, getDoc, addDoc, collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { Listing } from '@/types/types';
 
@@ -78,14 +78,12 @@ export const fetchDashboardListings = async () : Promise<Listing[]>  => {
         };
       });
       
-  
       return listings; 
     } catch(error){
       console.error("failed to retrieve the dashboard listings", error); 
       return [];
-      
+    
     }
-  
   };
 
   export const fetchUserListings = async (): Promise<Listing[]> => {
@@ -165,43 +163,23 @@ export const fetchSingleListing = async (listingID: string): Promise<Listing | n
 
 // for now this will only do essentialy exact queries and partial words 
 // looking at a solution for partial queries later 
-export const fetchQueryListing = async (queryText : string): Promise<Listing[]> =>{
-
+export const FetchQueryListing = async (typsenseListing: Listing[]): Promise<Listing[]> => {
   try {
-    const postsRef = collection(db, "posts");
-    const q = query(
-      postsRef,
-      orderBy("title"), // range query is from title 
-      startAt(queryText), // start at query text 
-      endAt(queryText + "\uf8ff"), // generic way to get partial search results 
-      limit(25) // Limit to 25 results
+    const answer = await Promise.all(
+      typsenseListing.map(async (listing) => {
+        return fetchSingleListing(listing.id); // This might return `Listing | null`
+      })
     );
 
-    const querySnapshot = await getDocs(q);
-
-    if (querySnapshot.empty){
-      console.log("no postings found for query", queryText);
-      return []
-    }
-
-    const postings = querySnapshot.docs.map((posting) => {
-      
-      const data = posting.data();
-      return {
-        id: posting.id,
-        uid: data.uid,
-        title: data.title,
-        image: data.images, 
-        price: data.price,
-        description: data.description,
-      }
-    });
-
-    return postings;
+    // Filter out null values
+    return answer.filter((item): item is Listing => item !== null);
+  } catch (error) {
+    console.error("An error occurred fetching the listings:", error);
+    return [];
   }
-  catch (error) {
-      console.error("An error occurred fetching the listings:", error);
-      return [];
-  }
-}
+};
+
+
+
+
   

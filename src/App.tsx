@@ -8,9 +8,9 @@ function App() {
     <div className = "min-h-screen bg-gray-50">
       
       {/* header*/}
-      <div className="flex justify-between items-center p-6 bg-white shadow-md">
+      <div className="flex justify-between items-center p-6 bg-white shadow-md ">
         <div>
-          <h1 className="text-3xl font-bold text-indigo-600">ZotMarketplace</h1>
+          <h1 className="text-3xl font-logo text-indigo-600">ZotMarketplace</h1>
           <div className="flex space-x-6 mt-2 text-gray-600">
             <h3 className="cursor-pointer hover:text-indigo-500">About</h3>
             <h3 className="cursor-pointer hover:text-indigo-500">Contact</h3>
@@ -27,7 +27,7 @@ function App() {
 
       {/* center content*/}
       <div className = "flex flex-col justify-center items-center py-20 space-y-6 bg-indigo-50 text-center">
-        <h1 className="text-4xl font-bold text-gray-800">
+        <h1 className="text-4xl font-logo text-gray-800">
             A Marketplace for Anteaters
           </h1>
           <Button className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-500"

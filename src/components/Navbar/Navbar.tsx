@@ -52,7 +52,7 @@ function Navbar() {
         <div className="flex flex-col">
             <div className="flex flex-row justify-between items-center px-4 pt-2">
                 {/* Left-aligned app name */}
-                <div className="flex-grow text-left">
+                <div className="flex-grow text-left font-logo">
                     <h3 onClick = {()=> navigate('/dashboard')}>ZotMarketplace</h3>
                 </div>
 

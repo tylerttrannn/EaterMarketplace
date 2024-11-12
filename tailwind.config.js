@@ -3,13 +3,11 @@
 export default {
 	darkMode: ["class"],
 	content: [
-		"./index.html",
-		"./src/**/*.{js,ts,jsx,tsx}",
-		"./node_modules/@shadcn/ui/**/*.js", 
-	  ],
-
-
-	  
+	  "./index.html",
+	  "./src/**/*.{js,ts,jsx,tsx}",
+	  "./node_modules/@shadcn/ui/**/*.js",
+	],
+  
 	theme: {
 	  extend: {
 		borderRadius: {
@@ -58,9 +56,14 @@ export default {
 			'4': 'hsl(var(--chart-4))',
 			'5': 'hsl(var(--chart-5))'
 		  }
-		}
+		},
+		fontFamily: {
+			sans: ['Raleway', 'sans-serif'],  // General font
+			logo: ['Lato', 'sans-serif'],  // Alternative for Libra Sans
+		},
 	  }
 	},
 	plugins: [require("tailwindcss-animate")],
   }
   
+
