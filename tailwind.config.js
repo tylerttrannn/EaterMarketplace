@@ -57,10 +57,7 @@ export default {
 			'5': 'hsl(var(--chart-5))'
 		  }
 		},
-		fontFamily: {
-			sans: ['Raleway', 'sans-serif'],  // General font
-			logo: ['Lato', 'sans-serif'],  // Alternative for Libra Sans
-		},
+
 	  }
 	},
 	plugins: [require("tailwindcss-animate")],

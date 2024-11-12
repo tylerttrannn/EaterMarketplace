@@ -12,7 +12,6 @@ function SearchListing() {
   const storedHits = location.state?.storedHits as Listing[]; 
 
 
-
   useEffect(() => {
     async function retrieveListings() {
       if (storedHits && storedHits.length > 0) {
