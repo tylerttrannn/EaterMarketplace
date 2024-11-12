@@ -39,19 +39,39 @@ The component re-renders, and the PhotoCard displays the updated image or placeh
 function CreateListing() {
   const [images, setImages] = useState<(File | null)[]>([null, null, null, null]); // this can accept both file and null types 
   const [description, setDescription] = useState("");
-  const [cateogry, setCategory] = useState("");
+  const [category, setCategory] = useState("");
   const [title, setTitle] = useState("");
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState("");
 
   const navigate = useNavigate();
 
+
+
   async function submitListing() {
-    const result = await addListing(images,description,cateogry, price, title );  
-    if(result != null){
+    const validationErrors = [
+      { condition: images.every(image => image === null), message: "Please Include at Least 1 Image" },
+      { condition: title === "", message: "Please include a title" },
+      { condition: description === "", message: "Please include a description" },
+      { condition: category === "", message: "Please select a category!" }
+    ];
+  
+    // see if any violation occurs
+    for (const { condition, message } of validationErrors) {
+      if (condition) {
+        toast.error(message);
+        return; 
+      }
+    }
+
+    const itemPrice = price === "" ? 0 : Number(price);
+  
+    const result = await addListing(images, description, category, itemPrice, title);
+    if (result != null) {
       toast.success("Item Listing Created!");
-      navigate(`/listing/${result}`); 
+      navigate(`/listing/${result}`);
     }
   }
+  
 
   function handleImageChange(event: React.ChangeEvent<HTMLInputElement>, index : number) {
     if (event.target.files){
@@ -67,6 +87,16 @@ function CreateListing() {
     }
 
   }
+
+  const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    
+    // Allow the value to be empty or numeric
+    if (value === "" || !isNaN(Number(value))) {
+      setPrice(value);
+    }
+  };
+
 
   const handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(event.target.value);
@@ -124,9 +154,9 @@ function CreateListing() {
           />
 
           <h1>Category</h1>
-          <Select value={cateogry} onValueChange={(value) => setCategory(value)}>
+          <Select value={category} onValueChange={(value) => setCategory(value)}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Theme" />
+              <SelectValue placeholder="Select a Theme" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="clothes">Clothes</SelectItem>
@@ -141,16 +171,14 @@ function CreateListing() {
           <div className="grid w-[180px] max-w-sm items-center gap-1.5">
             <Label htmlFor="price">Price</Label>
             <div className="flex items-center">
-            <Input
-              id="price"
-              type="number"
-              value={price}
-              onChange={(event) => setPrice(Number(event.target.value))}
-              placeholder="$0.00"
-              min="0.00" 
-              step="0.01" 
-              className="pr-8"
-            />
+              <Input
+                id="price"
+                type="text" // Use text type to allow empty string and numeric input
+                value={price}
+                onChange={handlePriceChange}
+                placeholder="$0.00"
+                className="pr-8"
+              />
             </div>
           </div>
 
