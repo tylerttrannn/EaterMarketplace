@@ -13,10 +13,33 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { useEffect, useState } from "react";
 import { Listing, SellerCardProps } from "@/types/types";
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+
+
+
+
 function ItemListing() {
   const [itemListing, setItemListing] = useState<Listing | null>(null);
   const [seller, setSeller] = useState<SellerCardProps | null>(null);
   const [active, setActive] = useState<string>("");
+  const [isPopupOpen, setIsPopupOpen] = useState(true); // State to manage popup visibility
   const { id } = useParams<{ id: string }>(); // id is possibly undefined, so useParams must be typed
 
   useEffect(() => {
@@ -53,6 +76,8 @@ function ItemListing() {
     return <div>Loading...</div>;
   }
 
+
+
   return (
     <div>
       <Navbar />
@@ -85,7 +110,20 @@ function ItemListing() {
 
         {/* Description container */}
         <div className="flex flex-col h-auto w-full sm:w-[400px] p-4">
+          <div className = "flex justify-end">
+            <DropdownMenu>
+              <DropdownMenuTrigger className="w-7">
+                <img src="/3dots.png" alt="More options" className = "w-7"/>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem>Edit</DropdownMenuItem>
+                <DropdownMenuItem onClick = {() => setIsPopupOpen(true)}>Delete</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+
           <div className="space-y-2 pb-2">
+      
             <h1>{itemListing.title}</h1>
             <h1>${itemListing.price}</h1>
           </div>
@@ -109,6 +147,21 @@ function ItemListing() {
           </div>
         </div>
       </div>
+      <AlertDialog>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete your account and remove your data from our servers.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={() => setIsPopupOpen(false)}>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={() => { /* Add delete action here */ setIsPopupOpen(false); }}>Continue</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+
     </div>
   );
 }

@@ -1,6 +1,13 @@
 import { Button } from "./components/ui/button";
-import { Card } from "./components/ui/card";
 import { useNavigate } from "react-router-dom";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 
 function App() {
@@ -38,11 +45,35 @@ function App() {
         </div>
 
         {/* cards*/}
-        <div className = "flex justify-center pt-10 ">
-          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 ">
-            <Card className = "w-64 h-64 shadow-lg"> card 1</Card>
-            <Card className = "w-64 h-64 shadow-lg"> card 2</Card>
-            <Card className = "w-64 h-64 shadow-lg"> card 3</Card>
+        <div className = "flex justify-center pt-10 ml-3 mr-3 ">
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 pb-14">
+
+          <Card className = "flex flex-col items-center">
+            <CardContent>
+            <img src="public/anteater1.png" alt="Descriptive alt text" className="w-full h-auto mb-4 mt-4" />
+            </CardContent>
+            <CardFooter>
+            <p className = "">Quickly List Items to Sell</p>
+            </CardFooter>
+          </Card>
+
+          <Card className = "flex flex-col items-center">
+            <CardContent>
+            <img src="public/anteater1.png" alt="Descriptive alt text" className="w-full h-auto mb-4 mt-4" />
+            </CardContent>
+            <CardFooter>
+            <p className = "">Easily Mesage Between Users and Sellers</p>
+            </CardFooter>
+          </Card>
+
+          <Card className = "flex flex-col items-center">
+            <CardContent>
+            <img src="public/anteater1.png" alt="Descriptive alt text" className="w-full h-auto mb-4 mt-4" />
+            </CardContent>
+            <CardFooter>
+            <p className = "">Buy and Sell with UCI Verified Users</p>
+            </CardFooter>
+          </Card>
           </div>
         </div>
 
