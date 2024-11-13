@@ -38,9 +38,10 @@
 <ul>
   <li> Allow users to delete postings & add automatic deletion after 30 days </li>
   <li> Finetune UI design / overall feel </li>
-  <li>Enforce posting requiremnts (eg: user needs to select a cateogry) </li>
-  <li>Fix searching not working on deployed version  </li>
-  <li>Fix timestamp conversion raising issues on TypeScript </li>
+  <li> Allow users to look at other people's profile 
+  <li> revamp messaging ui / weird issue where messages dont propagate in some cases </li>
+  <li> add item cards to the front </li>
+  <li> add theme colors / dark mode </li>
   <li>Fix posting images not loading via profile page </li>
 </ul>
 
