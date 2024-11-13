@@ -82,7 +82,7 @@ function Login() {
       {/* Right side */}
       <div className="w-1/2 bg-white flex flex-col">
         <div className="w-full flex justify-end p-4">
-          <Button variant="outline">Home</Button>
+          <Button variant="outline" onClick = {() => navigate('/')}>Home</Button>
         </div>
 
         <div className="w-full flex justify-center items-center flex-grow">

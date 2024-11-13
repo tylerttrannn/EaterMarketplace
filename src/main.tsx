@@ -14,6 +14,8 @@ import Profile from './views/Profile.tsx';
 import Settings from './views/Settings.tsx';
 import SearchListing from './views/SearchListing.tsx';
 import { Toaster } from 'sonner';
+import About from './views/About.tsx';
+import Contact from './views/Contact.tsx';
 
 const Router = createBrowserRouter([
 
@@ -78,6 +80,16 @@ const Router = createBrowserRouter([
     element: <SearchListing />,
     errorElement: <NotFoundPage />
   },
+  {
+    path: '/about',  
+    element: <About />,
+    errorElement: <NotFoundPage />
+  }, 
+  {
+    path: '/contact',  
+    element: <Contact />,
+    errorElement: <NotFoundPage />
+  }, 
 ]);
 
 
