@@ -100,7 +100,7 @@ const Router = createBrowserRouter([
   }, 
 
   {
-    path: '/edit',  
+    path: '/edit/:id',  
     element: <Edit />,
     errorElement: <NotFoundPage />
   }, 

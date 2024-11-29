@@ -151,6 +151,7 @@ export const fetchSingleListing = async (listingID: string): Promise<Listing | n
       image: data.images, // All images for the carousel
       price: data.price,
       description: data.description,
+      category: data.category,
     };
 
     return listing;
