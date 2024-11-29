@@ -18,7 +18,7 @@ function App() {
           <h1 className="text-3xl font-logo cursor-pointer text-indigo-600  hover:text-black"  onClick = {() => navigate('/')}>ZotMarketplace</h1>
           <div className="flex space-x-6 mt-2 text-gray-600">
               <h3 className="cursor-pointer hover:text-indigo-500" onClick = {() => navigate('/about')}>About</h3>
-              <h3 className="cursor-pointer hover:text-indigo-500">Contact</h3>
+              <h3 className="cursor-pointer hover:text-indigo-500" onClick = {() => navigate('/contact')}>Contact</h3>
             </div>
           </div>
           <div>

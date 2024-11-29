@@ -1,24 +1,35 @@
 import {
-    Card,
-    CardHeader,
-    CardTitle,
-  } from "@/components/ui/card";
-
+  Card,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 import { ItemCardProps } from "@/types/types";
 import { useNavigate } from "react-router-dom";
 
-  
-function ItemCard({ id, itemTitle, itemPrice, itemImage }: ItemCardProps) {
+interface ExtendedItemCardProps extends ItemCardProps {
+  actionType?: "open" | "edit";  
+}
+
+function ItemCard({ id, itemTitle, itemPrice, itemImage, actionType = "open" }: ExtendedItemCardProps) {
   const navigate = useNavigate();
 
   function openListing() {
     navigate(`/listing/${id}`);
   }
 
+  function editListing() {
+    navigate(`/edit/${id}`);
+  }
+
+  const handleClick = actionType === "edit" ? editListing : openListing;
+
   return (
     <div>
-      <Card className="relative w-[260px] h-[260px] overflow-hidden rounded-none" onClick={() => openListing()}>
+      <Card
+        className="relative w-[260px] h-[260px] overflow-hidden rounded-none"
+        onClick={handleClick}
+      >
         {itemImage ? (
           <img src={itemImage} className="w-full h-full object-cover" alt={itemTitle} />
         ) : (

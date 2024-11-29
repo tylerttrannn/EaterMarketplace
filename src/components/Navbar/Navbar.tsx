@@ -80,8 +80,7 @@ function Navbar() {
                             <DropdownMenuItem onClick = {()=> navigate('/profile')}>Profile</DropdownMenuItem>
                             <DropdownMenuItem onClick = {()=> navigate('/settings')}>Settings</DropdownMenuItem>
                             <DropdownMenuItem onClick = {()=> navigate('/inbox')}>Inbox</DropdownMenuItem>
-
-
+                            <DropdownMenuItem onClick = {()=> navigate('/manage')}>Listings</DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onClick = {() => logout() }>Logout</DropdownMenuItem>
                         </DropdownMenuContent>
