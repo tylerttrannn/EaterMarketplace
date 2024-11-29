@@ -15,9 +15,24 @@ import {
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useNavigate, useParams } from "react-router-dom";
-import { doc, updateDoc } from "firebase/firestore";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../Backend/firebase";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
+
+
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+
+
 
 function Edit() {
     const [description, setDescription] = useState("");
@@ -27,6 +42,7 @@ function Edit() {
     const [pid, setPid] = useState("");
     const [images, setImages] = useState<string[]>([]);
     const [currentUser, setCurrentUser] = useState<User>();
+    const [showDialog, setShowDialog] = useState(false);
 
     const auth = getAuth();
     const navigate = useNavigate();
@@ -78,6 +94,27 @@ function Edit() {
         retrieveListing();
         }
     }, [currentUser]);
+
+    async function deleteListing() {
+
+        if (!currentUser || currentUser.uid !== pid) {
+            toast.error("You are not authorized to delete this listing.");
+            return;
+        }
+
+        try {
+            const docRef = doc(db, "posts", id!);
+            await deleteDoc(docRef);
+
+            toast.success("Listing Sucessfully Deleted!");
+            navigate(`/dashboard`);
+        } 
+        catch (error) {
+            toast.error("Failed to delete the listing");
+            console.error(error);
+        }
+
+     }
 
     async function submitListing() {
         if (!currentUser || currentUser.uid !== pid) {
@@ -195,10 +232,25 @@ function Edit() {
             </div>
   
           <div className="flex justify-end w-full max-w-2xl space-x-2">
-            <Button variant="outline" onClick = {() => console.log("delete")}>Delete</Button>
+            <Button variant="outline" onClick = {() => setShowDialog(true)}>Delete</Button>
             <Button variant="outline" onClick = {() => submitListing()}>Submit</Button>
           </div>
-  
+
+          <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
+            <AlertDialogContent>
+            <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete your
+                listing and remove it from our servers.
+                </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+                <AlertDialogCancel onClick={() => setShowDialog(false)}>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={() => deleteListing()}>Continue</AlertDialogAction>
+            </AlertDialogFooter>
+            </AlertDialogContent>
+            </AlertDialog>
           </div>
         </div>
       </div>
