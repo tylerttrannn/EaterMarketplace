@@ -1,11 +1,11 @@
 import Navbar from "@/components/Navbar/Navbar";
 import { fetchUserListings} from "../../Backend/listings"
 import { useEffect, useState } from "react";
-import { Listing } from "@/types/types";
+import { ItemCardProps } from "@/types/types";
 import ItemCard from "@/components/ItemCard/ItemCard";
 
 function Manage(){
-    const [allListings, setallListings] = useState<Listing[]>([]);
+    const [allListings, setallListings] = useState<ItemCardProps[]>([]);
 
     const [isFetched, setIsFetched] = useState(false);
 
@@ -46,9 +46,9 @@ function Manage(){
                         <div key={listing.id}>
                             <ItemCard
                             id={listing.id}
-                            itemTitle={listing.title}
-                            itemImage={listing.image} // Ensure it's a string
-                            itemPrice={listing.price}
+                            itemTitle={listing.itemTitle}
+                            itemImage={listing.itemImage} // Ensure it's a string
+                            itemPrice={listing.itemPrice}
                             actionType="edit"
                             />
                         </div>

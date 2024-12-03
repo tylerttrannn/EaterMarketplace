@@ -5,7 +5,7 @@ import ItemCard from "@/components/ItemCard/ItemCard";
 import { fetchUserListings} from "../../Backend/listings"
 
 import { grabUserSaved, grabUserInfo} from "../../Backend/user"
-import { Listing } from "@/types/types";
+import { ItemCardProps } from "@/types/types";
 import SellerCard from "@/components/SellerCard/SellerCard";
 import { SellerCardProps } from "@/types/types";
 
@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 function Profile() {
 
   const [showSelling, setShowSelling] = useState(true); // Default to selling items
-  const [allListings, setallListings] = useState<Listing[]>([]);
+  const [allListings, setallListings] = useState<ItemCardProps[]>([]);
   const [user, setUser] = useState<SellerCardProps>();
 
   useEffect(() => {
@@ -98,10 +98,9 @@ function Profile() {
             <ItemCard
             key={listing.id} // This stays for React's internal use
             id={listing.id} // Add this line to pass the id as a prop
-            itemTitle={listing.title}
-            //itemImage={listing.image}
-            itemImage = {listing.image}
-            itemPrice={listing.price}
+            itemTitle={listing.itemTitle}
+            itemImage = {listing.itemImage}
+            itemPrice={listing.itemPrice}
             />
           )))}
 
@@ -110,11 +109,10 @@ function Profile() {
             <ItemCard
             key={listing.id} // This stays for React's internal use
             id={listing.id} // Add this line to pass the id as a prop
-            itemTitle={listing.title}
+            itemTitle={listing.itemTitle}
             // itemImage={listing.image ? listing.image[0] :"https://bpb-us-e2.wpmucdn.com/sites.oit.uci.edu/dist/c/2/files/2022/07/R22_OIT_ProfessorAnteaterfortheOITHomepage_Icon_1000x1000.png" }
-            itemImage = {listing.image}
-
-            itemPrice={listing.price}
+            itemImage = {listing.itemImage}
+            itemPrice={listing.itemPrice}
             />
           )))}
 

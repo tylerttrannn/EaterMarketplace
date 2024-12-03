@@ -1,7 +1,7 @@
 import { db } from './firebase';
 import { getAuth } from 'firebase/auth';
 import { doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore';
-import { Listing, SellerCardProps } from '../src/types/types'
+import { ItemCardProps, SellerCardProps } from '../src/types/types'
 import { fetchSingleListing } from './listings';
 
 
@@ -30,15 +30,15 @@ export const addToSaved = async (postID: string): Promise<boolean> => {
   };
   
   
-  export const grabUserSaved = async () :Promise<Listing[]> => {
+  export const grabUserSaved = async (): Promise<ItemCardProps[]> => {
     const auth = getAuth();
     const user = auth.currentUser;
   
-    if (!user){
-      return []
+    if (!user) {
+      return [];
     }
   
-    try{
+    try {
       const userRef = doc(db, "users", user.uid);
       const userSnap = await getDoc(userRef);
   
@@ -60,16 +60,27 @@ export const addToSaved = async (postID: string): Promise<boolean> => {
       );
   
       const listings = await Promise.all(fetchSavedListings);
-      return listings.filter((listing) => listing !== null) as Listing[];
+      
+      // map out all of the saved listings 
+      const itemCardPropsListings = listings
+        .filter((listing) => listing !== null) 
+        .map((listing) => {
+          return {
+            id: listing.id,
+            itemTitle: listing.title,
+            itemPrice: listing.price,
+            itemImage: Array.isArray(listing.image) && listing.image.length > 0 ? listing.image[0] : "", 
+          };
+        });
   
+      return itemCardPropsListings;
+  
+    } catch (error) {
+      console.error("There was an error fetching the saved listings", error);
+      return [];
     }
+  };
   
-    catch(error){
-      console.error("there was an error that occured fetching the saved listings", error);
-      return []; 
-    }
-  
-  }
   
   export const grabSellerInfo = async (sellerID: string) : Promise<SellerCardProps | null> => {
   

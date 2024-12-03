@@ -2,7 +2,7 @@ import { db, storage } from './firebase';
 import { getAuth } from 'firebase/auth';
 import { doc, getDoc, addDoc, collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { Listing } from '@/types/types';
+import { ItemCardProps, Listing } from '@/types/types';
 
 
 export const addListing = async (listingImages: (File | null)[], listingDescription : string , listingCategory : string, listingPrice: number, listingTitle: string): Promise<string | null> => {
@@ -86,7 +86,7 @@ export const fetchDashboardListings = async () : Promise<Listing[]>  => {
     }
   };
 
-  export const fetchUserListings = async (): Promise<Listing[]> => {
+  export const fetchUserListings = async (): Promise<ItemCardProps[]> => {
     const auth = getAuth();
     const user = auth.currentUser;
   
@@ -107,22 +107,18 @@ export const fetchDashboardListings = async () : Promise<Listing[]>  => {
         console.log("No listings found for this user.");
         return [];
       }
-
-      
+  
       const listings = querySnapshot.docs.map((doc) => {
         const data = doc.data();
         return {
           id: doc.id,
-          uid: data.uid,
-          title: data.title,
-          image: Array.isArray(data.images) && data.images.length > 0 ? data.images[0] : "", 
-          price: data.price,
-          description: data.description,
+          itemTitle: data.title,
+          itemPrice: data.price,
+          itemImage: Array.isArray(data.images) && data.images.length > 0 ? data.images[0] : "", 
         };
       });
-      
-      
-
+  
+      console.log("Processed listings:", listings);
       console.log("Fetched listings:", listings);
       return listings;
     } catch (error) {
@@ -130,7 +126,7 @@ export const fetchDashboardListings = async () : Promise<Listing[]>  => {
       return [];
     }
   };
-
+  
 
 
 export const fetchSingleListing = async (listingID: string): Promise<Listing | null> => {
