@@ -73,20 +73,31 @@ function CreateListing() {
   }
   
 
-  function handleImageChange(event: React.ChangeEvent<HTMLInputElement>, index : number) {
-    if (event.target.files){
+  function handleImageChange(event: React.ChangeEvent<HTMLInputElement>, index: number) {
+    if (event.target.files) {
       const file = event.target.files[0];
+      
+      // simple limit for now 
+      const maxSize = 5 * 1024 * 1024; 
+      const minSize = .2 * 1024 * 1024; 
 
-      // Create a copy of the images array
+      if (file.size < minSize) {
+        toast.error("Image size needs to be larger");
+        return;
+      }
+  
+      if (file.size > maxSize) {
+        toast.error("File size exceeds the 5MB limit.");
+        return;
+      }
+  
       const newImages = [...images];
-      // Update the image at the specific index
       newImages[index] = file;
-
-      // Update the state with the new array
+  
       setImages(newImages);
     }
-
   }
+  
 
   const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
