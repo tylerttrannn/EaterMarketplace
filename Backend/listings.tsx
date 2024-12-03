@@ -107,20 +107,22 @@ export const fetchDashboardListings = async () : Promise<Listing[]>  => {
         console.log("No listings found for this user.");
         return [];
       }
-  
+
+      
       const listings = querySnapshot.docs.map((doc) => {
         const data = doc.data();
         return {
           id: doc.id,
           uid: data.uid,
           title: data.title,
-          image: data.images && data.images.length > 0 ? data.images[0] : null,
+          image: Array.isArray(data.images) && data.images.length > 0 ? data.images[0] : "", 
           price: data.price,
           description: data.description,
         };
       });
       
-  
+      
+
       console.log("Fetched listings:", listings);
       return listings;
     } catch (error) {

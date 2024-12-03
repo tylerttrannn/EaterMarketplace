@@ -178,9 +178,8 @@ function Edit() {
         <Navbar />
         <div className="flex flex-col items-center justify-center w-full gap-6 pt-5">
           {/* list item headings */}
-          <h1 className = "text-3xl ">Edit Your Item</h1>
-  
-  
+          <h1 className = "text-3xl">Edit Your Item</h1>
+
           {/* description section */}
           <div className="flex flex-col justify-left items-left gap-4 w-full max-w-2xl">
   
