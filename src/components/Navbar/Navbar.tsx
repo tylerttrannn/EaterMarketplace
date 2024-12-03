@@ -17,13 +17,25 @@ import { useState } from "react";
 import { useEffect } from "react";
 import Unauthorized from "@/components/Unauthorized/Unauthorized";
 import SearchComponent from "@/views/search";
+import { grabProfilePic } from "../../../Backend/user";
 
 
 function Navbar() {
     const navigate = useNavigate();
     const [authorized, setAuthorized] = useState(false);
+    const [ProfilePic, setProfilePic] = useState("");
     const auth = getAuth();
 
+    async function fetchUserInfo(){
+      const userInfo = await grabProfilePic();
+      if (userInfo){
+        setProfilePic(userInfo);
+      }
+    }
+    useEffect(() => {
+      fetchUserInfo();
+    }, []); 
+  
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
           if (user) {
@@ -69,7 +81,7 @@ function Navbar() {
                     <DropdownMenu>
                         <DropdownMenuTrigger>
                                 <Avatar>
-                                    <AvatarImage src="https://bpb-us-e2.wpmucdn.com/sites.oit.uci.edu/dist/c/2/files/2022/07/R22_OIT_ProfessorAnteaterfortheOITHomepage_Icon_1000x1000.png" />
+                                    <AvatarImage src={ProfilePic}/>
                                     <AvatarFallback>CN</AvatarFallback>
                                 </Avatar>
                             
@@ -78,7 +90,6 @@ function Navbar() {
                             <DropdownMenuLabel>My Account</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onClick = {()=> navigate('/profile')}>Profile</DropdownMenuItem>
-                            <DropdownMenuItem onClick = {()=> navigate('/settings')}>Settings</DropdownMenuItem>
                             <DropdownMenuItem onClick = {()=> navigate('/inbox')}>Inbox</DropdownMenuItem>
                             <DropdownMenuItem onClick = {()=> navigate('/manage')}>Listings</DropdownMenuItem>
                             <DropdownMenuSeparator />

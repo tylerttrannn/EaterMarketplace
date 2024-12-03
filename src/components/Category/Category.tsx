@@ -17,9 +17,9 @@ function Category() {
         <div className="flex justify-center items-center space-x-2 px-4 pt-2 ">
 
             {/* These buttons will always be visible regardless of screen size */}
-            <Button variant="outline" onClick={() => navigate('/category/clothes')}>Clothes</Button>
-            <Button variant="outline" onClick={() => navigate('/category/electronics')}>Electronics</Button>
-            <Button variant="outline" onClick={() => navigate('/category/furniture')}>Furniture</Button>
+            <Button variant="outline" onClick={() => navigate('/category/Clothes')}>Clothes</Button>
+            <Button variant="outline" onClick={() => navigate('/category/Electronics')}>Electronics</Button>
+            <Button variant="outline" onClick={() => navigate('/category/Furniture')}>Furniture</Button>
 
             <DropdownMenu>
             {/* using asChild to avoid button the component rendering a button nesting 
@@ -28,19 +28,19 @@ function Category() {
                 <Button variant="outline" className = " md:hidden">More</Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => navigate('/category/services')}>Services</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate('/category/other')}>Other</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate('/category/free')}>Free</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate('/category/requests')}>Requests</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate('/category/Services')}>Services</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate('/category/Other')}>Other</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate('/category/Free')}>Free</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate('/category/Requests')}>Requests</DropdownMenuItem>
             </DropdownMenuContent>
             </DropdownMenu>
 
             {/* Will hide these options when the screen size gets smaller */}
             <div className="hidden md:flex space-x-2">
-            <Button variant="outline" onClick={() => navigate('/category/services')}>Services</Button>
-            <Button variant="outline" onClick={() => navigate('/category/other')}>Other</Button>
-            <Button variant="outline" onClick={() => navigate('/category/free')}>Free</Button>
-            <Button variant="outline" onClick={() => navigate('/category/requests')}>Requests</Button>
+            <Button variant="outline" onClick={() => navigate('/category/Services')}>Services</Button>
+            <Button variant="outline" onClick={() => navigate('/category/Other')}>Other</Button>
+            <Button variant="outline" onClick={() => navigate('/category/Free')}>Free</Button>
+            <Button variant="outline" onClick={() => navigate('/category/Requests')}>Requests</Button>
             </div>
         </div>
         <Separator className="mt-2" />

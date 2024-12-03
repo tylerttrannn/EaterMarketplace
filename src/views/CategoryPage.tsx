@@ -21,7 +21,6 @@ function CategoryPage() {
       const allListings = await fetchCategoryListings(category!);
       if (allListings) {
         setListing(allListings);
-        console.log("listings are", listings);
       }
     }
 
