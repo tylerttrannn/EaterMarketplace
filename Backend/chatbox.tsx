@@ -3,6 +3,7 @@ import { db } from './firebase';
 import { getAuth } from 'firebase/auth';
 import { addDoc, collection, doc, getDoc,  getDocs,  onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { grabSellerInfo } from './user';
+import { toast } from 'sonner';
 
 
 function generateConversationId(userId1 :string , userId2:string) {
@@ -29,7 +30,8 @@ export const createConversation = async (sellerId: string): Promise<boolean> => 
 
     // dont create a conversation 
     if (!querySnapshot.empty) {
-      console.log('Conversation already exists');
+      toast.error("Conversation already exists!");
+
       return false; 
     }
 

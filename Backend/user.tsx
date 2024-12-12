@@ -3,6 +3,7 @@ import { getAuth } from 'firebase/auth';
 import { doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { ItemCardProps, SellerCardProps } from '../src/types/types'
 import { fetchSingleListing } from './listings';
+import { toast } from 'sonner';
 
 
 export const addToSaved = async (postID: string): Promise<boolean> => {
@@ -20,11 +21,12 @@ export const addToSaved = async (postID: string): Promise<boolean> => {
         saved: arrayUnion(postID) // adding postID to the array 
       });
   
-      console.log("Post successfully added to saved.");
+      toast.success("Item Added to Saved!");
       return true;
   
     } catch (error) {
       console.error("Could not add the post to saved", error);
+      toast.error("Could not add the post to saved");
       return false; 
     }
   };

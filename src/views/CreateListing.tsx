@@ -51,7 +51,9 @@ function CreateListing() {
     const validationErrors = [
       { condition: images.every(image => image === null), message: "Please Include at Least 1 Image" },
       { condition: title === "", message: "Please include a title" },
+      { condition: title.length > 100, message : "Please keep you title less than 100 characters"},
       { condition: description === "", message: "Please include a description" },
+      { condition: description.length > 200, message : "Please shorten your description "},
       { condition: category === "", message: "Please select a category!" }
     ];
   
