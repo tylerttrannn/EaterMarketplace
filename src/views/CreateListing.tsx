@@ -66,8 +66,15 @@ function CreateListing() {
     }
 
     const itemPrice = price === "" ? 0 : Number(price);
+
+    function removeZalgo(text : string) {
+      return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
   
-    const result = await addListing(images, description, category, itemPrice, title);
+    const sanitizedTitle = removeZalgo(title);
+    const sanitizedDescription = removeZalgo(description);
+
+    const result = await addListing(images, sanitizedDescription, category, itemPrice, sanitizedTitle);
     if (result != null) {
       toast.success("Item Listing Created!");
       navigate(`/listing/${result}`);

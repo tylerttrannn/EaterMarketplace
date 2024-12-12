@@ -13,13 +13,6 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { useEffect, useState } from "react";
 import { Listing, SellerCardProps } from "@/types/types";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-
 
 
 function ItemListing() {
@@ -96,17 +89,7 @@ function ItemListing() {
 
         {/* Description container */}
         <div className="flex flex-col h-auto w-full sm:w-[400px] p-4">
-          <div className = "flex justify-end">
-            <DropdownMenu>
-              <DropdownMenuTrigger className="w-7">
-                <img src="/3dots.png" alt="More options" className = "w-7"/>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem>Edit</DropdownMenuItem>
-                <DropdownMenuItem>Delete</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+
 
           <div className="space-y-2 pb-2">
       

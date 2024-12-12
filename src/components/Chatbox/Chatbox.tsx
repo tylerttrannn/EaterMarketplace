@@ -8,6 +8,8 @@ import { getAuth } from 'firebase/auth';
 import { Button } from '../ui/button';
 import ChatboxNavbar from './chatboxNavbar';
 import Navbar from '../Navbar/Navbar';
+import { toast } from "sonner";
+
 
 function Chatbox() {
   const [conversation, setConversation] = useState<Message[]>([]);
@@ -40,7 +42,18 @@ function Chatbox() {
 
   const handleSendMessage = () => {
     if (text.trim() === '') return; // to disallow empty inputs 
-    sendMessage(text, conversationID);
+
+    if (text.length > 200){
+      toast.error("Message is too long to send")
+      return; 
+    }
+
+    function removeZalgo(text : string) {
+      return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+  
+    const sanitizedText = removeZalgo(text);
+    sendMessage(sanitizedText, conversationID);
     setText(''); // clearing the input
   };
 

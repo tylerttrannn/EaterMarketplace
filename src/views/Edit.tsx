@@ -212,11 +212,11 @@ function Edit() {
                 <SelectValue placeholder="Select a Theme" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="clothes">Clothes</SelectItem>
-                <SelectItem value="electronics">Electronics</SelectItem>
-                <SelectItem value="furniture">Furniture</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
-                <SelectItem value="free">Free</SelectItem>
+                <SelectItem value="Clothes">Clothes</SelectItem>
+                <SelectItem value="Electronics">Electronics</SelectItem>
+                <SelectItem value="Furniture">Furniture</SelectItem>
+                <SelectItem value="Other">Other</SelectItem>
+                <SelectItem value="Free">Free</SelectItem>
               </SelectContent>
             </Select>
   
