@@ -122,9 +122,11 @@ function Edit() {
             return;
         }
 
-        function isNormalCharacter(text:string) {
-          return /^[\x20-\x7E]*$/.test(text); // Ensures only printable ASCII characters
+        function isNormalCharacter(text: string) {
+          console.log("not normal text");
+          return /^[\x20-\x7E\n\r]*$/.test(text);
         }
+        
       
         const validationErrors = [
           { condition: title === "", message: "Please include a title" },

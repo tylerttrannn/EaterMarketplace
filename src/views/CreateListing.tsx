@@ -50,7 +50,9 @@ function CreateListing() {
   async function submitListing() {
 
     function isNormalCharacter(text: string) {
-      return /^[\x20-\x7E]*$/.test(text);
+      console.log("not normal text");
+
+      return /^[\x20-\x7E\n\r]*$/.test(text);
     }
 
     const validationErrors = [
@@ -73,19 +75,13 @@ function CreateListing() {
     }
 
     const itemPrice = price === "" ? 0 : Number(price);
+    const result = await addListing(images, description, category, itemPrice, title);
 
-
-    const sanitizedTitle = isNormalCharacter(title);
-    const sanitizedDescription = isNormalCharacter(description);
-
-    if(sanitizedTitle && sanitizedDescription){
-      const result = await addListing(images, description, category, itemPrice, title);
-
-      if (result != null) {
-        toast.success("Item Listing Created!");
-        navigate(`/listing/${result}`);
-      }
+    if (result != null) {
+      toast.success("Item Listing Created!");
+      navigate(`/listing/${result}`);
     }
+  
 
     toast.error("Please use the standard ASCII Characters");
     return; 
