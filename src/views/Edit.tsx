@@ -122,17 +122,20 @@ function Edit() {
             return;
         }
 
+        function isNormalCharacter(text:string) {
+          return /^[\x20-\x7E]*$/.test(text); // Ensures only printable ASCII characters
+        }
+      
         const validationErrors = [
-            { condition: title === "", message: "Please include a title" },
-            { condition: title.length > 100, message : "Please keep you title less than 100 characters"},
-            { condition: description === "", message: "Please include a description" },
-            { condition: description.length > 200, message : "Please shorten your description "},
-            { condition: category === "", message: "Please select a category!" },
+          { condition: title === "", message: "Please include a title" },
+          { condition: title.length > 50, message: "Please keep your title under 50 characters" },
+          { condition: !isNormalCharacter(title), message: "Please use only printable ASCII characters in the title" },
+          { condition: description === "", message: "Please include a description" },
+          { condition: !isNormalCharacter(description), message: "Please use only printable ASCII characters in the description" },
+          { condition: description.length > 200, message: "Please shorten your description" },
+          { condition: category === "", message: "Please select a category!" },
         ];
-
-
-
-
+        
         for (const { condition, message } of validationErrors) {
             if (condition) {
                 toast.error(message);
@@ -151,6 +154,8 @@ function Edit() {
                 category,
                 images,
             });
+
+
 
             toast.success("Item Listing Updated!");
             navigate(`/listing/${id}`);

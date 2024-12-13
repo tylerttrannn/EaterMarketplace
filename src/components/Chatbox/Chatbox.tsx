@@ -39,6 +39,9 @@ function Chatbox() {
   function updateconvo(id: string) {
     setConversationID(id);
   }
+  function isNormalCharacter(text: string) {
+    return /^[\x20-\x7E]*$/.test(text);
+  }
 
   const handleSendMessage = () => {
     if (text.trim() === '') return; // to disallow empty inputs 
@@ -47,13 +50,12 @@ function Chatbox() {
       toast.error("Message is too long to send")
       return; 
     }
+    if (!isNormalCharacter(text)){
+      toast.error("Please use normal Characters")
+      return; 
 
-    function removeZalgo(text : string) {
-      return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     }
-  
-    const sanitizedText = removeZalgo(text);
-    sendMessage(sanitizedText, conversationID);
+    sendMessage(text, conversationID);
     setText(''); // clearing the input
   };
 
