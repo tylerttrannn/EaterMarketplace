@@ -57,35 +57,44 @@ function App() {
   return (
     <div>
       {/* header*/}
-      <div className = "flex flex-row place-content-evenly bg-stone-100 pb-2 pt-2 ">
+      <div className="sticky top-0 z-50 bg-stone-100 shadow-m mb-8">
+        <div className="max-w-[1000px] mx-auto grid grid-cols-3 items-center px-4 py-2">
+          {/* Logo (Left) */}
+          <div className="flex justify-start">
+            <h1 className="font-sans text-[14px] font-medium normal-case">ZotMarketplace</h1>
+          </div>
 
-        {/* logo container */}
-        <div className = "flex flex-row items-center justify-center space-x-4">
-          <h1> ZotMarketplace</h1>
+          {/* Center Nav Links */}
+          <div className="flex justify-center space-x-4 text-[#525252]">
+            <h1 className="font-sans text-[14px] font-medium normal-case">Features</h1>
+            <h1 className="font-sans text-[14px] font-medium normal-case">Contact</h1>
+            <h1 className="font-sans text-[14px] font-medium normal-case">FAQ</h1>
+          </div>
+
+          {/* Login (Right) */}
+          <div className="flex justify-end">
+            <Button onClick={() => navigate('/login')} className="text-[14px] font-medium normal-case">Login</Button>
+          </div>
         </div>
-
-        {/* middle */}
-        <div className= "flex flex-row items-center justify-center space-x-4">
-          <h1> Features</h1>
-          <h1> Contact</h1>
-        </div>
-
-        <Button onClick = {() => navigate('/login')}> Login</Button>
       </div>
 
-      <div className="flex-col justify-center items-center px-4 mb-4 bg-[#FFFFFF] pt-10 pb-10">
-        <div className="text-7xl text-center font-normal text-neutral-600 dark:text-neutral-400">
+
+
+      <div className="flex-col justify-center items-center px-4 mb-4 bg-[#FFFFFF] pt-16 pb-10">
+        <div className="text-7xl text-center text-neutral-600 dark:text-neutral-400 text-[#374151]" style={{ fontWeight: 525 }}>          
           List your 
-          <FlipWords className = "px-4" words={words} /> <br />
+          <FlipWords className = "px-4 " words={words} /> <br />
           items with ZotMarketplace
         </div>
 
+
+
         {/* mini text section */}
-        <div className = "text-2xl text-neutral-500 dark:text-neutral-400 justify-center text-center mt-4 mb-4">
+        <div className = "text-1xl text-neutral-500 dark:text-neutral-400 justify-center text-center mt-4 mb-4 text-[#4B5563]">
           <h1> Simplifying the way Anteaters buy and sell items </h1>
         </div>
 
-        <div className = "justify-center text-center mt-4 mb-4"> 
+        <div className = "justify-center text-center mt-4 pb-16"> 
           <Button> Get Started Today</Button>
         </div>
 
@@ -103,7 +112,7 @@ function App() {
         </div>
 
 
-        <BentoGrid className="max-w-4xl mx-auto md:auto-rows-[20rem]">
+        <BentoGrid className="max-w-6xl mx-auto md:auto-rows-[20rem]">
           {items.map((item, i) => (
             <BentoGridItem
               key={i}
