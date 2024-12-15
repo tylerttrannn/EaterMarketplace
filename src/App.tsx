@@ -10,6 +10,7 @@ import {
   IconSignature,
   IconTableColumn,
 } from "@tabler/icons-react";
+import { useState } from "react";
 
 const words = ["clothing", "furniture", "electronic", "textbook"];
 
@@ -53,37 +54,116 @@ const items = [
 
 function App() {
   const navigate = useNavigate();
+  const [hamburger, setHamburger] = useState<boolean>(false);
 
   return (
     <div>
       {/* header*/}
       <div className="sticky top-0 z-50 bg-stone-100 shadow-m mb-8">
-        <div className="max-w-[1000px] mx-auto grid grid-cols-3 items-center px-4 py-2">
-          {/* Logo (Left) */}
-          <div className="flex justify-start">
-            <h1 className="font-sans text-[14px] font-medium normal-case">ZotMarketplace</h1>
-          </div>
+        <div className="max-w-[1000px] mx-auto flex justify-between items-center px-4 py-2">
+          {/* Logo */}
+          <h1 className="font-sans text-[14px] font-medium normal-case">ZotMarketplace</h1>
 
-          {/* Center Nav Links */}
-          <div className="flex justify-center space-x-4 text-[#525252]">
+{/* Mobile Menu */}
+<div className="md:hidden">
+  <button
+    className="text-gray-500 focus:outline-none focus:text-gray-700"
+    aria-label="toggle menu"
+    onClick={() => setHamburger(!hamburger)}
+  >
+    ☰
+  </button>
+</div>
+
+      {/* Hamburger Menu 
+
+          z-50 puts makes it so that it overlaps the top, fixed makes sure it only stays in that spot 
+          inset-0 makes it so that it stretches over the entire viewport (screen)
+      
+      */}
+        <div
+          className={`fixed inset-0 z-50 bg-white shadow-lg transform transition-all duration-300 ease-in-out ${
+            hamburger ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
+          }`}
+        >
+        <div className="p-4">
+          <button
+            className="text-gray-500 focus:outline-none focus:text-gray-700 mb-4"
+            aria-label="close menu"
+            onClick={() => setHamburger(false)}
+          >
+            ✕
+          </button>
+          <ul className="space-y-4">
+            <li>
+              <button
+                onClick={() => {
+                  setHamburger(false);
+                  navigate("/features");
+                }}
+                className="text-lg font-medium"
+              >
+                Features
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => {
+                  setHamburger(false);
+                  navigate("/contact");
+                }}
+                className="text-lg font-medium"
+              >
+                Contact
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => {
+                  setHamburger(false);
+                  navigate("/faq");
+                }}
+                className="text-lg font-medium"
+              >
+                FAQ
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => {
+                  setHamburger(false);
+                  navigate("/login");
+                }}
+                className="text-lg font-medium"
+              >
+                Login
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+
+  
+          {/* Links */}
+          <div className="hidden md:flex space-x-4 text-[#525252]">
             <h1 className="font-sans text-[14px] font-medium normal-case">Features</h1>
             <h1 className="font-sans text-[14px] font-medium normal-case">Contact</h1>
             <h1 className="font-sans text-[14px] font-medium normal-case">FAQ</h1>
           </div>
 
-          {/* Login (Right) */}
-          <div className="flex justify-end">
-            <Button onClick={() => navigate('/login')} className="text-[14px] font-medium normal-case">Login</Button>
-          </div>
+          {/* Login */}
+          <Button onClick={() => navigate('/login')} className="hidden md:inline-block text-[14px]">
+            Login
+          </Button>
         </div>
       </div>
 
 
-
       <div className="flex-col justify-center items-center px-4 mb-4 bg-[#FFFFFF] pt-16 pb-10">
-        <div className="text-7xl text-center text-neutral-600 dark:text-neutral-400 text-[#374151]" style={{ fontWeight: 525 }}>          
+      <div className="text-center text-neutral-600 dark:text-neutral-400 text-[#374151] text-4xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl" style={{ fontWeight: 525 }}>
           List your 
-          <FlipWords className = "px-4 " words={words} /> <br />
+          <FlipWords className = "px-3" words={words} /> <br />
           items with ZotMarketplace
         </div>
 
@@ -100,19 +180,21 @@ function App() {
 
         {/* image*/}
         <div className= "flex justify-center">
-          <img src={testImage} alt="Example" className="border-4 w-4/6 rounded-3xl " />
+          <img src={testImage} alt="Example" className="border-4 w-6/6 md:w-5/6 lg:w-4/6 rounded-3xl " />
         </div>
       </div>
 
 
 
       <div className="flex-col justify-center items-center px-4 pb-4 bg-[#F4F4F4] ">
-        <div className = "flex flex-col justify-center items-center pt-5 pb-5">
-          <h1 className = " text-4xl">Made for Anteaters, by Anteaters</h1>
+        <div className = "flex flex-col justify-center items-center pt-8 pb-8 text-neutral-600 dark:text-neutral-400 text-[#374151]" style={{ fontWeight: 525 }}>
+          <h1 className = " text-2xl md:text-3xl lg:text-4xl">Made for Anteaters, by Anteaters</h1>
         </div>
 
 
-        <BentoGrid className="max-w-6xl mx-auto md:auto-rows-[20rem]">
+
+
+        <BentoGrid className="max-w-4xl mx-auto md:auto-rows-[20rem] pb-16">
           {items.map((item, i) => (
             <BentoGridItem
               key={i}
@@ -124,6 +206,7 @@ function App() {
             />
           ))}
         </BentoGrid>
+
 
       </div>
 
