@@ -40,9 +40,8 @@
   <li> Finetune UI design / overall feel </li>
   <li> Allow users to look at other people's profile 
   <li> revamp messaging ui / weird issue where messages dont propagate in some cases </li>
-  <li> add item cards to the front </li>
-  <li> add theme colors / dark mode </li>
-  <li>Fix posting images not loading via profile page </li>
+  <li> add theme colors / dark mode </li
+  <li> fix all views for mobile devices </li>
 </ul>
 
 
