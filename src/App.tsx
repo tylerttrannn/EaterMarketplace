@@ -64,19 +64,18 @@ function App() {
           {/* Logo */}
           <h1 className="font-sans text-[14px] font-medium normal-case">ZotMarketplace</h1>
 
-{/* Mobile Menu */}
-<div className="md:hidden">
-  <button
-    className="text-gray-500 focus:outline-none focus:text-gray-700"
-    aria-label="toggle menu"
-    onClick={() => setHamburger(!hamburger)}
-  >
-    ☰
-  </button>
-</div>
+        {/* Mobile Menu */}
+        <div className="md:hidden">
+          <button
+            className="text-gray-500 focus:outline-none focus:text-gray-700"
+            aria-label="toggle menu"
+            onClick={() => setHamburger(!hamburger)}
+          >
+            ☰
+          </button>
+        </div>
 
       {/* Hamburger Menu 
-
           z-50 puts makes it so that it overlaps the top, fixed makes sure it only stays in that spot 
           inset-0 makes it so that it stretches over the entire viewport (screen)
       
@@ -159,14 +158,12 @@ function App() {
         </div>
       </div>
 
-
       <div className="flex-col justify-center items-center px-4 mb-4 bg-[#FFFFFF] pt-16 pb-10">
       <div className="text-center text-neutral-600 dark:text-neutral-400 text-[#374151] text-4xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl" style={{ fontWeight: 525 }}>
           List your 
           <FlipWords className = "px-3" words={words} /> <br />
           items with ZotMarketplace
         </div>
-
 
 
         {/* mini text section */}

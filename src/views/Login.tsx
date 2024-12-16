@@ -1,10 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { GoogleLogin, updateUsername } from "../../Backend/auth"; 
+import { GoogleLogin, updateUsername } from "../../Backend/auth";
 import { useState } from "react";
-import { User } from 'firebase/auth'; 
+import { User } from "firebase/auth";
 import { Input } from "@/components/ui/input";
-import { useNavigate } from "react-router-dom";
-
 import {
   Drawer,
   DrawerContent,
@@ -12,111 +10,113 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-} from "@/components/ui/drawer"
+} from "@/components/ui/drawer";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { toast } from "sonner";
+import Anteater from "../assets/anteater.png";
+import { Separator } from "@radix-ui/react-separator";
 
 function Login() {
-  const [user, setUser] = useState<User | null>(null);  // State to store user info
-  const [isUsernameEmpty, setIsUsernameEmpty] = useState(false);  
-  const [username, setUsername] = useState(''); 
-  const [drawer, setDrawer] = useState(false); 
+  const [user, setUser] = useState<User | null>(null);
+  const [isUsernameEmpty, setIsUsernameEmpty] = useState(false);
+  const [username, setUsername] = useState("");
+  const [drawer, setDrawer] = useState(false);
 
-  const navigate = useNavigate(); 
-
-  async function handleLogin() {
+  const handleLogin = async () => {
     try {
-      const result = await GoogleLogin();  
+      const result = await GoogleLogin();
 
-      // check if result exsits before setting user 
-      if (result && result.user) {
-        setUser(result.user); 
-        setIsUsernameEmpty(result.isUsernameEmpty);  
+      if (result?.user) {
+        setUser(result.user);
+        setIsUsernameEmpty(result.isUsernameEmpty);
 
-        if (result.isUsernameEmpty){
-          console.log("it is empty");
-          setDrawer(true)
-          return; 
+        if (result.isUsernameEmpty) {
+          setDrawer(true);
+          return;
         }
-        // sucessfull login 
-        setTimeout(() => {
-          toast('Login Sucessful!');
-        });
 
-        navigate('/dashboard');
-
-
+        toast("Login Successful!");
       } else {
-        console.error("Login failed: No user data returned.");
-        toast.error("Login failed: No user data returned."); 
-
+        toast.error("Login failed: No user data returned.");
       }
     } catch (error) {
-      console.error("An error occurred during login:", error);
       toast.error("An error occurred during login.");
+      console.error("Login error:", error);
     }
-  }
+  };
 
-  async function handleUsernameSubmit(){
-    if (user){
-      const answer = await updateUsername(user, username); 
-      if (answer){
-        setTimeout(() => {
-          toast('Login Sucessful!');
-        });
-        navigate('/dashboard');
+  const handleUsernameSubmit = async () => {
+    if (user) {
+      const success = await updateUsername(user, username);
+      if (success) {
+        toast("Username updated successfully!");
       }
     }
-
     setDrawer(false);
-    return; 
-  }
+  };
 
   return (
-    <div className="flex min-h-screen">
-      {/* Left side */}
-      <div className="w-1/2 bg-gray-900">
-        <div>Logo</div>
-        <h1>Left side</h1>
-      </div>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
+      <Card className="max-w-md w-full shadow-md">
+        <CardHeader>
+          <CardTitle>Login with your UCI Email!</CardTitle>
+          <CardDescription>
+            Currently, this app is only available for current Anteaters. If you'd
+            like to request access for your school, send a request here.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <img src={Anteater} alt="Anteater" className="mx-auto mb-4 max-w-[150px]" />
+          <Separator />
+          <Button className="w-full mt-4" onClick={handleLogin}>
+            Login with Google
+          </Button>
+        </CardContent>
+        <CardFooter>
+          <p className="text-sm text-gray-500 text-center">
+            By logging in, you agree to our terms and conditions.
+          </p>
+        </CardFooter>
+      </Card>
 
-      {/* Right side */}
-      <div className="w-1/2 bg-white flex flex-col">
-        <div className="w-full flex justify-end p-4">
-          <Button variant="outline" onClick = {() => navigate('/')}>Home</Button>
-        </div>
-
-        <div className="w-full flex justify-center items-center flex-grow">
-          <div className="w-3/4 flex flex-col">
-            <Button onClick={handleLogin}> 
-              Login with your UCI account!
-            </Button>
-
-            {/* will conditionally show in the case the username is empty on inital setup  */}
-            {isUsernameEmpty && (
-              <div>
-                <Drawer open={drawer}>
-                  <DrawerContent  >
-                    <DrawerHeader>
-                      <DrawerTitle>Set your username!</DrawerTitle>
-                      <DrawerDescription>Type in a username below</DrawerDescription>
-                      <Input 
-                      value={username} 
-                      onChange={(e) => setUsername(e.target.value)} 
-                      placeholder="Enter your username" 
-                    />
-                    </DrawerHeader>
-                    <DrawerFooter>
-                      <Button onClick = {() => handleUsernameSubmit()}>Submit</Button>
-                      <Button variant="outline" onClick = { () => setDrawer(false)}>Cancel</Button>
-                    </DrawerFooter>
-                  </DrawerContent>
-                </Drawer>
-              </div>
-            )}
-
-          </div>
-        </div>
-      </div>
+      {/* Drawer for Username Input */}
+      {isUsernameEmpty && (
+        <Drawer open={drawer} onOpenChange={setDrawer}>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Set Your Username</DrawerTitle>
+              <DrawerDescription>Enter a username to complete your profile</DrawerDescription>
+            </DrawerHeader>
+            <div className="px-6">
+              <Input
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Enter your username"
+                className="mb-4"
+              />
+            </div>
+            <DrawerFooter className="px-6">
+              <Button className="w-full" onClick={handleUsernameSubmit}>
+                Submit
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full mt-2"
+                onClick={() => setDrawer(false)}
+              >
+                Cancel
+              </Button>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      )}
     </div>
   );
 }

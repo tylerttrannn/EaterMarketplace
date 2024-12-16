@@ -19,6 +19,8 @@ import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 
 
+
+
 /*
 
 note to myself becuase the listners were confusing me for a
@@ -80,9 +82,9 @@ function CreateListing() {
     if (result != null) {
       toast.success("Item Listing Created!");
       navigate(`/listing/${result}`);
+      return;
     }
   
-
     toast.error("Please use the standard ASCII Characters");
     return; 
   }
@@ -93,8 +95,8 @@ function CreateListing() {
       const file = event.target.files[0];
       
       // simple limit for now 
-      const maxSize = 5 * 1024 * 1024; 
-      const minSize = .2 * 1024 * 1024; 
+      const maxSize = 10 * 1024 * 1024; 
+      const minSize = .05 * 1024 * 1024; 
 
       if (file.size < minSize) {
         toast.error("Image size needs to be larger");
@@ -122,7 +124,6 @@ function CreateListing() {
       setPrice(value);
     }
   };
-
 
   const handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(event.target.value);
@@ -211,6 +212,7 @@ function CreateListing() {
         <div className="flex justify-end w-full max-w-2xl">
             <Button variant="outline" onClick = {() => submitListing()}>Submit</Button>
         </div>
+
 
         </div>
       </div>
