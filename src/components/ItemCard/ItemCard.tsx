@@ -39,10 +39,22 @@ function ItemCard({ id, itemTitle, itemPrice, itemImage, actionType = "open" }: 
         )}
       </Card>
 
-      <CardHeader className="flex flex-row justify-between items-center">
-        {itemTitle && <CardTitle className="text-lg">{itemTitle}</CardTitle>}
-        {itemPrice && <CardTitle className="text-md">${itemPrice}</CardTitle>}
+      <CardHeader className="flex flex-row items-center justify-between gap-2">
+        {itemTitle && itemPrice && (
+          <CardTitle className="text-base leading-none w-full">
+            <div className="mb-2 font-bold truncate w-full">
+              ${itemPrice}
+            </div>
+
+            <div className="font-normal truncate w-full">
+              {itemTitle}
+            </div>
+          </CardTitle>
+        )}
       </CardHeader>
+
+
+
     </div>
   );
 }

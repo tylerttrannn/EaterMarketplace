@@ -58,15 +58,28 @@ function CreateListing() {
     }
 
     const validationErrors = [
-      { condition: images.every(image => image === null), message: "Please Include at Least 1 Image" },
+      // Image Validation
+      { condition: images.every(image => image === null), message: "Please include at least 1 image" },
+      
+      // Title Validations
       { condition: title === "", message: "Please include a title" },
-      { condition: !isNormalCharacter(title), message :  "Please use only normal Characters"},
-      { condition: title.length > 50, message : "Please keep you title less than 100 characters"},
+      { condition: !isNormalCharacter(title), message: "Please use only normal characters in the title" },
+      { condition: title.length > 50, message: "Please keep your title less than 50 characters" },
+    
+      // Description Validations
       { condition: description === "", message: "Please include a description" },
-      { condition: description.length > 200, message : "Please shorten your description "},
-      { condition: !isNormalCharacter(description), message :  "Please use only normal Characters"},
+      { condition: description.length > 200, message: "Please shorten your description to under 200 characters" },
+      { condition: !isNormalCharacter(description), message: "Please use only normal characters in the description" },
+    
+      // Price Validations
+      { condition: price === "", message: "Please include a price" },
+      { condition: isNaN(Number(price)), message: "Please enter a valid number for the price" },
+      { condition: price.length > 8, message: "Please keep the price less than 8 digits" },
+    
+      // Category Validation
       { condition: category === "", message: "Please select a category!" }
     ];
+    
   
     // see if any violation occurs
     for (const { condition, message } of validationErrors) {

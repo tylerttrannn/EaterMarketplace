@@ -22,12 +22,14 @@ import {
 import { toast } from "sonner";
 import Anteater from "../assets/anteater.png";
 import { Separator } from "@radix-ui/react-separator";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [user, setUser] = useState<User | null>(null);
   const [isUsernameEmpty, setIsUsernameEmpty] = useState(false);
   const [username, setUsername] = useState("");
   const [drawer, setDrawer] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
@@ -41,8 +43,8 @@ function Login() {
           setDrawer(true);
           return;
         }
-
         toast("Login Successful!");
+        navigate('/dashboard');
       } else {
         toast.error("Login failed: No user data returned.");
       }
@@ -57,6 +59,8 @@ function Login() {
       const success = await updateUsername(user, username);
       if (success) {
         toast("Username updated successfully!");
+        navigate('/dashboard');
+
       }
     }
     setDrawer(false);
@@ -122,3 +126,4 @@ function Login() {
 }
 
 export default Login;
+
