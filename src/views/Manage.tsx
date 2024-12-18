@@ -37,8 +37,8 @@ function Manage(){
             <Navbar/>
             <div> 
                 <div className ="flex flex-col justify-center items-center pt-4">
-                    <h1 className =  "text-5xl font-bold"> Manage Your Listings </h1>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-center mt-8"> 
+                    <h1 className =  "text-2xl sm:text-3xl md:text-4xl font-bold"> Manage Your Listings </h1>
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-center mt-8"> 
                     {allListings &&
                     allListings.map((listing) => {
                         // Debug log for the image being passed                        

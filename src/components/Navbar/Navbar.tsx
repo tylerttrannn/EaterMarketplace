@@ -69,7 +69,7 @@ function Navbar() {
     }
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full">
             <div className="flex flex-row justify-between items-center px-4 pt-2">
                 {/* Left-aligned app name */}
                 <div className="flex-grow text-left font-logo flex-row">

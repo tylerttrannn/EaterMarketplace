@@ -147,9 +147,9 @@ function CreateListing() {
   };
   
   return (
-    <div>
-      <Navbar />
-      <div className="flex flex-col items-center justify-center w-full gap-6 pt-5">
+    <div className = "flex flex-col items-center">
+      <Navbar/>
+      <div className="flex flex-col items-center justify-center w-3/4 gap-6 pt-5">
         {/* list item headings */}
         <h1 className = "text-3xl ">List an Item</h1>
 
@@ -159,18 +159,16 @@ function CreateListing() {
         </div>
 
         {/* 4 photo carousel */}
-        <div className="flex justify-center gap-4 w-full max-w-2xl">
-          {/* simply providing the image to the component for  it to render which we intially set when 
-            we did onImageChange for image ={image} */}
-          {images.map((image, index) => ( 
+        <div className="grid grid-cols-2 gap-8 justify-center items-center max-w-2xl">
+          {images.map((image, index) => (
             <PhotoCard
               key={index}
               image={image}
               onImageChange={(event: React.ChangeEvent<HTMLInputElement>) => handleImageChange(event, index)}
             />
-
-           ))} 
+          ))}
         </div>
+
 
         {/* description section */}
         <div className="flex flex-col justify-left items-left gap-4 w-full max-w-2xl">

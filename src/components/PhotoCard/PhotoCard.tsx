@@ -36,7 +36,7 @@ function PhotoCard({ image, onImageChange } : PhotoCardProps) {
   }, [image]);
 
   return (
-    <div className="w-[230px] h-[230px]">
+    <div className="w-[180px] h-[180px] lg:w-[210px] h-[210px] ">
       <label htmlFor={inputId} className="cursor-pointer">
         <Card className="hover:bg-gray-100 w-full h-full flex items-center justify-center border border-gray-300">
           <CardContent className="flex items-center justify-center p-0">

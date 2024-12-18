@@ -91,9 +91,8 @@ function Profile() {
           </Toggle>
         </div>
 
-
         {/* listing content */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-center mt-8"> 
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-center mt-8"> 
           {showSelling && (allListings.map((listing) =>(
             <ItemCard
             key={listing.id} // This stays for React's internal use
