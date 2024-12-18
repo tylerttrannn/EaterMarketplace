@@ -51,6 +51,43 @@ export const createConversation = async (sellerId: string): Promise<boolean> => 
 };
 
 
+export const getIDs = async (conversationID: string): Promise<string[] | null> => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  if (!user) {
+    console.error('User is not authenticated!');
+    return null;
+  }
+
+  try {
+    // Get the document for the specific conversationID
+    const conversationDocRef = doc(collection(db, 'conversations'), conversationID);
+    const conversationDoc = await getDoc(conversationDocRef);
+
+    if (!conversationDoc.exists()) {
+      console.log('No conversation found for the given ID');
+      return [];
+    }
+
+    const conversationData = conversationDoc.data();
+
+    if (!conversationData || !conversationData.participants) {
+      console.log('Participants field is missing in the conversation document');
+      return [];
+    }
+
+    const participantIds: string[] = conversationData.participants;
+
+    return participantIds;
+  } catch (error) {
+    console.error('Could not retrieve conversation participants', error);
+    return null;
+  }
+};
+
+
+
 export const sendMessage = async (message: string, conversationID: string ): Promise<boolean> => {
 
     const auth = getAuth();
