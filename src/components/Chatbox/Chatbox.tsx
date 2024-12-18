@@ -9,6 +9,7 @@ import { Button } from '../ui/button';
 import ChatboxNavbar from './chatboxNavbar';
 import Navbar from '../Navbar/Navbar';
 import { toast } from "sonner";
+import ChatboxHeader from './chatboxHeader';
 
 
 function Chatbox() {
@@ -69,29 +70,36 @@ function Chatbox() {
   return (
     <div className="flex flex-col h-screen">
       <Navbar />
+
       <div className="flex flex-row flex-1 overflow-hidden">
         {/* Navbar section */}
         <ChatboxNavbar updateconvo={updateconvo} />
         {/* Chatbox section */}
         <div className="flex flex-col flex-1">
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto">
-            <ChatMessageList>
-              {conversation.map((message) => (
-                <ChatBubble
-                  key={message.id}
-                  variant={message.messengerID === currentUserID ? 'sent' : 'received'}
-                >
-                  <ChatBubbleAvatar fallback="US" />
-                  <ChatBubbleMessage
+          <div className="flex-1 overflow-y-auto max-w-full overflow-x-hidden">
+            <ChatboxHeader conversationID= {conversationID}></ChatboxHeader>
+            <div className="w-full px-4">
+
+              <ChatMessageList>
+                {conversation.map((message) => (
+                  <ChatBubble
+                    key={message.id}
                     variant={message.messengerID === currentUserID ? 'sent' : 'received'}
                   >
-                    {message.msg}
-                  </ChatBubbleMessage>
-                </ChatBubble>
-              ))}
-            </ChatMessageList>
+                    <ChatBubbleAvatar fallback="US" />
+                    <ChatBubbleMessage 
+                      variant={message.messengerID === currentUserID ? 'sent' : 'received'}
+                    >
+                      {message.msg}
+                    </ChatBubbleMessage>
+                  </ChatBubble>
+                ))}
+              </ChatMessageList>
+            </div>
+
           </div>
+          
           {/* Input */}
           <div className="flex items-center space-x-4 p-4">
             <ChatInput

@@ -30,11 +30,11 @@ function ChatboxHeader({ conversationID } : ChatboxHeaderProps ) {
   }, [conversationID]);
 
   if (!seller) {
-    return <h1> test</h1>; 
+    return <h1></h1>; 
   }
 
   return (
-    <div className="flex flex-col space-y-4">
+    <div className="flex flex-col space-y-4 sticky top-0 z-50 bg-white ">
       <div className="flex flex-row items-center space-x-4 ml-4 mt-4">
         <div>
           <Avatar>
@@ -45,7 +45,7 @@ function ChatboxHeader({ conversationID } : ChatboxHeaderProps ) {
 
         <div className="flex flex-col">
           <h1>{seller.user}</h1>
-          <p className="text-xs">{seller.onlineStatus}</p>
+          <p className="text-xs">Last Online: {seller.onlineStatus}</p>
         </div>
       </div>
 
