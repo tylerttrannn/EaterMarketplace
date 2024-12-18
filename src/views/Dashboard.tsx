@@ -21,7 +21,6 @@ function Dashboard() {
   }, []);
   
 
-
   async function retrieveListings() {
     const allListings = await fetchDashboardListings();
     if (allListings) {

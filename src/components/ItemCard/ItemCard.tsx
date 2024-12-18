@@ -53,10 +53,9 @@ function ItemCard({ id, itemTitle, itemPrice, itemImage, actionType = "open" }: 
         )}
       </CardHeader>
 
-
-
     </div>
   );
 }
 
 export default ItemCard;
+ 

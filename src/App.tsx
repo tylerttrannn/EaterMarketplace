@@ -3,6 +3,7 @@ import { Button } from "./components/ui/button";
 import { FlipWords } from "./components/ui/flip-words";
 import testImage from "./assets/test.png";
 import { BentoGrid, BentoGridItem } from "./components/ui/bento-grid";
+import HamburgerMenu from "./components/Hamburger/Hamburger";
 
 import {
   IconClipboardCopy,
@@ -75,86 +76,23 @@ function App() {
           </button>
         </div>
 
-      {/* Hamburger Menu 
-          z-50 puts makes it so that it overlaps the top, fixed makes sure it only stays in that spot 
-          inset-0 makes it so that it stretches over the entire viewport (screen)
-      
-      */}
-        <div
-          className={`fixed inset-0 z-50 bg-white shadow-lg transform transition-all duration-300 ease-in-out ${
-            hamburger ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
-          }`}
-        >
-        <div className="p-4">
-          <button
-            className="text-gray-500 focus:outline-none focus:text-gray-700 mb-4"
-            aria-label="close menu"
-            onClick={() => setHamburger(false)}
-          >
-            ✕
-          </button>
-          <ul className="space-y-4">
-            <li>
-              <button
-                onClick={() => {
-                  setHamburger(false);
-                  navigate("/features");
-                }}
-                className="text-lg font-medium"
-              >
-                Features
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => {
-                  setHamburger(false);
-                  navigate("/contact");
-                }}
-                className="text-lg font-medium"
-              >
-                Contact
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => {
-                  setHamburger(false);
-                  navigate("/faq");
-                }}
-                className="text-lg font-medium"
-              >
-                FAQ
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => {
-                  setHamburger(false);
-                  navigate("/login");
-                }}
-                className="text-lg font-medium"
-              >
-                Login
-              </button>
-            </li>
-          </ul>
+        <HamburgerMenu
+            hamburger={hamburger}
+            setHamburger={setHamburger}
+            navigate={navigate}
+        />
+
+        {/* Links */}
+        <div className="hidden md:flex space-x-4 text-[#525252]">
+          <h1 className="font-sans text-[14px] font-medium normal-case">Features</h1>
+          <h1 className="font-sans text-[14px] font-medium normal-case">Contact</h1>
+          <h1 className="font-sans text-[14px] font-medium normal-case">FAQ</h1>
         </div>
-      </div>
 
-
-  
-          {/* Links */}
-          <div className="hidden md:flex space-x-4 text-[#525252]">
-            <h1 className="font-sans text-[14px] font-medium normal-case">Features</h1>
-            <h1 className="font-sans text-[14px] font-medium normal-case">Contact</h1>
-            <h1 className="font-sans text-[14px] font-medium normal-case">FAQ</h1>
-          </div>
-
-          {/* Login */}
-          <Button onClick={() => navigate('/login')} className="hidden md:inline-block text-[14px]">
-            Login
-          </Button>
+        {/* Login */}
+        <Button onClick={() => navigate('/login')} className="hidden md:inline-block text-[14px]">
+          Login
+        </Button>
         </div>
       </div>
 

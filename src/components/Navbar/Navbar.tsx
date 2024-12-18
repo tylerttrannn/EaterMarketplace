@@ -64,11 +64,15 @@ function Navbar() {
         <div className="flex flex-col">
             <div className="flex flex-row justify-between items-center px-4 pt-2">
                 {/* Left-aligned app name */}
-                <div className="flex-grow text-left font-logo">
+                <div className="flex-grow text-left font-logo flex-row">
+                    <div>
+                      ☰
+                    </div>
                     <h3 onClick = {()=> navigate('/dashboard')}>ZotMarketplace</h3>
                 </div>
 
-                <div className="flex justify-center ">
+
+                <div className="hidden sm:flex justify-center">
                   <SearchComponent></SearchComponent>
                 </div>
 
@@ -76,6 +80,7 @@ function Navbar() {
                 mx-auto centers a container
                 */}
                 <div className="flex-grow flex justify-end items-center space-x-2 sm:space-x-4">
+                    <Button variant="outline" onClick = {() => navigate('/create')}>Search</Button>
                     <Button variant="outline" onClick = {() => navigate('/create')}>Sell Now</Button>
 
                     <DropdownMenu>
