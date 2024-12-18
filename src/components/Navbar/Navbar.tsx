@@ -11,6 +11,13 @@ import {
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
 
+  import {
+    Sheet,
+    SheetContent,
+    SheetTitle,
+    SheetTrigger,
+  } from "@/components/ui/sheet"
+  
 
 import { getAuth, onAuthStateChanged ,signOut} from "firebase/auth";
 import { useState } from "react";
@@ -25,6 +32,7 @@ function Navbar() {
     const [authorized, setAuthorized] = useState(false);
     const [ProfilePic, setProfilePic] = useState("");
     const auth = getAuth();
+
 
     async function fetchUserInfo(){
       const userInfo = await grabProfilePic();
@@ -65,13 +73,23 @@ function Navbar() {
             <div className="flex flex-row justify-between items-center px-4 pt-2">
                 {/* Left-aligned app name */}
                 <div className="flex-grow text-left font-logo flex-row">
-                    <div>
-                      ☰
+                    <div className = "flex flex-row space-x-4">
+                      <Sheet>
+                        <SheetTrigger className = "sm:hidden">☰</SheetTrigger>
+                        <SheetContent side = {"left"} >
+                          <div className = "space-y-4">
+                            <SheetTitle className="hover:text-blue-500 cursor-pointer" onClick = {() => navigate('/search')}>Search </SheetTitle>
+                            <SheetTitle className="hover:text-blue-500 cursor-pointer" onClick = {() => navigate('/create')}>Sell Now </SheetTitle>
+                            <SheetTitle className="hover:text-blue-500 cursor-pointer" onClick = {() => navigate('/profile')}>Profile</SheetTitle>
+                            <SheetTitle  className="hover:text-blue-500 cursor-pointer" onClick = {() => navigate('/settings')}>Settings</SheetTitle>
+                          </div>
+                        </SheetContent>
+                      </Sheet>
+
+                      <h3 onClick = {()=> navigate('/dashboard')}>ZotMarketplace</h3>
                     </div>
-                    <h3 onClick = {()=> navigate('/dashboard')}>ZotMarketplace</h3>
                 </div>
-
-
+                
                 <div className="hidden sm:flex justify-center">
                   <SearchComponent></SearchComponent>
                 </div>
@@ -80,8 +98,7 @@ function Navbar() {
                 mx-auto centers a container
                 */}
                 <div className="flex-grow flex justify-end items-center space-x-2 sm:space-x-4">
-                    <Button variant="outline" onClick = {() => navigate('/create')}>Search</Button>
-                    <Button variant="outline" onClick = {() => navigate('/create')}>Sell Now</Button>
+                    <Button className = "hidden sm:flex "variant="outline" onClick = {() => navigate('/create')}>Sell Now</Button>
 
                     <DropdownMenu>
                         <DropdownMenuTrigger>

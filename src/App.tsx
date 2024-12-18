@@ -3,7 +3,6 @@ import { Button } from "./components/ui/button";
 import { FlipWords } from "./components/ui/flip-words";
 import testImage from "./assets/test.png";
 import { BentoGrid, BentoGridItem } from "./components/ui/bento-grid";
-import HamburgerMenu from "./components/Hamburger/Hamburger";
 
 import {
   IconClipboardCopy,
@@ -11,7 +10,7 @@ import {
   IconSignature,
   IconTableColumn,
 } from "@tabler/icons-react";
-import { useState } from "react";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "./components/ui/sheet";
 
 const words = ["clothing", "furniture", "electronic", "textbook"];
 
@@ -55,7 +54,6 @@ const items = [
 
 function App() {
   const navigate = useNavigate();
-  const [hamburger, setHamburger] = useState<boolean>(false);
 
   return (
     <div>
@@ -67,21 +65,20 @@ function App() {
 
         {/* Mobile Menu */}
         <div className="md:hidden">
-          <button
-            className="text-gray-500 focus:outline-none focus:text-gray-700"
-            aria-label="toggle menu"
-            onClick={() => setHamburger(!hamburger)}
-          >
-            ☰
-          </button>
+          <Sheet>
+            <SheetTrigger>☰</SheetTrigger>
+            <SheetContent side = {"right"} >
+              <div className = "space-y-4">
+                <SheetTitle className="hover:text-blue-500 cursor-pointer" onClick = {() => navigate('/login')}>Login </SheetTitle>
+                <SheetTitle className="hover:text-blue-500 cursor-pointer" onClick = {() => navigate('/features')}>Features</SheetTitle>
+                <SheetTitle className="hover:text-blue-500 cursor-pointer" onClick = {() => navigate('/about')}>About</SheetTitle>
+                <SheetTitle  className="hover:text-blue-500 cursor-pointer" onClick = {() => navigate('/contact')}>Contact</SheetTitle>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
 
-        <HamburgerMenu
-            hamburger={hamburger}
-            setHamburger={setHamburger}
-            navigate={navigate}
-        />
-
+  
         {/* Links */}
         <div className="hidden md:flex space-x-4 text-[#525252]">
           <h1 className="font-sans text-[14px] font-medium normal-case">Features</h1>
@@ -127,8 +124,6 @@ function App() {
         </div>
 
 
-
-
         <BentoGrid className="max-w-4xl mx-auto md:auto-rows-[20rem] pb-16">
           {items.map((item, i) => (
             <BentoGridItem
@@ -141,10 +136,7 @@ function App() {
             />
           ))}
         </BentoGrid>
-
-
       </div>
-
 
 
       {/* */ }

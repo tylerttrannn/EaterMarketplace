@@ -18,6 +18,7 @@ import About from './views/About.tsx';
 import Contact from './views/Contact.tsx';
 import Manage from './views/Manage.tsx';
 import Edit from './views/Edit.tsx';
+import Search from './components/Search/search.tsx';
 
 const Router = createBrowserRouter([
 
@@ -75,6 +76,13 @@ const Router = createBrowserRouter([
     path: '/settings',  
     element: <Settings />,
     errorElement: <NotFoundPage />
+  },
+
+  {
+    path: '/search/',  
+    element: <Search/>,
+    errorElement: <NotFoundPage />
+
   },
 
   {
