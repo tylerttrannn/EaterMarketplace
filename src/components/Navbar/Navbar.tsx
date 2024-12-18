@@ -17,7 +17,8 @@ import {
     SheetTitle,
     SheetTrigger,
   } from "@/components/ui/sheet"
-  
+
+
 
 import { getAuth, onAuthStateChanged ,signOut} from "firebase/auth";
 import { useState } from "react";
@@ -25,6 +26,7 @@ import { useEffect } from "react";
 import Unauthorized from "@/components/Unauthorized/Unauthorized";
 import SearchComponent from "@/views/search";
 import { grabProfilePic } from "../../../Backend/user";
+import search_icon from "../../assets/search_icon.png";
 
 
 function Navbar() {
@@ -99,6 +101,7 @@ function Navbar() {
                 */}
                 <div className="flex-grow flex justify-end items-center space-x-2 sm:space-x-4">
                     <Button className = "hidden sm:flex "variant="outline" onClick = {() => navigate('/create')}>Sell Now</Button>
+                    <img className="h-6 w-6 rounded-full mr-4 sm:hidden"  onClick = {() => navigate('/search')}src={search_icon} alt="Search Icon" />
 
                     <DropdownMenu>
                         <DropdownMenuTrigger>
