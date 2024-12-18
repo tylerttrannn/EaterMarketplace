@@ -38,7 +38,7 @@ function Dashboard() {
         <h1 className="text-xl font-semibold mb-4 pt-4">All Listings</h1>
         {/* Item cards */}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 font-sans">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 font-sans">
           {listings.map((listing) => (
             <ItemCard
               key={listing.id}

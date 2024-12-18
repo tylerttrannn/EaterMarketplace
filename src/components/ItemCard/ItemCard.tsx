@@ -26,10 +26,11 @@ function ItemCard({ id, itemTitle, itemPrice, itemImage, actionType = "open" }: 
 
   return (
     <div>
-      <Card
-        className="relative w-[260px] h-[260px] overflow-hidden rounded-none"
-        onClick={handleClick}
-      >
+        <Card
+          className="relative w-[200px] h-[200px] sm:w-[240px] sm:h-[240px] md:w-[260px] md:h-[260px] lg:w-[260px] lg:h-[260px] overflow-hidden rounded-none"
+          onClick={handleClick}
+        >
+
         {itemImage ? (
           <img src={itemImage} className="w-full h-full object-cover" alt={itemTitle} />
         ) : (
