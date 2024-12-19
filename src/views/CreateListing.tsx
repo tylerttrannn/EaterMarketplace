@@ -60,6 +60,8 @@ function CreateListing() {
     const validationErrors = [
       // Image Validation
       { condition: images.every(image => image === null), message: "Please include at least 1 image" },
+      { condition: images.every(image => image === null), message: "Please include at least 1 image" },
+
       
       // Title Validations
       { condition: title === "", message: "Please include a title" },
@@ -106,6 +108,12 @@ function CreateListing() {
   function handleImageChange(event: React.ChangeEvent<HTMLInputElement>, index: number) {
     if (event.target.files) {
       const file = event.target.files[0];
+
+      const validImageTypes = ["image/jpeg", "image/png", "image/gif"];
+      if (!validImageTypes.includes(file.type)) {
+        toast.error("Invalid file type. Please upload a JPEG, PNG, or GIF image.");
+        return;
+      }
       
       // simple limit for now 
       const maxSize = 10 * 1024 * 1024; 
