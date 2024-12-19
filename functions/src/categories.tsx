@@ -1,6 +1,6 @@
 import { db } from './firebase';
 import { collection, query, where, getDocs, limit } from 'firebase/firestore';
-import { Listing } from '../src/types/types'
+import { Listing } from '../../src/types/types'
 
 export const fetchCategoryListings = async( categoryID: string) : Promise<Listing[]> => {
   

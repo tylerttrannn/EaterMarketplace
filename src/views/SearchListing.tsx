@@ -4,7 +4,7 @@ import Navbar from '@/components/Navbar/Navbar';
 import Category from '@/components/Category/Category';
 import ItemCard from '@/components/ItemCard/ItemCard';
 import { Listing } from '@/types/types';
-import { FetchQueryListing } from '../../Backend/listings';
+import { FetchQueryListing } from '../../functions/src/listings';
 
 function SearchListing() {
   const [listings, setListings] = useState<Listing[]>([]);

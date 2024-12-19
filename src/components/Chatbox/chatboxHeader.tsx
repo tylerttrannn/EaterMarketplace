@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@radix-ui/react-separator";
-import { getOtherUserInfo } from "../../../Backend/chatbox";
+import { getOtherUserInfo } from "../../../functions/src/chatbox";
 import { SellerCardProps } from "@/types/types";
 
 

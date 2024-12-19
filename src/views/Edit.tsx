@@ -3,7 +3,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { fetchSingleListing } from "../../Backend/listings";
+import { fetchSingleListing } from "../../functions/src/listings";
 
 import {
   Select,
@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
-import { db } from "../../Backend/firebase";
+import { db } from "../../functions/src/firebase";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 
 

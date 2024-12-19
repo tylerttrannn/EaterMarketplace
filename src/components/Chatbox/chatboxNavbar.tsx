@@ -1,6 +1,6 @@
 import { Separator } from '../ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { getConversations, getOtherUserInfo } from '../../../Backend/chatbox';
+import { getConversations, getOtherUserInfo } from '../../../functions/src/chatbox';
 import { useEffect, useState } from 'react';
 import { SellerCardProps } from '@/types/types';
 

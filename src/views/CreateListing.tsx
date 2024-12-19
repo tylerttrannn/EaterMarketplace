@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { addListing } from "../../Backend/listings";
+import { addListing } from "../../functions/src/listings";
 import {
   Select,
   SelectContent,

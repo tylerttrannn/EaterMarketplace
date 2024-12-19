@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar/Navbar";
-import { fetchUserListings} from "../../Backend/listings"
+import { fetchUserListings} from "../../functions/src/listings"
 import { useEffect, useState } from "react";
 import { ItemCardProps } from "@/types/types";
 import ItemCard from "@/components/ItemCard/ItemCard";

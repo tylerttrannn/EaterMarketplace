@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter';
 import { InstantSearch, SearchBox, useInstantSearch } from 'react-instantsearch';
-import typesenseSetup from '../../Backend/typsense';
+import typesenseSetup from '../../functions/src/typsense';
 import { useHits } from 'react-instantsearch';
 import { useNavigate } from 'react-router-dom';
 

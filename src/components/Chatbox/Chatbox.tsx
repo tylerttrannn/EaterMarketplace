@@ -7,8 +7,8 @@ import { Button } from '../ui/button';
 import Navbar from '../Navbar/Navbar';
 import ChatboxNavbar from './chatboxNavbar';
 import ChatboxHeader from './chatboxHeader';
-import { getIDs, getMessages, sendMessage } from '../../../Backend/chatbox';
-import {  grabUserProfilePic } from '../../../Backend/user';
+import { getIDs, getMessages, sendMessage } from '../../../functions/src/chatbox';
+import {  grabUserProfilePic } from '../../../functions/src/user';
 import { toast } from 'sonner';
 import { Message } from '@/types/types';
 

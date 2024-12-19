@@ -2,9 +2,9 @@ import Navbar from "@/components/Navbar/Navbar";
 import Category from "@/components/Category/Category";
 import { Toggle } from "@/components/ui/toggle";
 import ItemCard from "@/components/ItemCard/ItemCard";
-import { fetchUserListings} from "../../Backend/listings"
+import { fetchUserListings} from "../../functions/src/listings"
 
-import { grabUserSaved, grabUserInfo} from "../../Backend/user"
+import { grabUserSaved, grabUserInfo} from "../../functions/src/user"
 import { ItemCardProps } from "@/types/types";
 import SellerCard from "@/components/SellerCard/SellerCard";
 import { SellerCardProps } from "@/types/types";

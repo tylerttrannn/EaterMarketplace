@@ -25,7 +25,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import Unauthorized from "@/components/Unauthorized/Unauthorized";
 import SearchComponent from "@/views/search";
-import { grabProfilePic } from "../../../Backend/user";
+import { grabProfilePic } from "../../../functions/src/user";
 import search_icon from "../../assets/search_icon.png";
 
 
