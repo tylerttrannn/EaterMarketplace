@@ -1,12 +1,13 @@
+import { useState } from "react";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar/Navbar";
 import PhotoCard from "@/components/PhotoCard/PhotoCard";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button"
-import { addListing } from "../../Backend/listings"
-
-
+import { Button } from "@/components/ui/button";
+import { addListing } from "../../Backend/listings";
 import {
   Select,
   SelectContent,
@@ -14,80 +15,44 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
-import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
-
-
-
-
-/*
-
-note to myself becuase the listners were confusing me for a
-little bit
-
-User Action:
-The user clicks on the label in the PhotoCard, which triggers the file selection dialog.
-Event Triggered:
-The user selects a file (or removes it), triggering the onChange event.
-Event Handler Called:
-The handleImageChange function is called with the event and the index.
-State Updated:
-The images array is updated to reflect the new state (file added or removed).
-UI Reflects State:
-The component re-renders, and the PhotoCard displays the updated image or placeholder.
-*/
 
 function CreateListing() {
-  const [images, setImages] = useState<(File | null)[]>([null, null, null, null]); // this can accept both file and null types 
+  const [images, setImages] = useState<(File | null)[]>([null, null, null, null]);
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
+  const [submitting, setSubmitting] = useState(false); 
 
   const navigate = useNavigate();
 
-
-
   async function submitListing() {
+    if (submitting) return; // cannot click if submitting
+    setSubmitting(true);
 
     function isNormalCharacter(text: string) {
-      console.log("not normal text");
-
       return /^[\x20-\x7E\n\r]*$/.test(text);
     }
 
     const validationErrors = [
-      // Image Validation
-      { condition: images.every(image => image === null), message: "Please include at least 1 image" },
-      { condition: images.every(image => image === null), message: "Please include at least 1 image" },
-
-      
-      // Title Validations
+      { condition: images.every((image) => image === null), message: "Please include at least 1 image" },
       { condition: title === "", message: "Please include a title" },
       { condition: !isNormalCharacter(title), message: "Please use only normal characters in the title" },
       { condition: title.length > 50, message: "Please keep your title less than 50 characters" },
-    
-      // Description Validations
       { condition: description === "", message: "Please include a description" },
       { condition: description.length > 200, message: "Please shorten your description to under 200 characters" },
       { condition: !isNormalCharacter(description), message: "Please use only normal characters in the description" },
-    
-      // Price Validations
       { condition: price === "", message: "Please include a price" },
       { condition: isNaN(Number(price)), message: "Please enter a valid number for the price" },
       { condition: price.length > 8, message: "Please keep the price less than 8 digits" },
-    
-      // Category Validation
-      { condition: category === "", message: "Please select a category!" }
+      { condition: category === "", message: "Please select a category!" },
     ];
-    
-  
-    // see if any violation occurs
+
     for (const { condition, message } of validationErrors) {
       if (condition) {
         toast.error(message);
-        return; 
+        setSubmitting(false);
+        return;
       }
     }
 
@@ -97,50 +62,43 @@ function CreateListing() {
     if (result != null) {
       toast.success("Item Listing Created!");
       navigate(`/listing/${result}`);
-      return;
+    } else {
+      toast.error("Please use the standard ASCII Characters");
     }
-  
-    toast.error("Please use the standard ASCII Characters");
-    return; 
+
+    setSubmitting(false); // reset after submitting
   }
-  
 
   function handleImageChange(event: React.ChangeEvent<HTMLInputElement>, index: number) {
     if (event.target.files) {
       const file = event.target.files[0];
-
       const validImageTypes = ["image/jpeg", "image/png", "image/gif"];
       if (!validImageTypes.includes(file.type)) {
         toast.error("Invalid file type. Please upload a JPEG, PNG, or GIF image.");
         return;
       }
-      
-      // simple limit for now 
-      const maxSize = 10 * 1024 * 1024; 
-      const minSize = .05 * 1024 * 1024; 
+
+      const maxSize = 10 * 1024 * 1024;
+      const minSize = 0.05 * 1024 * 1024;
 
       if (file.size < minSize) {
         toast.error("Image size needs to be larger");
         return;
       }
-  
+
       if (file.size > maxSize) {
-        toast.error("File size exceeds the 5MB limit.");
+        toast.error("File size exceeds the 10MB limit.");
         return;
       }
-  
+
       const newImages = [...images];
       newImages[index] = file;
-  
       setImages(newImages);
     }
   }
-  
 
   const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    
-    // Allow the value to be empty or numeric
     if (value === "" || !isNaN(Number(value))) {
       setPrice(value);
     }
@@ -153,20 +111,17 @@ function CreateListing() {
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
-  
+
   return (
-    <div className = "flex flex-col items-center">
-      <Navbar/>
+    <div className="flex flex-col items-center">
+      <Navbar />
       <div className="flex flex-col items-center justify-center w-3/4 gap-6 pt-5">
-        {/* list item headings */}
-        <h1 className = "text-3xl ">List an Item</h1>
+        <h1 className="text-3xl">List an Item</h1>
 
-
-        <div className="flex flex-col items-left gap-2 w-full max-w-2xl ">
+        <div className="flex flex-col items-left gap-2 w-full max-w-2xl">
           <h3>Add up to 4 photos!</h3>
         </div>
 
-        {/* 4 photo carousel */}
         <div className="grid grid-cols-2 gap-8 justify-center items-center max-w-2xl">
           {images.map((image, index) => (
             <PhotoCard
@@ -177,25 +132,15 @@ function CreateListing() {
           ))}
         </div>
 
-
-        {/* description section */}
         <div className="flex flex-col justify-left items-left gap-4 w-full max-w-2xl">
-
-          <h1> Title</h1>
-          <Input
-            placeholder="Type your title here."
-            value={title} // Bind the textarea to the state
-            onChange={handleTitleChange} // Handle the change event
-            className="w-full"
-          >
-          </Input>
-
+          <h1>Title</h1>
+          <Input placeholder="Type your title here." value={title} onChange={handleTitleChange} className="w-full" />
 
           <h1>Description</h1>
           <Textarea
             placeholder="Type your description here."
-            value={description} // Bind the textarea to the state
-            onChange={handleDescriptionChange} // Handle the change event
+            value={description}
+            onChange={handleDescriptionChange}
             className="w-full"
           />
 
@@ -213,13 +158,12 @@ function CreateListing() {
             </SelectContent>
           </Select>
 
-
           <div className="grid w-[180px] max-w-sm items-center gap-1.5">
             <Label htmlFor="price">Price</Label>
             <div className="flex items-center">
               <Input
                 id="price"
-                type="text" // Use text type to allow empty string and numeric input
+                type="text"
                 value={price}
                 onChange={handlePriceChange}
                 placeholder="$0.00"
@@ -228,11 +172,11 @@ function CreateListing() {
             </div>
           </div>
 
-        <div className="flex justify-end w-full max-w-2xl">
-            <Button variant="outline" onClick = {() => submitListing()}>Submit</Button>
-        </div>
-
-
+          <div className="flex justify-end w-full max-w-2xl">
+            <Button variant="outline" onClick={submitListing} disabled={submitting}>
+              {submitting ? "Submitting..." : "Submit"}
+            </Button>
+          </div>
         </div>
       </div>
     </div>
