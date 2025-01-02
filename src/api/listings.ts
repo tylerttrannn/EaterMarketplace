@@ -13,6 +13,8 @@ interface SubmitListingInput {
   category: string;
 }
 
+
+
 export const submitListing = async (images: string[], title: string, description: string, price: string, category: string): Promise<string | null> => {
   // Initialize Firebase Functions
   const functions = getFunctions();

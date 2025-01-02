@@ -4,49 +4,50 @@ import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } fro
 
 
 export const GoogleLogin = async () => {
-    const provider = new GoogleAuthProvider();
-  
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential?.accessToken;
-      const user = result.user;
-  
-      const userDocRef = doc(db, "users", user.uid);
-  
-      // check if the user has already logged in before
-      const userDoc = await getDoc(userDocRef);
-  
-      // adding new user 
-      if (!userDoc.exists()) {
-        const userData = {
-          uid: user.uid,
-          email: user.email,
-          userName: null,  
-          profilePic: user.photoURL,
-          lastLogin: new Date(),
-          conversations: []
-        };
+  const provider = new GoogleAuthProvider();
 
-        await setDoc(userDocRef, userData);  
-        console.log("New user created:", userData);
-      } 
-      else {
-        // updating lastLogin 
-        await setDoc(userDocRef, { lastLogin: new Date() }, { merge: true });
-        console.log("Existing user logged in, lastLogin updated");
-      }
-  
-      console.log("User logged in:", user);
-      console.log("Access Token:", token);
-  
-      const isUsernameEmpty = await checkemptyUsername(user);
-      return { user, isUsernameEmpty };
-  
-    } catch (error) {
-      console.error('Error during Google login:', error);
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential?.accessToken;
+    const user = result.user;
+
+    const userDocRef = doc(db, "users", user.uid);
+
+    // Check if the user has already logged in before
+    const userDoc = await getDoc(userDocRef);
+
+    // Adding new user
+    if (!userDoc.exists()) {
+      const userData = {
+        uid: user.uid,
+        email: user.email,
+        userName: null,
+        profilePic: user.photoURL,
+        lastLogin: new Date(),
+        conversations: [],
+      };
+
+      await setDoc(userDocRef, userData);
+      console.log("New user created:", userData);
+    } else {
+      // Updating lastLogin
+      await setDoc(userDocRef, { lastLogin: new Date() }, { merge: true });
+      console.log("Existing user logged in, lastLogin updated");
     }
-  };
+
+    console.log("User logged in:", user);
+    console.log("Access Token:", token);
+
+    const isUsernameEmpty = await checkemptyUsername(user);
+    return { user, isUsernameEmpty };
+  } catch (error) {
+    console.error("Error during Google login:", error);
+
+    // Return a default value or an indication of the error
+    return { user: null, isUsernameEmpty: false };
+  }
+};
 
 
 

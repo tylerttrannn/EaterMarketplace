@@ -9,6 +9,8 @@ const isNormalEnglishText = (text: string): boolean => {
   return englishTextRegex.test(text);
 };
 
+
+
 export const submitListing = functions.https.onCall(async (data, context) => {
   if (!context.auth) {
     throw new functions.https.HttpsError("unauthenticated", "User must be authenticated.");
