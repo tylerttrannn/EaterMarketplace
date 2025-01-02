@@ -7,7 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { addListing } from "../../functions/src/listings";
+import { submitListing } from "@/api/listings";
+
 import {
   Select,
   SelectContent,
@@ -18,56 +19,52 @@ import {
 
 function CreateListing() {
   const [images, setImages] = useState<(File | null)[]>([null, null, null, null]);
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [submitting, setSubmitting] = useState(false); 
-
+  const [category, setCategory] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  async function submitListing() {
-    if (submitting) return; // cannot click if submitting
+  const handleSubmit = async () => {
+    if (submitting) return;
     setSubmitting(true);
 
-    function isNormalCharacter(text: string) {
-      return /^[\x20-\x7E\n\r]*$/.test(text);
-    }
+    try {
+      const base64Images = await Promise.all(
+        images.map(async (file) => {
+          if (!file) return null;
+          return new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result?.toString().split(",")[1] || "");
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+          });
+        })
+      );
 
-    const validationErrors = [
-      { condition: images.every((image) => image === null), message: "Please include at least 1 image" },
-      { condition: title === "", message: "Please include a title" },
-      { condition: !isNormalCharacter(title), message: "Please use only normal characters in the title" },
-      { condition: title.length > 50, message: "Please keep your title less than 50 characters" },
-      { condition: description === "", message: "Please include a description" },
-      { condition: description.length > 200, message: "Please shorten your description to under 200 characters" },
-      { condition: !isNormalCharacter(description), message: "Please use only normal characters in the description" },
-      { condition: price === "", message: "Please include a price" },
-      { condition: isNaN(Number(price)), message: "Please enter a valid number for the price" },
-      { condition: price.length > 8, message: "Please keep the price less than 8 digits" },
-      { condition: category === "", message: "Please select a category!" },
-    ];
+      // api call here
+      const result = await submitListing(
+        base64Images.filter((img) => img !== null) as string[],
+        title,
+        description,
+        price,
+        category
+      );
 
-    for (const { condition, message } of validationErrors) {
-      if (condition) {
-        toast.error(message);
-        setSubmitting(false);
-        return;
+      if (result) {
+        toast.success("Listing created successfully!");
+        navigate(`/listing/${result}`);
       }
+    } 
+    catch (error) {
+      console.error(error);
+      toast.error("An error occurred while creating the listing.");
+    } 
+    finally {
+      setSubmitting(false);
     }
-
-    const itemPrice = price === "" ? 0 : Number(price);
-    const result = await addListing(images, description, category, itemPrice, title);
-
-    if (result != null) {
-      toast.success("Item Listing Created!");
-      navigate(`/listing/${result}`);
-    } else {
-      toast.error("Please use the standard ASCII Characters");
-    }
-
-    setSubmitting(false); // reset after submitting
-  }
+  };
 
   function handleImageChange(event: React.ChangeEvent<HTMLInputElement>, index: number) {
     if (event.target.files) {
@@ -173,7 +170,7 @@ function CreateListing() {
           </div>
 
           <div className="flex justify-end w-full max-w-2xl">
-            <Button variant="outline" onClick={submitListing} disabled={submitting}>
+            <Button variant="outline" onClick={handleSubmit} disabled={submitting}>
               {submitting ? "Submitting..." : "Submit"}
             </Button>
           </div>

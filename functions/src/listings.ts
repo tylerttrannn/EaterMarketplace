@@ -2,9 +2,10 @@ import { db, storage } from './firebase';
 import { getAuth } from 'firebase/auth';
 import { doc, getDoc, addDoc, collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { ItemCardProps, Listing } from '@/types/types';
+import { ItemCardProps, Listing } from '../../src/types/types';
 
 
+// firebase SDK Functions 
 export const addListing = async (listingImages: (File | null)[], listingDescription : string , listingCategory : string, listingPrice: number, listingTitle: string): Promise<string | null> => {
   
     try{
@@ -128,7 +129,6 @@ export const fetchDashboardListings = async () : Promise<Listing[]>  => {
   };
   
 
-
 export const fetchSingleListing = async (listingID: string): Promise<Listing | null> => {
   try {
     const postRef = doc(db, "posts", listingID); 
@@ -181,4 +181,6 @@ export const FetchQueryListing = async (typsenseListing: Listing[]): Promise<Lis
 
 
 
-  
+
+
+

@@ -1,4 +1,4 @@
-import { Message, SellerCardProps } from '@/types/types';
+import { Message, SellerCardProps } from '../../src/types/types';
 import { db } from './firebase';
 import { getAuth } from 'firebase/auth';
 import { addDoc, collection, doc, getDoc,  getDocs,  onSnapshot, orderBy, query, where } from 'firebase/firestore';
