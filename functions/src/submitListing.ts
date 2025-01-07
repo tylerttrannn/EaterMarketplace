@@ -1,15 +1,14 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 
-admin.initializeApp();
+
 const db = admin.firestore();
 
 const isNormalEnglishText = (text: string): boolean => {
+  if (!text) return false; 
   const englishTextRegex = /^[\x20-\x7E\n\r]*$/;
   return englishTextRegex.test(text);
 };
-
-
 
 export const submitListing = functions.https.onCall(async (data, context) => {
   if (!context.auth) {
@@ -20,7 +19,7 @@ export const submitListing = functions.https.onCall(async (data, context) => {
 
   // Validation
   if (!images || images.length === 0) {
-    throw new functions.https.HttpsError("invalid-argument", "Please include at least 1 image");
+    throw new functions.https.HttpsError("invalid-argument", "Please include at least 1 image.");
   }
   if (!title || title.length > 50) {
     throw new functions.https.HttpsError("invalid-argument", "Invalid title.");
@@ -34,7 +33,6 @@ export const submitListing = functions.https.onCall(async (data, context) => {
   if (!category) {
     throw new functions.https.HttpsError("invalid-argument", "Please select a category.");
   }
-
   if (!isNormalEnglishText(title)) {
     throw new functions.https.HttpsError("invalid-argument", "Title contains unsupported characters.");
   }
@@ -55,8 +53,10 @@ export const submitListing = functions.https.onCall(async (data, context) => {
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     });
 
+    console.log("Listing created with ID:", listingRef.id);
     return { id: listingRef.id, message: "Listing created successfully." };
   } catch (error) {
-    throw new functions.https.HttpsError("internal", "Failed to create listing.", error);
+    console.error("Error creating listing:", error);
+    throw new functions.https.HttpsError("internal", "An error occurred while creating the listing.");
   }
 });

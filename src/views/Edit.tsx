@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
-import { db } from "../../functions/src/firebase";
+import { db } from "../../firebase";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 
 

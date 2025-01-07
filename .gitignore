@@ -26,3 +26,4 @@ Backend/firebase_config.ts
 Backend/firebase.tsx
 Backend/typsense.tsx
 functions/src/firebase.ts
+firebase.ts

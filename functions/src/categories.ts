@@ -1,4 +1,4 @@
-import { db } from './firebase';
+import { db } from '../../firebase';
 import { collection, query, where, getDocs, limit } from 'firebase/firestore';
 import { Listing } from '../../src/types/types'
 

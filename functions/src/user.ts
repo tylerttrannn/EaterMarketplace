@@ -1,4 +1,4 @@
-import { db } from './firebase';
+import { db } from '../../firebase';
 import { getAuth } from 'firebase/auth';
 import { doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { ItemCardProps, SellerCardProps } from '../../src/types/types';
