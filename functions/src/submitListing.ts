@@ -12,7 +12,7 @@ const isNormalEnglishText = (text: string): boolean => {
   return englishTextRegex.test(text);
 };
 
-export const submitListing = functions.https.onCall(async (data, context) => {
+export const test = functions.https.onCall(async (data, context) => {
   if (!context.auth) {
     throw new functions.https.HttpsError("unauthenticated", "User must be authenticated.");
   }
@@ -56,7 +56,7 @@ export const submitListing = functions.https.onCall(async (data, context) => {
     });
 
     console.log("Listing created with ID:", listingRef.id);
-    return { id: listingRef.id, message: "Listing created successfully." };
+    return { id: listingRef.id, message: "Listing created successfully. tylewr" };
   } catch (error) {
     console.error("Error creating listing:", error);
     throw new functions.https.HttpsError("internal", "An error occurred while creating the listing.");

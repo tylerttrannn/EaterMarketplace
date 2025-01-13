@@ -1,11 +1,20 @@
 {
   "compilerOptions": {
-    "outDir": "lib",
-    "rootDir": "../",
     "target": "ES2020",
-    "module": "commonjs",
+    "module": "CommonJS",
+    "rootDir": "..",                    // Expand rootDir to include all relevant files
+    "outDir": "./lib",                 // Compiled JavaScript files output
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true
   },
-  "include": ["src/**/*", "../src/types/**/*"] 
+  "include": [
+    "src/**/*.ts",                    // Include all TypeScript files in functions/src
+    "../firebase.ts",                 // Include the firebase.ts file
+    "../src/types/**/*.ts"            // Include types from the parent src/types directory
+, "index.ts"  ],
+  "exclude": ["node_modules", "lib"]  // Exclude compiled files and dependencies
 }
