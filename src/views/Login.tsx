@@ -1,7 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { GoogleLogin, updateUsername } from "../../functions/src/auth";
 import { useState } from "react";
-import { User } from "firebase/auth";
 import { Input } from "@/components/ui/input";
 import {
   Drawer,
@@ -23,47 +21,43 @@ import { toast } from "sonner";
 import Anteater from "../assets/anteater.png";
 import { Separator } from "@radix-ui/react-separator";
 import { useNavigate } from "react-router-dom";
+import { login } from "../api/login";
 
 function Login() {
-  const [user, setUser] = useState<User | null>(null);
-  const [isUsernameEmpty, setIsUsernameEmpty] = useState(false);
   const [username, setUsername] = useState("");
+  const [isUsernameEmpty, setIsUsernameEmpty] = useState(false);
   const [drawer, setDrawer] = useState(false);
+
   const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
-      const result = await GoogleLogin();
-
-      if (result?.user) {
-        setUser(result.user);
-        setIsUsernameEmpty(result.isUsernameEmpty);
-
+      const result = await login();
+  
+      if (result.success) {
+        console.log("Login successful!");
+  
         if (result.isUsernameEmpty) {
-          setDrawer(true);
-          return;
+          setIsUsernameEmpty(true);
+          setDrawer(true); // Open the drawer to prompt for a username
+        } else {
+          navigate("/dashboard");
         }
-        toast("Login Successful!");
-        navigate('/dashboard');
       } else {
-        toast.error("Login failed: No user data returned.");
+        console.log("Login failed");
       }
     } catch (error) {
       toast.error("An error occurred during login.");
       console.error("Login error:", error);
     }
   };
-
+  
+  // add logic in a bit
   const handleUsernameSubmit = async () => {
-    if (user) {
-      const success = await updateUsername(user, username);
-      if (success) {
-        toast("Username updated successfully!");
-        navigate('/dashboard');
-
-      }
-    }
+    console.log("Username submitted:", username);
     setDrawer(false);
+    setIsUsernameEmpty(false);
+    navigate("/dashboard");
   };
 
   return (
@@ -72,8 +66,8 @@ function Login() {
         <CardHeader>
           <CardTitle>Login with your UCI Email!</CardTitle>
           <CardDescription>
-            Currently, this app is only available for current Anteaters. If you'd
-            like to request access for your school, send a request here.
+            Currently, this app is only available for current Anteaters. If you'd like to request
+            access for your school, send a request here.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -90,13 +84,14 @@ function Login() {
         </CardFooter>
       </Card>
 
-      {/* Drawer for Username Input */}
       {isUsernameEmpty && (
         <Drawer open={drawer} onOpenChange={setDrawer}>
           <DrawerContent>
             <DrawerHeader>
               <DrawerTitle>Set Your Username</DrawerTitle>
-              <DrawerDescription>Enter a username to complete your profile</DrawerDescription>
+              <DrawerDescription>
+                Enter a username to complete your profile.
+              </DrawerDescription>
             </DrawerHeader>
             <div className="px-6">
               <Input
@@ -126,4 +121,3 @@ function Login() {
 }
 
 export default Login;
-

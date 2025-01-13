@@ -1,6 +1,6 @@
 import {  httpsCallable } from "firebase/functions";
 import {functions} from "../../firebase"
-
+import { toast } from "sonner";
 
 interface SubmitListingResponse {
   id: string;
@@ -27,13 +27,14 @@ export const submitListing = async (images: string[], title: string, description
       category,
     });
 
-    return response.data.id; // Return the listing ID
+    // return listing id if sucessful
+    return response.data.id; 
 
   } catch (error: unknown) {
     if (error instanceof Error) {
-      console.error("Error submitting listing:", error.message);
+      toast.error(error.message);
     } else {
-      console.error("An unexpected error occurred:", error);
+      toast.error("An unexpected error occurred");
     }
     return null;
   }

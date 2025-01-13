@@ -1,24 +1,40 @@
-import { GoogleAuthProvider, signInWithPopup, User } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth, db } from '../../firebase';
-import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from 'firebase/firestore';
-
+import { collection, doc, getDoc, getDocs, query, setDoc, where } from 'firebase/firestore';
+import { httpsCallable } from 'firebase/functions';
+import { functions } from "../../firebase";
 
 export const GoogleLogin = async () => {
   const provider = new GoogleAuthProvider();
 
   try {
+    // Sign in with Google
     const result = await signInWithPopup(auth, provider);
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    const token = credential?.accessToken;
     const user = result.user;
 
-    const userDocRef = doc(db, "users", user.uid);
+    if (!user.email) {
+      throw new Error("Email is required for login.");
+    }
 
-    // Check if the user has already logged in before
+    // Reference to user document
+    const userDocRef = doc(db, "users", user.uid);
     const userDoc = await getDoc(userDocRef);
 
-    // Adding new user
+    let isUsernameEmpty = false;
+
     if (!userDoc.exists()) {
+      // New user logic
+      const validateEmail = httpsCallable<{ email: string }, { success: boolean; message: string }>(
+        functions,
+        "validateEmailDomain"
+      );
+      const response = await validateEmail({ email: user.email });
+      const data = response.data;
+
+      if (!data.success) {
+        throw new Error(data.message || "Invalid email domain.");
+      }
+
       const userData = {
         uid: user.uid,
         email: user.email,
@@ -30,47 +46,24 @@ export const GoogleLogin = async () => {
 
       await setDoc(userDocRef, userData);
       console.log("New user created:", userData);
+
+      isUsernameEmpty = true;
     } else {
-      // Updating lastLogin
+      const existingUserData = userDoc.data();
       await setDoc(userDocRef, { lastLogin: new Date() }, { merge: true });
       console.log("Existing user logged in, lastLogin updated");
+
+      // Check if username is empty for existing users
+      isUsernameEmpty = existingUserData.userName === null;
     }
 
-    console.log("User logged in:", user);
-    console.log("Access Token:", token);
-
-    const isUsernameEmpty = await checkemptyUsername(user);
     return { user, isUsernameEmpty };
   } catch (error) {
     console.error("Error during Google login:", error);
-
-    // Return a default value or an indication of the error
     return { user: null, isUsernameEmpty: false };
   }
 };
 
-
-
-
-export const checkemptyUsername = async (user: User): Promise<boolean> => {
-    try {
-      const userDocRef = doc(db, "users", user.uid);
-      const userDoc = await getDoc(userDocRef); 
-
-      console.log("userDoc is ", userDoc);
-  
-      if (userDoc.exists() && userDoc.data().userName === null) {
-         console.log("username does not exist from checkemprtyusername!");
-        return true; 
-      } else {
-        return false;  
-      }
-  
-    } catch (error) {
-      console.error("Error checking username:", error);
-      return false; 
-    }
-};
 
 export const checkExistingName = async (username : string) : Promise<boolean> => {
     try{
@@ -93,33 +86,3 @@ export const checkExistingName = async (username : string) : Promise<boolean> =>
     }
 }
 
-export const updateUsername = async (user : User, username: string): Promise<boolean> => {
-    try {
-        const userDocRef = doc(db, "users", user.uid);
-        const userDoc = await getDoc(userDocRef); 
-    
-        // update username if the user exists 
-        if (userDoc.exists() && userDoc.data().userName === null){
-            const usernameAvaliable = await checkExistingName(username); 
-
-            if (usernameAvaliable){
-                await updateDoc(userDocRef, {
-                    userName: username
-                });
-                console.log("Username sucesfully set!");
-                return true; 
-            }
-
-            console.log("username is already taken!");
-            return false; 
-        }
-
-        return false; 
-    }
-
-    catch(error){
-        console.error("Error changing username: ", error); 
-        return false; 
-
-    }
-};

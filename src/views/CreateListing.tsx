@@ -22,7 +22,6 @@ import { submitListing } from "@/api/listings";
 
 function CreateListing() {
   const [images, setImages] = useState<(File | null)[]>([null, null, null, null]);
-
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -37,9 +36,9 @@ function CreateListing() {
       const file = event.target.files[0];
 
       // basic validation 
-      const validImageTypes = ["image/jpeg", "image/png", "image/gif"];
+      const validImageTypes = ["image/jpeg", "image/png"];
       if (!validImageTypes.includes(file.type)) {
-        toast.error("Invalid file type. Please upload a JPEG, PNG, or GIF image.");
+        toast.error("Invalid file type. Please upload a JPEG or PNG");
         return;
       }
 
@@ -70,9 +69,9 @@ function CreateListing() {
     setTitle(event.target.value);
   };
 
-  // Final form submission
   const handleSubmit = async () => {
-    if (submitting) return; // Prevent double submissions
+    // prevent double submissions
+    if (submitting) return;
     setSubmitting(true);
 
     try {
@@ -82,24 +81,19 @@ function CreateListing() {
         return;
       }
 
-      // Upload all selected images to Storage
       const uploadedUrls = await Promise.all(
         images.map(async (file) => {
           if (!file) return null;
 
-          // Path must match your rules => "images/{userId}/{fileName}"
           const storageRef = ref(storage, `images/${user.uid}/${file.name}`);
           await uploadBytes(storageRef, file);
 
-          // Get the public URL to store in Firestore or to send to your Cloud Function
           return await getDownloadURL(storageRef);
         })
       );
 
-      // Filter out any null entries
       const imageUrls = uploadedUrls.filter((url) => url !== null) as string[];
 
-      // Call your custom function or Cloud Function
       const result = await submitListing(
         imageUrls,
         title,
@@ -108,7 +102,6 @@ function CreateListing() {
         category
       );
 
-      // If successful
       if (result) {
         toast.success("Listing created successfully!");
         navigate(`/listing/${result}`);
