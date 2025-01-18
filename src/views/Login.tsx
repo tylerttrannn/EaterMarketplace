@@ -21,7 +21,7 @@ import { toast } from "sonner";
 import Anteater from "../assets/anteater.png";
 import { Separator } from "@radix-ui/react-separator";
 import { useNavigate } from "react-router-dom";
-import { login } from "../api/login";
+import { login, updateUsername } from "../api/login";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -32,6 +32,7 @@ function Login() {
 
   const handleLogin = async () => {
     try {
+      // api call 
       const result = await login();
   
       if (result.success) {
@@ -52,12 +53,17 @@ function Login() {
     }
   };
   
-  // add logic in a bit
   const handleUsernameSubmit = async () => {
     console.log("Username submitted:", username);
-    setDrawer(false);
-    setIsUsernameEmpty(false);
-    navigate("/dashboard");
+    const response = await updateUsername(username);
+
+    if (response) {
+      toast.success("Username updated successfully!");
+      setDrawer(false)
+      navigate("/dashboard");
+    } else {
+      toast.error("Failed to update username.");
+    }
   };
 
   return (

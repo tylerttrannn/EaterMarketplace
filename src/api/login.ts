@@ -8,6 +8,8 @@ type UpdateUsernameResponse = {
   message: string;
 };
 
+
+
 export const updateUsername = async (username: string): Promise<boolean> => {
   // in httpscallable first argument is the input, second is the response 
   const updateFunction = httpsCallable<{ username: string }, UpdateUsernameResponse>(functions, "updateUsername");
@@ -34,6 +36,7 @@ export const updateUsername = async (username: string): Promise<boolean> => {
 export const login = async (): Promise<{ success: boolean; isUsernameEmpty: boolean }> => {
   try {
     const { user, isUsernameEmpty } = await GoogleLogin();
+    console.log("called login api ")
 
     if (!user) {
       throw new Error("Google login failed");
@@ -45,3 +48,4 @@ export const login = async (): Promise<{ success: boolean; isUsernameEmpty: bool
     return { success: false, isUsernameEmpty: false };
   }
 };
+

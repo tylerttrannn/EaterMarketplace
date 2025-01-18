@@ -1,8 +1,7 @@
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { auth, db } from '../../firebase';
+import { auth, db, functions } from '../../firebase';
 import { collection, doc, getDoc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { httpsCallable } from 'firebase/functions';
-import { functions } from "../../firebase";
 
 export const GoogleLogin = async () => {
   const provider = new GoogleAuthProvider();
@@ -28,6 +27,8 @@ export const GoogleLogin = async () => {
         functions,
         "validateEmailDomain"
       );
+
+      
       const response = await validateEmail({ email: user.email });
       const data = response.data;
 
@@ -60,7 +61,7 @@ export const GoogleLogin = async () => {
     return { user, isUsernameEmpty };
   } catch (error) {
     console.error("Error during Google login:", error);
-    return { user: null, isUsernameEmpty: false };
+    throw error;
   }
 };
 
